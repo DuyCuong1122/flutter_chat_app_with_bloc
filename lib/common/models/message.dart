@@ -6,50 +6,68 @@ class Message
   String? fromUId;
   String? toUId;
   String? lastMessage;
-  Timestamp? lastMessageTime; 
+  Timestamp? lastTime; 
   bool? isRead;
   String? fromName;
   String? toName;
+  int? unreadCount;
 
   Message({
     this.id,
     this.fromUId,
     this.toUId,
     this.lastMessage,
-    this.lastMessageTime,
+    this.lastTime,
     this.isRead,
     this.fromName,
     this.toName,
+    this.unreadCount,
   });
 
   factory Message.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data() as Map<String, dynamic>;
     return Message(
       id: doc.id,
-      fromUId: data['from_uid'] ?? '',
-      toUId: data['to_uid'] ?? '',
-      lastMessage: data['last_message'] ?? '',
-      lastMessageTime: data['last_time'] ?? Timestamp.now(),
-      isRead: data['is_read'],
-      fromName: data['from_name'] ?? '',
-      toName: data['to_name'] ?? '',
+      fromUId: data['fromUId'] ?? '',
+      toUId: data['toUId'] ?? '',
+      lastMessage: data['lastMessage'] ?? '',
+      lastTime: data['lastTime'] ?? Timestamp.now(),
+      isRead: data['isRead']?? false,
+      fromName: data['fromName'] ?? '',
+      toName: data['toName'] ?? '',
+      unreadCount: data['unreadCount'] ?? 0,
     );
   }
 
   Map<String, dynamic> toFirestore() {
     return {
-      'from_uid': fromUId,
-      'to_uid': toUId,
-      'last_message': lastMessage,
-      'last_time': lastMessageTime,
-      'is_read': isRead,
-      'from_name': fromName,
-      'to_name': toName,
+      'fromUId': fromUId,
+      'toUId': toUId,
+      'lastMessage': lastMessage,
+      'lastTime': lastTime,
+      'isRead': isRead,
+      'fromName': fromName,
+      'toName': toName,
+      'unreadCount': unreadCount,
     };
+  }
+
+  factory Message.fromMap(Map<String, dynamic> data) {
+    return Message(
+      id: data['id'],
+      fromUId: data['fromUId'],
+      toUId: data['toUId'],
+      lastMessage: data['lastMessage'],
+      lastTime: data['lastTime'],
+      isRead: data['isRead'],
+      fromName: data['fromName'],
+      toName: data['toName'],
+      unreadCount: data['unreadCount'] ?? 0,
+    );
   }
 
   @override
   String toString() {
-    return 'Message{id: $id, fromUId: $fromUId, toUId: $toUId, lastMessage: $lastMessage, lastMessageTime: $lastMessageTime, isRead: $isRead, fromName: $fromName, toName: $toName}';
+    return 'Message{id: $id, fromUId: $fromUId, toUId: $toUId, lastMessage: $lastMessage, lastTime: $lastTime, isRead: $isRead, fromName: $fromName, toName: $toName}';
   }
 }

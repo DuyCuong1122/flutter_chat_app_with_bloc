@@ -21,21 +21,32 @@ class Request{
     Map data = doc.data() as Map<String, dynamic>;
     return Request(
       id: doc.id,
-      fromUId: data['from_uid'] ?? '',
-      toUId: data['to_uid'] ?? '',
-      fromName: data['from_name'] ?? '',
-      toName: data['to_name'] ?? '',
-      createdAt: data['created_at'] ?? Timestamp.now(),
+      fromUId: data['fromUId'] ?? '',
+      toUId: data['toUId'] ?? '',
+      fromName: data['fromName'] ?? '',
+      toName: data['toName'] ?? '',
+      createdAt: data['createdAt'] ?? Timestamp.now(),
     );
   }
 
   Map<String, dynamic> toFirestore() {
     return {
-      'from_uid': fromUId,
-      'to_uid': toUId,
-      'from_name': fromName,
-      'to_name': toName,
-      'created_at': Timestamp.now(),
+      'fromUId': fromUId,
+      'toUId': toUId,
+      'fromName': fromName,
+      'toName': toName,
+      'createdAt': Timestamp.now(),
     };
+  }
+
+  factory Request.fromMap(Map<String, dynamic> data) {
+    return Request(
+      id: data['id'],
+      fromUId: data['fromUId'],
+      toUId: data['toUId'],
+      fromName: data['fromName'],
+      toName: data['toName'],
+      createdAt: data['createdAt'],
+    );
   }
 }

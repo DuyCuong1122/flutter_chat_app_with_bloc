@@ -16,7 +16,17 @@ class MessageContent {
       uid: data['uid'] ?? '',
       content: data['content'] ?? '',
       type: data['type'] ?? '',
-      createdAt: data['created_at'] ?? Timestamp.now(),
+      createdAt: data['createdAt'] ?? Timestamp.now(),
+    );
+  }
+
+  factory MessageContent.fromMap(Map<String, dynamic> data) {
+    return MessageContent(
+      id: data['id'],
+      uid: data['uid'],
+      content: data['content'],
+      type: data['type'],
+      createdAt: data['createdAt'],
     );
   }
 
@@ -25,7 +35,7 @@ class MessageContent {
       'uid': uid,
       'content': content,
       'type': type,
-      'created_at': Timestamp.now(),
+      'createdAt': Timestamp.now(),
     };
   }
 }
