@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "264729905741",
+    "project_id": "flutter-bloc-chat-app",
+    "storage_bucket": "flutter-bloc-chat-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:264729905741:android:4af70f1eaaeb97f9d7ea04",
+        "android_client_info": {
+          "package_name": "com.example.chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZdfAkck_s2mkKU16TSXAEA_49aXOJfPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:264729905741:android:9ce0d5d415b6d3dfd7ea04",
+        "android_client_info": {
+          "package_name": "com.example.chatapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZdfAkck_s2mkKU16TSXAEA_49aXOJfPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
