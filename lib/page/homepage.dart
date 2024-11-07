@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
+import 'package:chat_app/page/message/message_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -12,95 +11,63 @@ class Homepage extends StatefulWidget {
   _HomepageState createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _HomepageState extends State<Homepage> {
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
+  int myCurrentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    double tabWidth =
-        MediaQuery.of(context).size.width / 3; // Chiều rộng của mỗi tab
+    List pages = const [
+      MessageView(),
+      Center(child: Text("Search Page")),
+      Center(child: Text("Profile Page")),
+    ];
+
     return Scaffold(
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          Center(child: Text("Home Page")),
-          Center(child: Text("Search Page")),
-          Center(child: Text("Profile Page")),
+      body: pages[myCurrentIndex],
+        bottomNavigationBar: Container(
+      height: 70,
+      margin: const EdgeInsets.only(bottom: 16, left: 12, right: 12, top: 13),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            spreadRadius: 5,
+          ),
         ],
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0), // Khoảng cách xung quanh
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white, // Màu nền của container
-            borderRadius: BorderRadius.circular(24), // Bo góc
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1), // Màu đổ bóng
-                spreadRadius: 1, // Độ lan rộng của bóng
-                blurRadius: 10, // Độ mờ của bóng
-                offset: const Offset(0, 5), // Vị trí bóng đổ
-              ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              TabBar(
-                controller: _tabController,
-                indicatorColor: Colors.transparent, // Tắt màu nền khi chọn tab
-                labelColor: AppColor.primaryColor,
-                unselectedLabelColor: AppColor.greyColor,
-                tabs: [
-                  Tab(
-                    icon:  Icon(AppIcon.message),
-                    text: AppLocalizations.of(context)!.message,
-                  ),
-                  Tab(
-                    icon: const Icon(AppIcon.friend),
-                    text: AppLocalizations.of(context)!.friends,
-                  ),
-                  Tab(
-                    icon: const Icon(AppIcon.profile),
-                    text: AppLocalizations.of(context)!.profile,
-                  ),
-                ],
-              ),
-              // Vòng tròn di chuyển theo tab được chọn
-              // AnimatedPositioned(
-              //   duration: const Duration(milliseconds: 300),
-              //   curve: Curves.easeInOut,
-              //   top: 0, // Đặt vòng tròn lên trên đầu của Tab
-              //   left: _tabController.index * tabWidth +
-              //       tabWidth / 2 -
-              //       8, // Căn giữa vòng tròn trên tab
-              //   child: Container(
-              //     width: 8, // Kích thước vòng tròn
-              //     height: 8,
-              //     decoration: const BoxDecoration(
-              //       shape: BoxShape.circle,
-              //       color: AppColor.primaryColor,
-              //     ),
-              //   ),
-              // ),
-            ],
-          ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: BottomNavigationBar(
+          currentIndex: myCurrentIndex,
+          backgroundColor: Colors.white,
+          selectedItemColor: AppColor.primaryColor,
+          unselectedItemColor: AppColor.normalColor,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          items:  [
+            BottomNavigationBarItem(
+              icon: Image.asset(AppIcon.message, color: myCurrentIndex == 0 ? AppColor.primaryColor : AppColor.normalColor,),
+              label: AppLocalizations.of(context)!.message,
+            ),
+            BottomNavigationBarItem(
+              icon: Image.asset(AppIcon.friend, color: myCurrentIndex == 1 ? AppColor.primaryColor : AppColor.normalColor,),
+              label: AppLocalizations.of(context)!.friends,
+            ),
+            BottomNavigationBarItem(
+              icon: Image.asset(AppIcon.profile, color: myCurrentIndex == 2 ? AppColor.primaryColor : AppColor.normalColor,),
+              label: AppLocalizations.of(context)!.profile,
+            ),
+          ],
+          onTap: (index) {
+            setState(() {
+              myCurrentIndex = index;
+            });
+          },
         ),
       ),
-    );
+    ));
   }
 }

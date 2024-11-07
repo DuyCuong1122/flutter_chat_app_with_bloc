@@ -1,14 +1,14 @@
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
+import 'package:chat_app/common/values/typography.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class SearchBar extends StatefulWidget {
+class CustomSearchBar extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final Function(String) onSearch;
 
-  const SearchBar({
+  const CustomSearchBar({
     super.key,
     required this.controller,
     required this.hintText,
@@ -16,10 +16,10 @@ class SearchBar extends StatefulWidget {
   });
 
   @override
-  _SearchBarState createState() => _SearchBarState();
+  _CustomSearchBarState createState() => _CustomSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _CustomSearchBarState extends State<CustomSearchBar> {
   bool _hasText = false;
 
   @override
@@ -47,7 +47,8 @@ class _SearchBarState extends State<SearchBar> {
     return Container(
       height: 42,
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(30)),
       child: TextField(
         controller: widget.controller,
         onChanged: (text) {
@@ -57,14 +58,10 @@ class _SearchBarState extends State<SearchBar> {
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 10),
           hintText: widget.hintText,
-          hintStyle: GoogleFonts.lato(
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            color: const Color(0xFF999999),
-          ),
+          hintStyle: AppTypography.s16w500.copyWith(color: AppColor.normalColor),
           prefixIcon: const Icon(
             AppIcon.search,
-            size: 18,
+            size: 20,
             color: AppColor.primaryColor,
           ),
           suffixIcon: _hasText
@@ -77,15 +74,9 @@ class _SearchBarState extends State<SearchBar> {
                   onPressed: _clearText,
                 )
               : null,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
+              border: InputBorder.none,
         ),
-        style: GoogleFonts.lato(
-          fontWeight: FontWeight.w500,
-          fontSize: 16,
-          color: Colors.black,
-        ),
+        style: AppTypography.s16w500.copyWith(color: Colors.black),
       ),
     );
   }
