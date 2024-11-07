@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:chat_app/common/widgets/custom_container_sign_in_out.dart';
 import 'package:flutter/material.dart';
 
 class LogInView extends StatelessWidget {
@@ -5,12 +8,10 @@ class LogInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(24, 80, 24, 40),
-      child: Scaffold(
-        body: Center(
-          child: Text('ddd'),
-        ),
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 80, 24, 40),
+        child: CustomContainerSignInOut(enable: true, title: 'Dang nhap', onTap: () {log('debugShowCheckedModeBanner');}),
       ),
     );
   }
