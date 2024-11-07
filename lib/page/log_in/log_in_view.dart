@@ -1,9 +1,9 @@
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/common/widgets/custom_textfield.dart';
+import 'package:chat_app/page/homepage.dart';
 import 'package:chat_app/page/sign_up/sign_up_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/widgets/custom_container_sign_in_out.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +63,9 @@ class LogInView extends StatelessWidget {
               SizedBox(height: heightScreen / 20),
               CustomContainerSignInOut(
                 title: AppLocalizations.of(context)!.logIn,
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Homepage()));
+                },
                 enable: true,
               ),
               const Spacer(),
