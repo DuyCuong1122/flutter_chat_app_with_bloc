@@ -1,7 +1,6 @@
-import 'dart:developer';
-
+import 'dart:async';
+import 'package:chat_app/page/splash_view.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -49,7 +48,7 @@ Future<void> main() async {
 
   // await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -57,6 +56,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SplashView(),
+    );
   }
 }
+

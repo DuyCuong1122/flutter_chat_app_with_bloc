@@ -1,3 +1,9 @@
 {
-    "dart.flutterSdkPath": "/Users/cuongld/Desktop/development/flutter"
+    "dart.flutterSdkPath": "/Users/cuongld/Desktop/development/flutter",
+    "github.copilot.advanced": {
+    "languages": {
+        "dart": true
+    }
+}
+
 }
