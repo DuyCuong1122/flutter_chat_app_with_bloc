@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
-
   final String labelText;
   final IconData suffixIcon;
   final TextEditingController controller;
@@ -38,15 +37,19 @@ class CustomTextField extends StatelessWidget {
             fontSize: 14,
             color: const Color(0xFF999999),
           ),
-          suffixIcon: Icon(suffixIcon, size: 16, color: AppColor.primaryColor,),
+          suffixIcon: Icon(
+            suffixIcon,
+            size: 20,
+            color: AppColor.primaryColor,
+          ),
           border: InputBorder.none,
           // contentPadding: const EdgeInsets.symmetric(vertical: 10),
         ),
         style: GoogleFonts.lato(
-            fontWeight: FontWeight.w500,
-            fontSize: 18,
-            color: Colors.black,
-          ),
+          fontWeight: FontWeight.w500,
+          fontSize: 18,
+          color: Colors.black,
+        ),
       ),
     );
   }

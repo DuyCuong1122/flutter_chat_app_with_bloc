@@ -3,6 +3,7 @@ import 'package:chat_app/page/splash_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -58,7 +59,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      localizationsDelegates: [],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      locale: Locale('en'),
       supportedLocales: [
         Locale('en'),
         Locale('vi'),
