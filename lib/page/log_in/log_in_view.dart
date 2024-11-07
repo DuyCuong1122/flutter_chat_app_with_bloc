@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/common/widgets/custom_textfield.dart';
+import 'package:chat_app/page/sign_up/sign_up_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:chat_app/common/values/icons.dart';
@@ -13,15 +16,17 @@ class LogInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final heightScreen = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 80, 24, 40),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: heightScreen / 10),
               Image.asset(
                 AppIcon.loginPNG,
               ),
@@ -30,23 +35,23 @@ class LogInView extends StatelessWidget {
                       fontSize: 26,
                       fontWeight: FontWeight.w300,
                       color: Colors.black)),
-              const SizedBox(height: 10),
+              SizedBox(height: heightScreen / 80),
               Text(AppLocalizations.of(context)!.logIn,
                   style: AppTypography.signInUpTitle),
-              const SizedBox(height: 60),
+              SizedBox(height: heightScreen * 6 / 80),
               CustomTextField(
                 controller: TextEditingController(),
                 labelText: 'email',
                 suffixIcon: AppIcon.mail,
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: heightScreen / 20),
               CustomTextField(
                 controller: TextEditingController(),
                 labelText: 'password',
                 suffixIcon: AppIcon.key,
                 ispassword: true,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: heightScreen / 80),
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
@@ -57,7 +62,7 @@ class LogInView extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 45),
+              SizedBox(height: heightScreen / 20),
               CustomContainerSignInOut(
                 title: AppLocalizations.of(context)!.logIn,
                 onTap: () {},
@@ -74,7 +79,7 @@ class LogInView extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.pushNamed(context, '/sign_up');
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpView()));
                     },
                     child: Text(
                       AppLocalizations.of(context)!.registerNow,
@@ -83,6 +88,7 @@ class LogInView extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: heightScreen / 20),
             ],
           ),
         ),

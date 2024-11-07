@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/page/splash_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -58,20 +59,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      localizationsDelegates: [
+    return  MaterialApp(
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      locale: Locale('en'),
-      supportedLocales: [
+      theme: ThemeData(primaryColor: AppColor.primaryColor),
+      locale: const Locale('en'),
+      supportedLocales: const [
         Locale('en'),
         Locale('vi'),
       ],
       debugShowCheckedModeBanner: false,
-      home: SplashView(),
+      home: const SplashView(),
     );
   }
 }
