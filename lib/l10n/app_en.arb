@@ -36,5 +36,6 @@
     "editInfo" : "Edit infomation",
     "save" : "Save",
     "phone" : "Phone",
-    "dateOfBirth" : "Date of birth"
+    "dateOfBirth" : "Date of birth",
+    "logInNow" : "Log in now"
 }

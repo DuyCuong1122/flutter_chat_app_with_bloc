@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/common/widgets/custom_textfield.dart';
