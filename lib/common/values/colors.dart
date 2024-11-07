@@ -6,4 +6,5 @@ class AppColor{
   static const greyColor = Color(0xFFD2D2D2);
   static const blackColor = Color(0xFF000000);
   static const whiteColor = Color(0xFFFFFFFF);
+  static const unableColor = Color(0xFFCACACA);
 }

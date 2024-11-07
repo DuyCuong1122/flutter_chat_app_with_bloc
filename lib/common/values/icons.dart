@@ -18,4 +18,7 @@ class AppIcon{
   static const IconData back = Icons.arrow_back_ios_rounded;
   static const IconData message = Icons.message_rounded;
   static const IconData profile = Icons.person;
+  static const IconData edit = Icons.edit;
+  static const IconData phone = Icons.call;
+  static const IconData birthday = Icons.cake;
 }

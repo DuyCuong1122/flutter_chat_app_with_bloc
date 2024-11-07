@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User{
+class User {
   String? id;
   String? name;
   String? email;
-  String? password;
   String? phoneNumber;
   Timestamp? dateOfBirth;
   Timestamp? createdAt;
   Timestamp? updatedAt;
   List<String>? listFriends;
+  String? fcmtoken;
 
   User({
     this.id,
@@ -20,7 +20,7 @@ class User{
     this.createdAt,
     this.updatedAt,
     this.listFriends,
-    this.password,
+    this.fcmtoken,
   });
 
   factory User.fromFirestore(DocumentSnapshot doc) {
@@ -29,28 +29,54 @@ class User{
       id: doc.id,
       name: data['name'] ?? '',
       email: data['email'] ?? '',
-      phoneNumber: data['phone_number'] ?? '',
-      dateOfBirth: data['date_of_birth'],
-      createdAt: data['created_at'],
-      updatedAt: data['updated_at'],
-      listFriends: List<String>.from(data['list_friends'] ?? []),
+      phoneNumber: data['phoneNumber'] ?? '',
+      dateOfBirth: data['dateOfBirth'],
+      createdAt: data['createdAt'],
+      updatedAt: data['updatedAt'],
+      listFriends: List<String>.from(
+        data['listFriends'] ?? [],
+      ),
+      fcmtoken: data['fcmtoken'] ?? '',
     );
   }
 
   Map<String, dynamic> toFirestore() {
     return {
-      if(name != null || name != '') 'name': name,
-      if(email != null || email != '') 'email': email,
-      if(phoneNumber != null || phoneNumber != '') 'phone_number': phoneNumber,
-      if(dateOfBirth != null) 'date_of_birth': dateOfBirth,
-      if(createdAt != null) 'created_at': createdAt,
-      if(updatedAt != null) 'updated_at': updatedAt,
-      if(listFriends != null) 'list_friends': listFriends,
+      if (name != null || name != '') 'name': name,
+      if (email != null || email != '') 'email': email,
+      if (phoneNumber != null || phoneNumber != '') 'phoneNumber': phoneNumber,
+      if (dateOfBirth != null) 'dateOfBirth': dateOfBirth,
+      if (createdAt != null) 'createdAt': createdAt,
+      if (updatedAt != null) 'updatedAt': updatedAt,
+      if (listFriends != null) 'listFriends': listFriends,
+      if (fcmtoken != null) 'fcmtoken': fcmtoken,
+    };
+  }
+
+  factory User.fromMap(Map<String, dynamic> data) {
+    return User(
+      id: data['id'],
+      name: data['name'],
+      email: data['email'],
+      phoneNumber: data['phoneNumber'],
+      dateOfBirth: data['dateOfBirth'],
+      listFriends: data['listFriends'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'dateOfBirth': dateOfBirth,
+      'listFriends': listFriends,
     };
   }
 
   @override
   String toString() {
-    return 'User{id: $id, name: $name, email: $email, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, createdAt: $createdAt, updatedAt: $updatedAt, listFriends: $listFriends}';
+    return 'User{id: $id, name: $name, email: $email, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, createdAt: $createdAt, updatedAt: $updatedAt, listFriends: $listFriends, fcmtoken: $fcmtoken}';
   }
 }
