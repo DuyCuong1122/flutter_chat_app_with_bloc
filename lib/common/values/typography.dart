@@ -29,4 +29,13 @@ class AppTypography {
 
   static TextStyle s30w700 = GoogleFonts.lato(
       fontSize: 30, fontWeight: FontWeight.w700, color: AppColor.primaryColor);
+
+  static TextStyle s12w500 = GoogleFonts.lato(
+      fontSize: 12, fontWeight: FontWeight.w500, color: AppColor.primaryColor);
+
+  static TextStyle s12w800 = GoogleFonts.lato(
+      fontSize: 12, fontWeight: FontWeight.w800, color: AppColor.primaryColor);
+  
+  static TextStyle s18w800 = GoogleFonts.lato(
+      fontSize: 18, fontWeight: FontWeight.w800, color: AppColor.primaryColor);
 }
