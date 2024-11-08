@@ -13,7 +13,7 @@ class AppIcon {
   static const String friend = 'assets/icons/friend.png';
   static const String addFriend = 'assets/icons/add_friend.png';
   static const IconData emoji = Icons.emoji_emotions_rounded;
-  static const IconData albul = Icons.photo_outlined;
+  static const IconData album = Icons.photo_outlined;
   static const IconData person = Icons.person_outline_outlined;
   static const IconData back = Icons.arrow_back_ios_rounded;
   static const String message = 'assets/icons/message.png';
