@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
 
-class User {
+class User extends Equatable {
   String? id;
   String? name;
   String? email;
@@ -79,4 +80,17 @@ class User {
   String toString() {
     return 'User{id: $id, name: $name, email: $email, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, createdAt: $createdAt, updatedAt: $updatedAt, listFriends: $listFriends, fcmtoken: $fcmtoken}';
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        email,
+        phoneNumber,
+        dateOfBirth,
+        createdAt,
+        updatedAt,
+        listFriends,
+        fcmtoken,
+      ];
 }
