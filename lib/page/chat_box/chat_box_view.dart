@@ -14,7 +14,7 @@ class ChatBoxView extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: const Color(0xFFF6F6F6),
+        backgroundColor: AppColor.f6Color,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           toolbarHeight: heightScreen * 0.12,
@@ -69,7 +69,7 @@ class ChatBoxView extends StatelessWidget {
             ),
           ),
           child: Column(
-            children: [Expanded(child: Text("Chat Box")), SendMessageItem(  )],
+            children: [Expanded(child: Text("Chat Box")), SendMessageItem()],
           ),
         ),
       ),

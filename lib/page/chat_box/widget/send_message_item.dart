@@ -17,19 +17,25 @@ class SendMessageItem extends StatefulWidget {
 class _SendMessageItemState extends State<SendMessageItem> {
   Color albumIconColor = Colors.grey;
   Color emojiIconColor = Colors.grey;
-    final ImagePicker _picker = ImagePicker();
+  final ImagePicker _picker = ImagePicker();
 
   void _toggleAlbumIconColor() {
     setState(() {
-      albumIconColor = albumIconColor ==  Colors.grey ? AppColor.primaryColor : Colors.grey;
-      albumIconColor == AppColor.primaryColor ? emojiIconColor = Colors.grey : null;
+      albumIconColor =
+          albumIconColor == Colors.grey ? AppColor.primaryColor : Colors.grey;
+      albumIconColor == AppColor.primaryColor
+          ? emojiIconColor = Colors.grey
+          : null;
     });
   }
 
   void _toggleEmojiIconColor() {
     setState(() {
-      emojiIconColor = emojiIconColor == Colors.grey ? AppColor.primaryColor : Colors.grey;
-      emojiIconColor == AppColor.primaryColor ? albumIconColor = Colors.grey : null;
+      emojiIconColor =
+          emojiIconColor == Colors.grey ? AppColor.primaryColor : Colors.grey;
+      emojiIconColor == AppColor.primaryColor
+          ? albumIconColor = Colors.grey
+          : null;
     });
   }
 
@@ -68,7 +74,6 @@ class _SendMessageItemState extends State<SendMessageItem> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -79,7 +84,7 @@ class _SendMessageItemState extends State<SendMessageItem> {
             height: 52,
             width: 52,
             decoration: const BoxDecoration(
-              color: Color(0xFFF6F6F6),
+              color: AppColor.f6Color,
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -93,7 +98,7 @@ class _SendMessageItemState extends State<SendMessageItem> {
           child: Container(
             height: 52,
             decoration: BoxDecoration(
-              color: const Color(0xFFF6F6F6),
+              color: AppColor.f6Color,
               borderRadius: BorderRadius.circular(30),
             ),
             child: TextField(
@@ -101,7 +106,8 @@ class _SendMessageItemState extends State<SendMessageItem> {
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(left: 20, top: 12),
                 hintText: '${AppLocalizations.of(context)!.enterMessage}...',
-                hintStyle: AppTypography.s16w500.copyWith(color: const Color(0xFF676767)),
+                hintStyle: AppTypography.s16w500
+                    .copyWith(color: const Color(0xFF676767)),
                 border: InputBorder.none,
                 suffixIcon: IconButton(
                   onPressed: _toggleEmojiIconColor,
