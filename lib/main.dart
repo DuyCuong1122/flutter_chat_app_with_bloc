@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'package:chat_app/bloc/auth/auth_bloc.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/page/splash_view.dart';
+import 'package:chat_app/repository/auth_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -59,21 +62,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      theme: ThemeData(primaryColor: AppColor.primaryColor),
-      locale: const Locale('en'),
-      supportedLocales: const [
-        Locale('en'),
-        Locale('vi'),
-      ],
-      debugShowCheckedModeBanner: false,
-      home: const SplashView(),
+    return Builder(
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+              create: (context) => AuthBloc(
+                  authRepository: AuthRepository(),
+                  appLocalizations: AppLocalizations.of(context))),
+        ],
+        child: MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          theme: ThemeData(primaryColor: AppColor.primaryColor),
+          locale: const Locale('en'),
+          supportedLocales: const [
+            Locale('en'),
+            Locale('vi'),
+          ],
+          debugShowCheckedModeBanner: false,
+          home: const SplashView(),
+        ),
+      ),
     );
   }
 }
