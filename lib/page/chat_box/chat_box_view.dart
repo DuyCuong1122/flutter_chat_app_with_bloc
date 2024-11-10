@@ -14,7 +14,7 @@ class ChatBoxView extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: AppColor.f6Color,
+        backgroundColor: AppColors.f6Color,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           toolbarHeight: heightScreen * 0.12,
@@ -31,8 +31,8 @@ class ChatBoxView extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      AppColor.primaryColor,
-                      AppColor.secondaryColor,
+                      AppColors.primaryColor,
+                      AppColors.secondaryColor,
                     ],
                   ),
                 ),
@@ -55,7 +55,7 @@ class ChatBoxView extends StatelessWidget {
             },
             icon: const Icon(
               AppIcon.back,
-              color: AppColor.primaryColor,
+              color: AppColors.primaryColor,
             ),
           ),
         ),

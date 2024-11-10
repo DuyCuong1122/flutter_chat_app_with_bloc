@@ -42,18 +42,18 @@ class CustomTextField extends StatelessWidget {
             decoration: InputDecoration(
               labelText: labelText.toUpperCase(),
               labelStyle:
-                  AppTypography.s14w500.copyWith(color: AppColor.normalColor),
+                  AppTypography.s14w500.copyWith(color: AppColors.normalColor),
               suffixIcon: Icon(
                 suffixIcon,
                 size: 20,
-                color: AppColor.primaryColor,
+                color: AppColors.primaryColor,
               ),
               border: InputBorder.none,
               hintText: hintText,
               hintStyle:
-                  AppTypography.s18w500.copyWith(color: AppColor.f67Color),
+                  AppTypography.s18w500.copyWith(color: AppColors.f67Color),
             ),
-            style: AppTypography.s18w500.copyWith(color: AppColor.blackColor),
+            style: AppTypography.s18w500.copyWith(color: AppColors.blackColor),
             onChanged: onChanged,
           ),
         ),
@@ -62,7 +62,7 @@ class CustomTextField extends StatelessWidget {
               height: 4), // khoảng cách nhỏ giữa TextField và errorText
           Text(
             errorText!,
-            style: AppTypography.s14w500.copyWith(color: AppColor.errorColor),
+            style: AppTypography.s14w500.copyWith(color: AppColors.errorColor),
           ),
         ],
       ],

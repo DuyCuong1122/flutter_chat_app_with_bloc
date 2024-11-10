@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
@@ -93,4 +94,28 @@ class User extends Equatable {
         listFriends,
         fcmtoken,
       ];
+
+  User copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? phoneNumber,
+    Timestamp? dateOfBirth,
+    Timestamp? createdAt,
+    Timestamp? updatedAt,
+    List<String>? listFriends,
+    String? fcmtoken,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      listFriends: listFriends ?? this.listFriends,
+      fcmtoken: fcmtoken ?? this.fcmtoken,
+    );
+  }
 }

@@ -44,8 +44,8 @@ class _HomepageState extends State<Homepage> {
             child: BottomNavigationBar(
               currentIndex: myCurrentIndex,
               backgroundColor: Colors.white,
-              selectedItemColor: AppColor.primaryColor,
-              unselectedItemColor: AppColor.normalColor,
+              selectedItemColor: AppColors.primaryColor,
+              unselectedItemColor: AppColors.normalColor,
               showSelectedLabels: true,
               showUnselectedLabels: true,
               items: [
@@ -53,8 +53,8 @@ class _HomepageState extends State<Homepage> {
                   icon: Image.asset(
                     AppIcon.message,
                     color: myCurrentIndex == 0
-                        ? AppColor.primaryColor
-                        : AppColor.normalColor,
+                        ? AppColors.primaryColor
+                        : AppColors.normalColor,
                   ),
                   label: AppLocalizations.of(context)!.message,
                 ),
@@ -62,8 +62,8 @@ class _HomepageState extends State<Homepage> {
                   icon: Image.asset(
                     AppIcon.friend,
                     color: myCurrentIndex == 1
-                        ? AppColor.primaryColor
-                        : AppColor.normalColor,
+                        ? AppColors.primaryColor
+                        : AppColors.normalColor,
                   ),
                   label: AppLocalizations.of(context)!.friends,
                 ),
@@ -71,8 +71,8 @@ class _HomepageState extends State<Homepage> {
                   icon: Image.asset(
                     AppIcon.profile,
                     color: myCurrentIndex == 2
-                        ? AppColor.primaryColor
-                        : AppColor.normalColor,
+                        ? AppColors.primaryColor
+                        : AppColors.normalColor,
                   ),
                   label: AppLocalizations.of(context)!.profile,
                 ),

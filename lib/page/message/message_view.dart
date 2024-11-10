@@ -25,8 +25,8 @@ class MessageView extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                    AppColor.primaryColor,
-                    AppColor.secondaryColor,
+                    AppColors.primaryColor,
+                    AppColors.secondaryColor,
                   ])),
             ),
             Column(

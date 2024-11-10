@@ -156,7 +156,6 @@ class FirebaseApi {
   static Future addDocument(
       String collection, Map<String, dynamic> data) async {
     try {
-      EasyLoading.show(status: "Đang xử lí...");
       final docRef = await db.collection(collection).add(data);
       log('Document added successfully to $collection.');
       return docRef.id;

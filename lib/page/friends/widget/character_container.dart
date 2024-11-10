@@ -11,7 +11,7 @@ class CharacterContainer extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(12, 4, 0, 4),
-      color: AppColor.f6Color,
+      color: AppColors.f6Color,
       child: Text(
         character.toUpperCase(),
         style: AppTypography.s16w800,

@@ -24,8 +24,8 @@ class FriendView extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                    AppColor.primaryColor,
-                    AppColor.secondaryColor,
+                    AppColors.primaryColor,
+                    AppColors.secondaryColor,
                   ])),
             ),
             Column(
@@ -83,9 +83,9 @@ class FriendView extends StatelessWidget {
                         child: Column(
                           children: [
                             TabBar(
-                              indicatorColor: AppColor.primaryColor,
-                              labelColor: AppColor.primaryColor,
-                              unselectedLabelColor: AppColor.normalColor,
+                              indicatorColor: AppColors.primaryColor,
+                              labelColor: AppColors.primaryColor,
+                              unselectedLabelColor: AppColors.normalColor,
                               indicatorSize: TabBarIndicatorSize.tab,
                               indicatorPadding:
                                   const EdgeInsets.symmetric(horizontal: 10),

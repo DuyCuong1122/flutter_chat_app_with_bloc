@@ -17,7 +17,7 @@ class FriendItem extends StatelessWidget {
         width: 73,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: AppColor.primaryColor,
+          color: AppColors.primaryColor,
         ),
         child: Center(
           child: Text(
@@ -33,7 +33,7 @@ class FriendItem extends StatelessWidget {
         width: 73,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: AppColor.primaryColor,
+          color: AppColors.primaryColor,
         ),
         child: Center(
           child: Text(
@@ -48,13 +48,13 @@ class FriendItem extends StatelessWidget {
         height: 27,
         width: 73,
         decoration: BoxDecoration(
-            border: Border.all(color: AppColor.primaryColor),
+            border: Border.all(color: AppColors.primaryColor),
             borderRadius: BorderRadius.circular(30),
             color: Colors.white),
         child: Center(
           child: Text(
             AppLocalizations.of(context)!.cancel,
-            style: AppTypography.s14w500.copyWith(color: AppColor.primaryColor),
+            style: AppTypography.s14w500.copyWith(color: AppColors.primaryColor),
           ),
         ),
       );
@@ -75,8 +75,8 @@ class FriendItem extends StatelessWidget {
               shape: BoxShape.circle,
               gradient: LinearGradient(
                 colors: [
-                  AppColor.primaryColor,
-                  AppColor.secondaryColor,
+                  AppColors.primaryColor,
+                  AppColors.secondaryColor,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,

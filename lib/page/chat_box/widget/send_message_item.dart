@@ -22,8 +22,8 @@ class _SendMessageItemState extends State<SendMessageItem> {
   void _toggleAlbumIconColor() {
     setState(() {
       albumIconColor =
-          albumIconColor == Colors.grey ? AppColor.primaryColor : Colors.grey;
-      albumIconColor == AppColor.primaryColor
+          albumIconColor == Colors.grey ? AppColors.primaryColor : Colors.grey;
+      albumIconColor == AppColors.primaryColor
           ? emojiIconColor = Colors.grey
           : null;
     });
@@ -32,8 +32,8 @@ class _SendMessageItemState extends State<SendMessageItem> {
   void _toggleEmojiIconColor() {
     setState(() {
       emojiIconColor =
-          emojiIconColor == Colors.grey ? AppColor.primaryColor : Colors.grey;
-      emojiIconColor == AppColor.primaryColor
+          emojiIconColor == Colors.grey ? AppColors.primaryColor : Colors.grey;
+      emojiIconColor == AppColors.primaryColor
           ? albumIconColor = Colors.grey
           : null;
     });
@@ -47,7 +47,7 @@ class _SendMessageItemState extends State<SendMessageItem> {
     if (image != null) {
       setState(() {
         selectedImage = image;
-        albumIconColor = AppColor.primaryColor;
+        albumIconColor = AppColors.primaryColor;
       });
       _showAlbumSheet();
     }
@@ -84,7 +84,7 @@ class _SendMessageItemState extends State<SendMessageItem> {
             height: 52,
             width: 52,
             decoration: const BoxDecoration(
-              color: AppColor.f6Color,
+              color: AppColors.f6Color,
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -98,7 +98,7 @@ class _SendMessageItemState extends State<SendMessageItem> {
           child: Container(
             height: 52,
             decoration: BoxDecoration(
-              color: AppColor.f6Color,
+              color: AppColors.f6Color,
               borderRadius: BorderRadius.circular(30),
             ),
             child: TextField(
@@ -126,7 +126,7 @@ class _SendMessageItemState extends State<SendMessageItem> {
           onPressed: () {},
           icon: const Icon(
             AppIcon.send,
-            color: AppColor.primaryColor,
+            color: AppColors.primaryColor,
             size: 24,
           ),
         ),

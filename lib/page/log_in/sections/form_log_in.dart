@@ -59,12 +59,12 @@ class _FormLogInState extends State<FormLogIn> {
       listener: (context, state) {
         if (state is AuthFailure) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: AppColor.errorColor,
+            backgroundColor: AppColors.errorColor,
             content: Text(state.message),
           ));
         } else if (state is AuthAuthenticated) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: AppColor.successColor,
+            backgroundColor: AppColors.successColor,
             content: Text(localizations.succussSignIn),
           ));
           Navigator.pushReplacement(

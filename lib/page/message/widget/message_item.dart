@@ -39,7 +39,7 @@ class MessageItem extends StatelessWidget {
                   border: newMessageCount == 0
                       ? null
                       : Border.all(
-                          color: AppColor.primaryColor,
+                          color: AppColors.primaryColor,
                           width: 2,
                         ),
                 ),
@@ -49,8 +49,8 @@ class MessageItem extends StatelessWidget {
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: LinearGradient(colors: [
-                      AppColor.primaryColor,
-                      AppColor.secondaryColor,
+                      AppColors.primaryColor,
+                      AppColors.secondaryColor,
                     ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                   ),
                   child: Icon(
@@ -93,7 +93,7 @@ class MessageItem extends StatelessWidget {
                 decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: AppColor.normalColor,
+                      color: AppColors.normalColor,
                       width: 0.5,
                     ),
                   ),
@@ -113,7 +113,7 @@ class MessageItem extends StatelessWidget {
                           time,
                           style: AppTypography.s12w500.copyWith(
                               color: newMessageCount == 0
-                                  ? AppColor.normalColor
+                                  ? AppColors.normalColor
                                   : Colors.black),
                         ),
                       ],
@@ -126,7 +126,7 @@ class MessageItem extends StatelessWidget {
                    
                       style: newMessageCount == 0
                           ? AppTypography.s14w500
-                              .copyWith(color: AppColor.normalColor)
+                              .copyWith(color: AppColors.normalColor)
                           : AppTypography.s14w700.copyWith(color: Colors.black),
                     ),
                   ],

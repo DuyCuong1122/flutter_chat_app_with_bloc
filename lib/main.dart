@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:chat_app/bloc/auth/auth_bloc.dart';
+import 'package:chat_app/bloc/user/user_bloc.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/page/splash_view.dart';
 import 'package:chat_app/repository/auth_repository.dart';
+import 'package:chat_app/repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +72,10 @@ class MyApp extends StatelessWidget {
               create: (context) => AuthBloc(
                   authRepository: AuthRepository(),
                   appLocalizations: AppLocalizations.of(context))),
+          BlocProvider(
+              create: (context) => UserBloc(
+                  userRepository: UserRepository(),
+                  appLocalizations: AppLocalizations.of(context))),
         ],
         child: MaterialApp(
           localizationsDelegates: const [
@@ -78,7 +84,7 @@ class MyApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          theme: ThemeData(primaryColor: AppColor.primaryColor),
+          theme: ThemeData(primaryColor: AppColors.primaryColor),
           locale: const Locale('en'),
           supportedLocales: const [
             Locale('en'),

@@ -58,11 +58,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 10),
           hintText: widget.hintText,
-          hintStyle: AppTypography.s16w500.copyWith(color: AppColor.normalColor),
+          hintStyle: AppTypography.s16w500.copyWith(color: AppColors.normalColor),
           prefixIcon: const Icon(
             AppIcon.search,
             size: 20,
-            color: AppColor.primaryColor,
+            color: AppColors.primaryColor,
           ),
           suffixIcon: _hasText
               ? IconButton(

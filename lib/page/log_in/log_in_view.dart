@@ -42,7 +42,7 @@ class LogInView extends StatelessWidget {
                   Text(
                     '${localizations.noAccount}? ',
                     style: AppTypography.s14w500
-                        .copyWith(color: AppColor.unableColor),
+                        .copyWith(color: AppColors.unableColor),
                   ),
                   GestureDetector(
                     onTap: () {

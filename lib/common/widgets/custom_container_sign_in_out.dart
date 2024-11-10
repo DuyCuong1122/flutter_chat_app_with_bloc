@@ -21,7 +21,7 @@ class CustomContainerSignInOut extends StatelessWidget {
       child: Container(
         height: 52,
         decoration: BoxDecoration(
-          color: enable ? AppColor.primaryColor : AppColor.unableColor,
+          color: enable ? AppColors.primaryColor : AppColors.unableColor,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
@@ -29,7 +29,7 @@ class CustomContainerSignInOut extends StatelessWidget {
             title.toUpperCase(),
             style:GoogleFonts.lato(
               textStyle: const TextStyle(
-                color: AppColor.whiteColor,
+                color: AppColors.whiteColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
