@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:chat_app/bloc/auth/auth_bloc.dart';
 import 'package:chat_app/bloc/auth/auth_event.dart';
 import 'package:chat_app/bloc/auth/auth_state.dart';
 import 'package:chat_app/bloc/user/user_bloc.dart';
-import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/bloc/user/user_state.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
@@ -90,10 +88,7 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                   );
                 } else if (state is AuthAuthenticated) {
-                  context.read<UserBloc>().add(UserAddEvent(
-                        email: emailController.text,
-                        name: nameController.text,
-                      ));
+                  Navigator.pop(context);
                 } else if (state is AuthLoading) {
                   EasyLoading.show(maskType: EasyLoadingMaskType.black);
                 }
@@ -109,9 +104,6 @@ class _SignUpViewState extends State<SignUpView> {
                       backgroundColor: AppColors.errorColor,
                     ),
                   );
-                } else if (state is UserSuccess) {
-                  log('User added successfully');
-                  Navigator.pop(context);
                 }
               },
             ),
@@ -221,6 +213,7 @@ class _SignUpViewState extends State<SignUpView> {
                         ? context.read<AuthBloc>().add(AuthSignUpRequested(
                               email: emailController.text,
                               password: passwordController.text,
+                              name: nameController.text,
                             ))
                         : null;
                   },

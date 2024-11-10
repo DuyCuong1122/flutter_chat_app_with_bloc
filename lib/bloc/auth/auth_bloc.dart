@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:chat_app/repository/auth_repository.dart';
+import 'package:chat_app/repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'auth_event.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
   final AppLocalizations? appLocalizations;
-
+  final UserRepository userRepository = UserRepository();
   AuthBloc({
     required this.authRepository,
     this.appLocalizations,
@@ -27,6 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user = await authRepository.createUser(event.email, event.password);
       if (user != null) {
+        userRepository.addUser(event.email, event.name);
         emit(AuthAuthenticated(user));
       } else {
         emit(AuthUnauthenticated());

@@ -55,29 +55,29 @@ class _FormLogInState extends State<FormLogIn> {
     final heightScreen = MediaQuery.of(context).size.height;
     final localizations = AppLocalizations.of(context)!;
 
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is AuthFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: AppColors.errorColor,
-            content: Text(state.message),
-          ));
-        } else if (state is AuthAuthenticated) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: AppColors.successColor,
-            content: Text(localizations.succussSignIn),
-          ));
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const Homepage()),
-          );
-        }
-      },
-      builder: (context, state) {
-        if (state is AuthLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return Column(
+    return BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: AppColors.errorColor,
+              content: Text(state.message),
+            ));
+          } else if (state is AuthAuthenticated) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: AppColors.successColor,
+              content: Text(localizations.succussSignIn),
+            ));
+            EasyLoading.dismiss();
+
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const Homepage()),
+            );
+          } else if (state is AuthLoading) {
+            EasyLoading.show(maskType: EasyLoadingMaskType.black);
+          }
+        },
+        child: Column(
           children: [
             CustomTextField(
               controller: emailController,
@@ -90,7 +90,7 @@ class _FormLogInState extends State<FormLogIn> {
             SizedBox(height: heightScreen / 20),
             CustomTextField(
               controller: passwordController,
-              labelText: localizations.password,
+              labelText: AppLocalizations.of(context)!.password,
               suffixIcon: AppIcon.key,
               ispassword: true,
               onChanged: validatePassword,
@@ -121,8 +121,6 @@ class _FormLogInState extends State<FormLogIn> {
               enable: emailError == null && passwordError == null,
             ),
           ],
-        );
-      },
-    );
+        ));
   }
 }
