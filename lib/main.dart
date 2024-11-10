@@ -3,6 +3,7 @@ import 'package:chat_app/bloc/auth/auth_bloc.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/page/splash_view.dart';
 import 'package:chat_app/repository/auth_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +43,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  FirebaseAuth.instance.setLanguageCode("en");
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // Thiết lập flutter_local_notifications

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:chat_app/repository/auth_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
@@ -42,15 +43,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user =
           await authRepository.signInWithEmail(event.email, event.password);
+
       if (user != null) {
-        // await _saveUserToLocal(user); // Save to local storage
+        // Save user data to local storage if necessary
+        // await _saveUserToLocal(user);
         emit(AuthAuthenticated(user));
       } else {
         emit(AuthUnauthenticated());
       }
+    } on FirebaseAuthException catch (e) {
+      log('Firebase Auth Error: ${e.code} - ${e.message}');
+      String errorMessage;
+
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = appLocalizations?.userNotFound ?? 'User not found';
+          break;
+        case 'wrong-password':
+          errorMessage =
+              appLocalizations?.wrongPassword ?? 'Incorrect password';
+          break;
+
+        default:
+          errorMessage = appLocalizations?.failedSignIn ??
+              'Sign-in failed. Please try again.';
+      }
+
+      emit(AuthFailure(errorMessage));
     } catch (e) {
-      log(e.toString());
-      emit(AuthFailure(appLocalizations!.failedSignIn));
+      log('Login Error: $e');
+      emit(AuthFailure(appLocalizations?.failedSignIn ??
+          'Sign-in failed. Please try again.'));
     }
   }
 
