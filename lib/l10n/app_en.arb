@@ -47,5 +47,8 @@
     "failedSignIn" : "The account login failed",
     "emptyEmail" : "*Email can not be blank!",
     "emptyPassword" : "*Password can not be blank!",
-    "emptyName" : "*Name can not be blank!"
+    "emptyName" : "*Name can not be blank!",
+    "userNotFound" : "User is not exist!",
+    "wrongPassword" : "Password is incorrect!"
+
 }

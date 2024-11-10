@@ -47,5 +47,7 @@
     "failedSignIn" : "Đăng nhập tài khoản thất bại",
     "emptyEmail" : "*Email không được để trống!",
     "emptyPassword" : "*Mật khẩu không được để trống!",
-    "emptyName" : "*Tên không được để trống!"
+    "emptyName" : "*Tên không được để trống!",
+    "userNotFound" : "Người dùng không tồn tại!",
+    "wrongPassword" : "Sai mật khẩu!"
 }
