@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final bool ispassword;
   final String? errorText;
   final void Function(String)? onChanged;
+  final String? hintText;
 
   const CustomTextField({
     super.key,
@@ -18,6 +19,7 @@ class CustomTextField extends StatelessWidget {
     this.ispassword = false,
     this.onChanged,
     this.errorText,
+    this.hintText,
   });
 
   @override
@@ -39,15 +41,19 @@ class CustomTextField extends StatelessWidget {
             obscureText: ispassword,
             decoration: InputDecoration(
               labelText: labelText.toUpperCase(),
-              labelStyle: AppTypography.s14w500,
+              labelStyle:
+                  AppTypography.s14w500.copyWith(color: AppColor.normalColor),
               suffixIcon: Icon(
                 suffixIcon,
                 size: 20,
                 color: AppColor.primaryColor,
               ),
               border: InputBorder.none,
+              hintText: hintText,
+              hintStyle:
+                  AppTypography.s18w500.copyWith(color: AppColor.f67Color),
             ),
-            style: AppTypography.s18w500,
+            style: AppTypography.s18w500.copyWith(color: AppColor.blackColor),
             onChanged: onChanged,
           ),
         ),

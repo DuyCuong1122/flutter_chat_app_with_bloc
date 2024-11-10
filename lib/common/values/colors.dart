@@ -9,6 +9,7 @@ class AppColor {
   static const unableColor = Color(0xFFCACACA);
   static const normalColor = Color(0xFF999999);
   static const f6Color = Color(0xFFF6F6F6);
+  static const f67Color = Color(0xFF676767);
   static const errorColor = Color(0xFFE02020);
   static const successColor = Color(0xFF00C853);
   static const warningColor = Color(0xFFFFAB00);
