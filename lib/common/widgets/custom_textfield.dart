@@ -1,12 +1,14 @@
 import 'package:chat_app/common/values/colors.dart';
+import 'package:chat_app/common/values/typography.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
   final String labelText;
   final IconData suffixIcon;
   final TextEditingController controller;
   final bool ispassword;
+  final String? errorText;
+  final void Function(String)? onChanged;
 
   const CustomTextField({
     super.key,
@@ -14,43 +16,50 @@ class CustomTextField extends StatelessWidget {
     required this.suffixIcon,
     required this.controller,
     this.ispassword = false,
+    this.onChanged,
+    this.errorText,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.grey, width: 1),
-        ),
-      ),
-      child: TextField(
-        controller: controller,
-        obscureText: ispassword,
-        decoration: InputDecoration(
-          labelText: labelText.toUpperCase(),
-          labelStyle: GoogleFonts.lato(
-            fontWeight: FontWeight.w500,
-            fontSize: 14,
-            color: const Color(0xFF999999),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 50,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Colors.grey, width: 1),
+            ),
           ),
-          suffixIcon: Icon(
-            suffixIcon,
-            size: 20,
-            color: AppColor.primaryColor,
+          child: TextField(
+            controller: controller,
+            obscureText: ispassword,
+            decoration: InputDecoration(
+              labelText: labelText.toUpperCase(),
+              labelStyle: AppTypography.s14w500,
+              suffixIcon: Icon(
+                suffixIcon,
+                size: 20,
+                color: AppColor.primaryColor,
+              ),
+              border: InputBorder.none,
+            ),
+            style: AppTypography.s18w500,
+            onChanged: onChanged,
           ),
-          border: InputBorder.none,
-          // contentPadding: const EdgeInsets.symmetric(vertical: 10),
         ),
-        style: GoogleFonts.lato(
-          fontWeight: FontWeight.w500,
-          fontSize: 18,
-          color: Colors.black,
-        ),
-      ),
+        if (errorText != null) ...[
+          const SizedBox(
+              height: 4), // khoảng cách nhỏ giữa TextField và errorText
+          Text(
+            errorText!,
+            style: AppTypography.s14w500.copyWith(color: AppColor.errorColor),
+          ),
+        ],
+      ],
     );
   }
 }
