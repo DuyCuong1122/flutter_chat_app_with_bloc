@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
             Locale('en'),
             Locale('vi'),
           ],
+          builder: EasyLoading.init(),
           debugShowCheckedModeBanner: false,
           home: const SplashView(),
         ),
