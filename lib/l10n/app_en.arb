@@ -37,5 +37,15 @@
     "save" : "Save",
     "phone" : "Phone",
     "dateOfBirth" : "Date of birth",
-    "logInNow" : "Log in now"
+    "logInNow" : "Log in now",
+    "invalidEmailFormat": "Invalid email format",
+    "invalidPasswordFormat" : "Password must be at least 8 characters, include a lowercase letter, an uppercase letter, and a number",
+    "invalidName" : "Username is not suitable",
+    "successSignUp" : "The account signed up successfuly",
+    "failedSignUp" : "The account registration failed",
+    "succussSignIn" : "The account signed in successfuly",
+    "failedSignIn" : "The account login failed",
+    "emptyEmail" : "*Email can not be blank!",
+    "emptyPassword" : "*Password can not be blank!",
+    "emptyName" : "*Name can not be blank!"
 }

@@ -25,7 +25,7 @@
     "cancel" : "Hủy",
     "all" : "Tất cả",
     "request" : "Yêu cầu",
-    "addFriend" : "Thêm bạn",
+    "addFriend" : "Kết bạn",
     "accept" : "Đồng ý",
     "friendRequests" : "Lời mời kết bạn",
     "sentFriend" : "Đã gửi kết bạn",
@@ -37,5 +37,15 @@
     "save" : "Lưu",
     "phone" : "Số điện thoại",
     "dateOfBirth" : "Ngày sinh",
-    "logInNow" : "Đăng nhập ngay"
+    "logInNow" : "Đăng nhập ngay",
+    "invalidEmailFormat" : "Email không hợp lệ",
+    "invalidPasswordFormat" : "Mật khẩu phải tối thiểu 8 ký tự, chứa ít nhất 1 chữ cái hoa, chữ cái thường và số",
+    "invalidName" : "Tên người dùng không phù hợp",
+    "successSignUp" : "Đăng ký tài khoản thành công",
+    "failedSignUp" : "Đăng ký tài khoản thất bại",
+    "succussSignIn" : "Đăng nhập tài khoản thành công",
+    "failedSignIn" : "Đăng nhập tài khoản thất bại",
+    "emptyEmail" : "*Email không được để trống!",
+    "emptyPassword" : "*Mật khẩu không được để trống!",
+    "emptyName" : "*Tên không được để trống!"
 }
