@@ -68,7 +68,7 @@ class ChatBoxView extends StatelessWidget {
               topRight: Radius.circular(20),
             ),
           ),
-          child: Column(
+          child: const Column(
             children: [Expanded(child: Text("Chat Box")), SendMessageItem()],
           ),
         ),

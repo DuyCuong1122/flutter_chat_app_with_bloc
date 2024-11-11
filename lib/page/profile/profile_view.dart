@@ -6,6 +6,7 @@ import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/page/log_in/log_in_view.dart';
+import 'package:chat_app/page/profile/screen/edit_info_screen.dart';
 import 'package:chat_app/page/profile/widget/profile_custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -109,7 +110,13 @@ class ProfileView extends StatelessWidget {
                                 ),
                                 const Spacer(),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const EditInfoScreen()));
+                                  },
                                   icon: const Icon(
                                     AppIcon.edit,
                                     color: AppColors.primaryColor,
@@ -190,7 +197,9 @@ class ProfileView extends StatelessWidget {
                             icon: AppIcon.logout,
                             text: translate.logout,
                             suffixIcon: false,
-                            onTap: ()=> context.read<AuthBloc>().add(AuthLogoutRequested()),
+                            onTap: () => context
+                                .read<AuthBloc>()
+                                .add(AuthLogoutRequested()),
                             isLogout: true,
                             isVersion: false),
                       ),

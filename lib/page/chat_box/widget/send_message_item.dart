@@ -64,7 +64,7 @@ class _SendMessageItemState extends State<SendMessageItem> {
           height: 250,
           child: selectedImage != null
               ? Image.file(File(selectedImage!.path))
-              : Center(child: Text("Không có ảnh nào được chọn")),
+              : const Center(child: Text("Không có ảnh nào được chọn")),
         );
       },
     ).whenComplete(() {
