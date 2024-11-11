@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:chat_app/bloc/auth/auth_bloc.dart';
+import 'package:chat_app/bloc/locale/locale_cubit.dart';
 import 'package:chat_app/bloc/user/user_bloc.dart';
 import 'package:chat_app/common/services/shared_preference_service.dart';
 import 'package:chat_app/common/values/colors.dart';
@@ -68,35 +69,42 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-              create: (context) => AuthBloc(
-                  authRepository: AuthRepository(),
-                  appLocalizations: AppLocalizations.of(context))),
-          BlocProvider(
-              create: (context) => UserBloc(
-                  userRepository: UserRepository(),
-                  appLocalizations: AppLocalizations.of(context))),
-        ],
-        child: MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          theme: ThemeData(primaryColor: AppColors.primaryColor),
-          locale: const Locale('en'),
-          supportedLocales: const [
-            Locale('en'),
-            Locale('vi'),
-          ],
-          builder: EasyLoading.init(),
-          debugShowCheckedModeBanner: false,
-          home: const SplashView(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc(
+              authRepository: AuthRepository(),
+              appLocalizations: AppLocalizations.of(context)),
         ),
+        BlocProvider(
+          create: (context) => UserBloc(
+              userRepository: UserRepository(),
+              appLocalizations: AppLocalizations.of(context)),
+        ),
+        BlocProvider(
+          create: (context) => LocaleCubit(), // Khởi tạo LocaleCubit
+        ),
+      ],
+      child: BlocBuilder<LocaleCubit, Locale>(
+        builder: (context, locale) {
+          return MaterialApp(
+            locale: locale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            theme: ThemeData(primaryColor: AppColors.primaryColor),
+            supportedLocales: const [
+              Locale('en'),
+              Locale('vi'),
+            ],
+            builder: EasyLoading.init(),
+            debugShowCheckedModeBanner: false,
+            home: const SplashView(),
+          );
+        },
       ),
     );
   }
