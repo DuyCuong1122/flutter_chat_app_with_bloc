@@ -1,6 +1,8 @@
 import 'package:chat_app/bloc/auth/auth_bloc.dart';
 import 'package:chat_app/bloc/auth/auth_event.dart';
 import 'package:chat_app/bloc/auth/auth_state.dart';
+import 'package:chat_app/bloc/user/user_bloc.dart';
+import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';
@@ -112,14 +114,20 @@ class _FormLogInState extends State<FormLogIn> {
               title: localizations.logIn,
               onTap: () {
                 FocusScope.of(context).unfocus();
-                if (emailError == null && passwordError == null) {
+                if (emailError == null &&
+                    passwordError == null &&
+                    emailController.text.isNotEmpty &&
+                    passwordController.text.isNotEmpty) {
                   context.read<AuthBloc>().add(AuthLoginRequested(
                         email: emailController.text,
                         password: passwordController.text,
                       ));
                 }
               },
-              enable: emailError == null && passwordError == null,
+              enable: emailError == null &&
+                  passwordError == null &&
+                  emailController.text.isNotEmpty &&
+                  passwordController.text.isNotEmpty,
             ),
           ],
         ));

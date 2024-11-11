@@ -1,6 +1,8 @@
 
-const String STORAGE_USER_PROFILE_KEY = 'user_profile';
-const String STORAGE_USER_TOKEN_KEY = 'user_token';
+const String DATE_OF_BIRTH = 'dateOfBirth';
+const String EMAIL = 'email';
+const String NAME = 'name';
+const String PHONE_NUMBER = 'phoneNumber';
 const String IS_LOGIN = 'is_login';
 
 

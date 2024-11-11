@@ -32,9 +32,9 @@ class User extends Equatable {
       name: data['name'] ?? '',
       email: data['email'] ?? '',
       phoneNumber: data['phoneNumber'] ?? '',
-      dateOfBirth: data['dateOfBirth'],
-      createdAt: data['createdAt'],
-      updatedAt: data['updatedAt'],
+      dateOfBirth: data['dateOfBirth'] is Timestamp ? data['dateOfBirth'] : null,
+      createdAt: data['createdAt'] is Timestamp ? data['createdAt'] : null,
+      updatedAt: data['updatedAt'] is Timestamp ? data['updatedAt'] : null,
       listFriends: List<String>.from(
         data['listFriends'] ?? [],
       ),

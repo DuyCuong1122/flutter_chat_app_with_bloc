@@ -52,6 +52,6 @@
     "wrongPassword" : "Password is incorrect!",
     "failedAddUser" : "User added failed",
     "successfullyUpdateUser" : "User is updated successfully",
-    "failedUpdatedUser" : "User updated failed"
-
+    "failedUpdatedUser" : "User updated failed",
+    "failedGetUser" : "Fetching user data failed"
 }

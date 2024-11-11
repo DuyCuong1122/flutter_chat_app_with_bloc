@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:chat_app/common/config/firebase_api.dart';
+import 'package:chat_app/common/models/user.dart';
 
 class UserRepository {
   Future addUser(String email, String name) async {
@@ -11,6 +12,8 @@ class UserRepository {
         'name': name,
         "phoneNumber": "",
         "dateOfBirth": "",
+        "listFriends": [],
+        "fcmtoken": "",
       });
       return response;
     } catch (e) {
@@ -19,11 +22,12 @@ class UserRepository {
     return null;
   }
 
-  Future getUserByEmail(String email) async {
+  Future<User?> getUserByEmail(String email) async {
     try {
-      final response = await FirebaseApi.getQuerySnapshot('users', 'email', email);
+      final response =
+          await FirebaseApi.getQuerySnapshot('users', 'email', email);
       if (response.docs.isNotEmpty) {
-        return response.docs.first.data();
+        return User.fromFirestore(response.docs.first);
       }
     } catch (e) {
       log('Error getting user by email: $e');
@@ -31,7 +35,8 @@ class UserRepository {
     return null;
   }
 
-  Future updateUser (String? name, String? phoneNumber, String? dateOfBirth, String id)async{
+  Future updateUser(
+      String? name, String? phoneNumber, String? dateOfBirth, String id) async {
     try {
       final response = await FirebaseApi.updateDocument('users', id, {
         'name': name,

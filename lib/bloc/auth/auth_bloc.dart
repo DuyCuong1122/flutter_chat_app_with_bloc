@@ -1,5 +1,8 @@
 import 'dart:developer';
 
+import 'package:chat_app/common/models/user.dart';
+import 'package:chat_app/common/services/shared_preference_service.dart';
+import 'package:chat_app/common/values/storage.dart';
 import 'package:chat_app/repository/auth_repository.dart';
 import 'package:chat_app/repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,6 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user = await authRepository.createUser(event.email, event.password);
       if (user != null) {
+        await user.sendEmailVerification();
         userRepository.addUser(event.email, event.name);
         emit(AuthAuthenticated(user));
       } else {
@@ -47,8 +51,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           await authRepository.signInWithEmail(event.email, event.password);
 
       if (user != null) {
-        // Save user data to local storage if necessary
-        // await _saveUserToLocal(user);
+        final userData = await userRepository.getUserByEmail(user.email!);
+        if (userData != null) {
+          await SharedPreferencesService().setString(NAME, userData.name!);
+          await SharedPreferencesService().setString(EMAIL, userData.email!);
+          await SharedPreferencesService()
+              .setString(PHONE_NUMBER, userData.phoneNumber!);
+          await SharedPreferencesService().setString(
+              DATE_OF_BIRTH,
+              userData.dateOfBirth != null
+                  ? userData.dateOfBirth!.toDate().toString()
+                  : '');
+        }
         emit(AuthAuthenticated(user));
       } else {
         emit(AuthUnauthenticated());
