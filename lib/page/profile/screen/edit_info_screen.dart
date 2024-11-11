@@ -39,9 +39,9 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
     fullNameController.text = widget.name ?? "";
     phoneController.text = widget.phone ?? "";
     birthdayController.text = widget.birthday ?? "";
-    selectedDate = widget.birthday == null || widget.birthday == ""
+    selectedDate = birthdayController.text == ""
         ? DateTime.now()
-        : DateFormat("dd/MM/yyyy").parse(widget.birthday!);
+        : DateFormat("dd/MM/yyyy").parse(birthdayController.text);
   }
 
   @override
