@@ -2,6 +2,7 @@ import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/page/friends/friend_view.dart';
 import 'package:chat_app/page/message/message_view.dart';
+import 'package:chat_app/page/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -19,7 +20,7 @@ class _HomepageState extends State<Homepage> {
     List pages = const [
       MessageView(),
       FriendView(),
-      Center(child: Text("Profile Page")),
+      ProfileView(),
     ];
 
     return Scaffold(

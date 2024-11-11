@@ -81,9 +81,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onLogoutRequested(
       AuthLogoutRequested event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
     await authRepository.signOut();
     // await _clearLocalUser(); // Clear local storage
-    emit(AuthUnauthenticated());
+    emit(AuthLogout());
   }
 
   Future<void> _onCheckStatus(
