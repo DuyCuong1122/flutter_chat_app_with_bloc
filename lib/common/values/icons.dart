@@ -22,4 +22,8 @@ class AppIcon {
   static const IconData edit = Icons.edit;
   static const IconData phone = Icons.call;
   static const IconData birthday = Icons.cake;
+  static const String language = 'assets/icons/language.png';
+  static const String logout = 'assets/icons/logout.png';
+  static const String noti = 'assets/icons/noti.png';
+  static const String version  = 'assets/icons/version.png';
 }

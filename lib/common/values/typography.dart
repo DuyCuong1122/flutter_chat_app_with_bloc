@@ -38,4 +38,8 @@ class AppTypography {
   
   static TextStyle s18w800 = GoogleFonts.lato(
       fontSize: 18, fontWeight: FontWeight.w800, color: AppColors.primaryColor);
+
+  static TextStyle s22w700 = GoogleFonts.lato(
+      fontSize: 22, fontWeight: FontWeight.w700, color: AppColors.primaryColor);
+  
 }
