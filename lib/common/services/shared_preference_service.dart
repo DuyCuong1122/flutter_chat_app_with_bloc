@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:chat_app/common/values/storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
@@ -12,6 +16,20 @@ class SharedPreferencesService {
 
   static Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
+  }
+
+  Future setUserValue(String name, String phone, Timestamp? birthday,{String? id, String? email}) async {
+    await SharedPreferencesService().setString(NAME, name);
+          if(email != null) await SharedPreferencesService().setString(EMAIL, email);
+          await SharedPreferencesService()
+              .setString(PHONE_NUMBER, phone);
+          await SharedPreferencesService().setString(
+              DATE_OF_BIRTH,
+              birthday != null
+                  ? '${birthday.toDate().day}/${birthday.toDate().month}/${birthday.toDate().year}'
+                  : '');
+          if (id != null) await SharedPreferencesService().setString(ID, id);
+          log('Set user value: $name, $phone, ${SharedPreferencesService().getString(DATE_OF_BIRTH)}');
   }
 
 Future<bool> setString(String key, String value) async {
@@ -42,5 +60,7 @@ Future<bool> setString(String key, String value) async {
     return await _preferences!.remove(key);
   }
 
-  
+  Future clear() async {
+    return await _preferences!.clear();
+  }
 }

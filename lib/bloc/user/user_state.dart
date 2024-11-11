@@ -12,3 +12,8 @@ class UserFailure extends UserState {
   final String message;
   UserFailure(this.message);
 }
+
+class UserUpdateSuccessState extends UserState {
+  final String message;
+  UserUpdateSuccessState(this.message);
+}

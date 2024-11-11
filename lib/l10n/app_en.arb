@@ -53,5 +53,5 @@
     "failedAddUser" : "User added failed",
     "successfullyUpdateUser" : "User is updated successfully",
     "failedUpdatedUser" : "User updated failed",
-    "failedGetUser" : "Fetching user data failed"
+    "failedGetUser" : "Fetching user data failed",
 }

@@ -1,14 +1,24 @@
+import 'package:chat_app/bloc/user/user_bloc.dart';
+import 'package:chat_app/bloc/user/user_event.dart';
+import 'package:chat_app/bloc/user/user_state.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/common/widgets/custom_textfield.dart';
 import 'package:chat_app/page/profile/widget/bubble_container.dart';
 import 'package:chat_app/page/profile/widget/camera_icon.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 class EditInfoScreen extends StatefulWidget {
-  const EditInfoScreen({super.key});
+  final String? name;
+  final String? phone;
+  final String? birthday;
+  const EditInfoScreen({super.key, this.name, this.phone, this.birthday});
 
   @override
   State<EditInfoScreen> createState() => _EditInfoScreenState();
@@ -26,7 +36,12 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
     fullNameController = TextEditingController();
     phoneController = TextEditingController();
     birthdayController = TextEditingController();
-    selectedDate = DateTime.now();
+    fullNameController.text = widget.name ?? "";
+    phoneController.text = widget.phone ?? "";
+    birthdayController.text = widget.birthday ?? "";
+    selectedDate = widget.birthday == null || widget.birthday == ""
+        ? DateTime.now()
+        : DateFormat("dd/MM/yyyy").parse(widget.birthday!);
   }
 
   @override
@@ -36,21 +51,22 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
     birthdayController.dispose();
     super.dispose();
   }
-Future<void> _selectDate(BuildContext context) async {
+
+  Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate, // Ngày mặc định
       firstDate: DateTime(2000), // Ngày bắt đầu
-      lastDate: DateTime(2100),  // Ngày kết thúc
+      lastDate: DateTime(2100), // Ngày kết thúc
     );
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
-        birthdayController.text = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+        birthdayController.text =
+            "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +77,7 @@ Future<void> _selectDate(BuildContext context) async {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             Container(
@@ -98,12 +115,45 @@ Future<void> _selectDate(BuildContext context) async {
                           color: AppColors.whiteColor,
                         ),
                       ),
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          translate.save,
-                          style: AppTypography.s16w500.copyWith(
-                            color: AppColors.whiteColor,
+                      BlocListener(
+                        bloc: context.read<UserBloc>(),
+                        listener: (context, state) {
+                          if (state is UserUpdateSuccessState) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(state.message),
+                                backgroundColor: AppColors.primaryColor,
+                              ),
+                            );
+                            EasyLoading.dismiss();
+                          }
+                          else if (state is UserFailure) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(state.message),
+                                backgroundColor: AppColors.errorColor,
+                              ),
+                            );
+                            EasyLoading.dismiss();
+                          }
+                          else if (state is UserLoading) {
+                            EasyLoading.show(maskType: EasyLoadingMaskType.black);
+                          }
+                        },
+                        child: InkWell(
+                          onTap: () => context.read<UserBloc>().add(
+                                UserUpdateEvent(
+                                  name: fullNameController.text,
+                                  phoneNumber: phoneController.text,
+                                  dateOfBirth:
+                                      Timestamp.fromDate(selectedDate!),
+                                ),
+                              ),
+                          child: Text(
+                            translate.save,
+                            style: AppTypography.s16w500.copyWith(
+                              color: AppColors.whiteColor,
+                            ),
                           ),
                         ),
                       ),
@@ -151,7 +201,8 @@ Future<void> _selectDate(BuildContext context) async {
                             ),
                             SizedBox(height: heightScreen * 0.054),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24),
                               child: Column(
                                 children: [
                                   CustomTextField(

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 abstract class UserEvent { }
 
 class UserAddEvent extends UserEvent {
@@ -10,7 +12,7 @@ class UserAddEvent extends UserEvent {
 class UserUpdateEvent extends UserEvent {
   final String? name;
   final String? phoneNumber;
-  final String? dateOfBirth;
+  final Timestamp? dateOfBirth;
   final String? id;
 
   UserUpdateEvent({ this.id, this.name, this.phoneNumber, this.dateOfBirth});

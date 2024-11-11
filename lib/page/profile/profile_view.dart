@@ -2,8 +2,10 @@ import 'package:chat_app/bloc/auth/auth_bloc.dart';
 import 'package:chat_app/bloc/auth/auth_event.dart';
 import 'package:chat_app/bloc/auth/auth_state.dart';
 import 'package:chat_app/bloc/locale/locale_cubit.dart';
+import 'package:chat_app/common/services/service.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
+import 'package:chat_app/common/values/storage.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/page/log_in/log_in_view.dart';
 import 'package:chat_app/page/profile/screen/edit_info_screen.dart';
@@ -92,7 +94,8 @@ class ProfileView extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Awesome chat',
+                                      SharedPreferencesService()
+                                          .getString(NAME),
                                       style: AppTypography.s22w700.copyWith(
                                         color: AppColors.blackColor,
                                       ),
@@ -101,7 +104,8 @@ class ProfileView extends StatelessWidget {
                                       height: 4,
                                     ),
                                     Text(
-                                      'awesomechat@gmail.com',
+                                      SharedPreferencesService()
+                                          .getString(EMAIL),
                                       style: AppTypography.s16w500.copyWith(
                                         color: AppColors.f99Color,
                                       ),
@@ -115,7 +119,19 @@ class ProfileView extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const EditInfoScreen()));
+                                                EditInfoScreen(
+                                                  name:
+                                                      SharedPreferencesService()
+                                                          .getString(NAME),
+                                                  phone:
+                                                      SharedPreferencesService()
+                                                          .getString(
+                                                              PHONE_NUMBER),
+                                                  birthday:
+                                                      SharedPreferencesService()
+                                                          .getString(
+                                                              DATE_OF_BIRTH),
+                                                )));
                                   },
                                   icon: const Icon(
                                     AppIcon.edit,

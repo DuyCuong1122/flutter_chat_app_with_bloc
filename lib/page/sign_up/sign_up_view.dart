@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:chat_app/bloc/auth/auth_bloc.dart';
 import 'package:chat_app/bloc/auth/auth_event.dart';
 import 'package:chat_app/bloc/auth/auth_state.dart';

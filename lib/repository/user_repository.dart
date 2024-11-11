@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:chat_app/common/config/firebase_api.dart';
 import 'package:chat_app/common/models/user.dart';
+import 'package:chat_app/common/services/service.dart';
+import 'package:chat_app/common/values/storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserRepository {
   Future addUser(String email, String name) async {
@@ -36,9 +39,9 @@ class UserRepository {
   }
 
   Future updateUser(
-      String? name, String? phoneNumber, String? dateOfBirth, String id) async {
+      String? name, String? phoneNumber, Timestamp? dateOfBirth) async {
     try {
-      final response = await FirebaseApi.updateDocument('users', id, {
+      final response = await FirebaseApi.updateDocument('users', SharedPreferencesService().getString(ID), {
         'name': name,
         'phoneNumber': phoneNumber,
         'dateOfBirth': dateOfBirth,

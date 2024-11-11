@@ -53,15 +53,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (user != null) {
         final userData = await userRepository.getUserByEmail(user.email!);
         if (userData != null) {
-          await SharedPreferencesService().setString(NAME, userData.name!);
-          await SharedPreferencesService().setString(EMAIL, userData.email!);
-          await SharedPreferencesService()
-              .setString(PHONE_NUMBER, userData.phoneNumber!);
-          await SharedPreferencesService().setString(
-              DATE_OF_BIRTH,
-              userData.dateOfBirth != null
-                  ? userData.dateOfBirth!.toDate().toString()
-                  : '');
+          await SharedPreferencesService().setUserValue(
+            userData.name ?? "",
+            userData.phoneNumber ?? "",
+            userData.dateOfBirth,
+            id: userData.id ?? '',
+            email :userData.email ?? '',
+          );
         }
         emit(AuthAuthenticated(user));
       } else {
@@ -96,7 +94,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLogoutRequested(
       AuthLogoutRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
+    SharedPreferencesService().clear();
     await authRepository.signOut();
+
     // await _clearLocalUser(); // Clear local storage
     emit(AuthLogout());
   }

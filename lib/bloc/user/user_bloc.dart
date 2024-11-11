@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/bloc/user/user_state.dart';
+import 'package:chat_app/common/services/service.dart';
 import 'package:chat_app/repository/user_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,13 +39,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       UserUpdateEvent event, Emitter<UserState> emit) async {
     emit(UserLoading());
     try {
-      final user = await userRepository.updateUser(
-          event.name, event.phoneNumber, event.dateOfBirth, event.id!);
-      if (user != null) {
-        emit(UserSuccess());
-      } else {
-        emit(UserFailure(appLocalizations!.failedUpdatedUser));
-      }
+      await userRepository.updateUser(
+          event.name, event.phoneNumber, event.dateOfBirth);
+
+      await SharedPreferencesService().setUserValue(
+          event.name ?? "", event.phoneNumber ?? "", event.dateOfBirth);
+      emit(UserUpdateSuccessState(appLocalizations!.successfullyUpdateUser));
     } catch (e) {
       emit(UserFailure(appLocalizations!.failedUpdatedUser));
     }
