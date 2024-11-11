@@ -31,9 +31,9 @@ class UserRepository {
     return null;
   }
 
-  Future updateUser (String? name, String? phoneNumber, String? dateOfBirth)async{
+  Future updateUser (String? name, String? phoneNumber, String? dateOfBirth, String id)async{
     try {
-      final response = await FirebaseApi.updateDocument('users', 'id', {
+      final response = await FirebaseApi.updateDocument('users', id, {
         'name': name,
         'phoneNumber': phoneNumber,
         'dateOfBirth': dateOfBirth,

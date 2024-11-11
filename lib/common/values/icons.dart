@@ -20,8 +20,8 @@ class AppIcon {
   static const String newMessage = 'assets/icons/new_message.png';
   static const String profile = 'assets/icons/profile.png';
   static const IconData edit = Icons.edit;
-  static const IconData phone = Icons.call;
-  static const IconData birthday = Icons.cake;
+  static const String phone = 'assets/icons/telephone.png';
+  static const String birthday = 'assets/icons/birthday.png';
   static const String language = 'assets/icons/language.png';
   static const String logout = 'assets/icons/logout.png';
   static const String noti = 'assets/icons/noti.png';

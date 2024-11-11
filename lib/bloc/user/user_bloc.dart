@@ -36,7 +36,7 @@ class UserBloc extends Bloc<UserEvent,UserState>{
   Future<void> _onUpdateUser(UserUpdateEvent event, Emitter<UserState> emit) async {
     emit(UserLoading());
     try {
-      final user = await userRepository.updateUser( event.name, event.phoneNumber, event.dateOfBirth);
+      final user = await userRepository.updateUser( event.name, event.phoneNumber, event.dateOfBirth, event.id!);
       if (user != null) {
         emit(UserSuccess());
       } else {

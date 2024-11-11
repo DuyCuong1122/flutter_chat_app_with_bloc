@@ -4,22 +4,27 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final String labelText;
-  final IconData suffixIcon;
+  final IconData? suffixIcon;
+  final String? suffixAssetIcon;
   final TextEditingController controller;
   final bool ispassword;
   final String? errorText;
   final void Function(String)? onChanged;
   final String? hintText;
+  final bool? readOnly;
+  final Function()? onTap;
 
   const CustomTextField({
     super.key,
     required this.labelText,
-    required this.suffixIcon,
+    this.suffixIcon,
     required this.controller,
     this.ispassword = false,
     this.onChanged,
     this.errorText,
     this.hintText,
+    this.suffixAssetIcon,
+    this.readOnly = false, this.onTap,
   });
 
   @override
@@ -43,11 +48,9 @@ class CustomTextField extends StatelessWidget {
               labelText: labelText.toUpperCase(),
               labelStyle:
                   AppTypography.s14w500.copyWith(color: AppColors.normalColor),
-              suffixIcon: Icon(
-                suffixIcon,
-                size: 20,
-                color: AppColors.primaryColor,
-              ),
+              suffixIcon: suffixIcon != null
+                  ? Icon(suffixIcon, size: 20, color: AppColors.primaryColor)
+                  : Image.asset(suffixAssetIcon!),
               border: InputBorder.none,
               hintText: hintText,
               hintStyle:
@@ -55,6 +58,8 @@ class CustomTextField extends StatelessWidget {
             ),
             style: AppTypography.s18w500.copyWith(color: AppColors.blackColor),
             onChanged: onChanged,
+            readOnly: readOnly!,
+            onTap: onTap
           ),
         ),
         if (errorText != null) ...[
