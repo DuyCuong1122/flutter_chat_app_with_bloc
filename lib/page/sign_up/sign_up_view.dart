@@ -209,6 +209,7 @@ class _SignUpViewState extends State<SignUpView> {
                 CustomContainerSignInOut(
                   title: AppLocalizations.of(context)!.register,
                   onTap: () {
+                    FocusScope.of(context).unfocus();
                     isFormValid
                         ? context.read<AuthBloc>().add(AuthSignUpRequested(
                               email: emailController.text,

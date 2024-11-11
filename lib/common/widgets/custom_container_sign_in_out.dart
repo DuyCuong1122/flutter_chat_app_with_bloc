@@ -17,10 +17,7 @@ class CustomContainerSignInOut extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        FocusScope.of(context).unfocus();
-        enable ? onTap : null;
-      },
+      onTap: enable ? onTap : null,
       child: Container(
         height: 52,
         decoration: BoxDecoration(

@@ -111,6 +111,7 @@ class _FormLogInState extends State<FormLogIn> {
             CustomContainerSignInOut(
               title: localizations.logIn,
               onTap: () {
+                FocusScope.of(context).unfocus();
                 if (emailError == null && passwordError == null) {
                   context.read<AuthBloc>().add(AuthLoginRequested(
                         email: emailController.text,
