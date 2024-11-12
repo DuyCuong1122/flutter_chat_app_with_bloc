@@ -54,4 +54,5 @@
     "successfullyUpdateUser" : "User is updated successfully",
     "failedUpdatedUser" : "User updated failed",
     "failedGetUser" : "Fetching user data failed",
+    "successfullyAddFriendRequest" : "Friend request sent successfully"
 }

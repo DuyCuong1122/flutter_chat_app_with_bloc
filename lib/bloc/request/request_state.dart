@@ -7,18 +7,11 @@ class RequestInitial extends RequestState {}
 class RequestLoading extends RequestState {}
 
 class RequestSuccess extends RequestState {
-  final String message;
-  RequestSuccess(this.message);
 }
 
 class RequestFailure extends RequestState {
   final String message;
   RequestFailure(this.message);
-}
-
-class RequestGetAllSuccessState extends RequestState {
-  final List<Request> requests;
-  RequestGetAllSuccessState(this.requests);
 }
 
 class RequestGetAllSentSuccessState extends RequestState {
@@ -31,14 +24,8 @@ class RequestGetAllReceivedSuccessState extends RequestState {
   RequestGetAllReceivedSuccessState(this.requests);
 }
 
-class RequestUpdateSuccessState extends RequestState {
-  final String message;
-  RequestUpdateSuccessState(this.message);
-}
-
 class RequestDeleteSuccessState extends RequestState {
-  final String message;
-  RequestDeleteSuccessState(this.message);
+
 } 
 
 class RequestCreateSuccessState extends RequestState {
@@ -47,17 +34,6 @@ class RequestCreateSuccessState extends RequestState {
 }
 
 class RequestAcceptSuccessState extends RequestState {
-  final String message;
-  RequestAcceptSuccessState(this.message);
-}
 
-class RequestDeclineSuccessState extends RequestState {
-  final String message;
-  RequestDeclineSuccessState(this.message);
-}
-
-class RequestCancelSuccessState extends RequestState {
-  final String message;
-  RequestCancelSuccessState(this.message);
 }
 

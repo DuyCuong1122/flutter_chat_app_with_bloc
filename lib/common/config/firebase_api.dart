@@ -164,4 +164,21 @@ class FirebaseApi {
     }
   }
 
+  static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getDocumentsByValue(
+      String collection, String field, String value) async {
+    try {
+      final querySnapshot =
+          await db.collection(collection).where(field, isEqualTo: value).get();
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs;
+      } else {
+        log('No documents found with $field: $value');
+        return [];
+      }
+    } catch (e) {
+      log('Error retrieving documents: $e');
+      return [];
+    } 
+  }
+
 }
