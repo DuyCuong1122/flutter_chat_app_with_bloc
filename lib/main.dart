@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:chat_app/bloc/auth/auth_bloc.dart';
 import 'package:chat_app/bloc/locale/locale_cubit.dart';
 import 'package:chat_app/bloc/user/user_bloc.dart';
-import 'package:chat_app/common/services/shared_preference_service.dart';
+import 'package:chat_app/database/services/shared_preference_service.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/page/splash_view.dart';
 import 'package:chat_app/repository/auth_repository.dart';

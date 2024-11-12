@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:chat_app/common/config/firebase_api.dart';
 import 'package:chat_app/database/models/user.dart';
-import 'package:chat_app/common/services/service.dart';
+import 'package:chat_app/database/services/service.dart';
 import 'package:chat_app/common/values/storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

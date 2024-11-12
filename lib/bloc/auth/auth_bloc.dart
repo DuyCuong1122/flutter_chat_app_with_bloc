@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:chat_app/common/services/shared_preference_service.dart';
+import 'package:chat_app/database/services/shared_preference_service.dart';
 import 'package:chat_app/repository/auth_repository.dart';
 import 'package:chat_app/repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';

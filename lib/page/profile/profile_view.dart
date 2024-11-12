@@ -2,7 +2,7 @@ import 'package:chat_app/bloc/auth/auth_bloc.dart';
 import 'package:chat_app/bloc/auth/auth_event.dart';
 import 'package:chat_app/bloc/auth/auth_state.dart';
 import 'package:chat_app/bloc/locale/locale_cubit.dart';
-import 'package:chat_app/common/services/service.dart';
+import 'package:chat_app/database/services/service.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/storage.dart';

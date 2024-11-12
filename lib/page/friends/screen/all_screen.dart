@@ -1,7 +1,7 @@
 import 'package:chat_app/bloc/user/user_bloc.dart';
 import 'package:chat_app/bloc/user/user_state.dart';
 import 'package:chat_app/database/models/user.dart';
-import 'package:chat_app/common/services/service.dart';
+import 'package:chat_app/database/services/service.dart';
 import 'package:chat_app/common/values/storage.dart';
 import 'package:chat_app/page/friends/widget/character_container.dart';
 import 'package:chat_app/page/friends/widget/friend_item.dart';
