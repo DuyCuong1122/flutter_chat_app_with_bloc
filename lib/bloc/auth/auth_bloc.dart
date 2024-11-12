@@ -50,7 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (user != null) {
         final userData = await userRepository.getUserByEmail(user.email!);
         if (userData != null) {
-          log('User data: ' + userData.toString());
+          log('User data: $userData');
           await SharedPreferencesService().setUserValue(
             userData.name ?? "",
             userData.phoneNumber ?? "",

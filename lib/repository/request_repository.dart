@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:chat_app/common/config/firebase_api.dart';
-import 'package:chat_app/common/models/request.dart';
+import 'package:chat_app/database/models/request.dart';
 
 class RequestRepository {
   Future createRequest(Request request) async {

@@ -1,9 +1,9 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:chat_app/common/database/database_service.dart';
-import '../models/request.dart';
+import 'package:chat_app/database/splite_db/database_service.dart';
+import '../models/message.dart';
 
-class RequestDb {
-  final String tableName = 'requests';
+class MessageDb {
+  final String tableName = 'messages';
 
   Future createTable(Database db) async {
     await db.execute('''
@@ -11,45 +11,48 @@ class RequestDb {
         id TEXT NOT NULL PRIMARY KEY,
         fromUId TEXT,
         toUId TEXT,
+        lastMessage TEXT,
+        lastTime TEXT,
+        isRead INTEGER,
         fromName TEXT,
         toName TEXT,
-        createdAt TEXT,
-        FOREIGN KEY(fromUId) REFERENCES users(id),
-        FOREIGN KEY(toUId) REFERENCES users(id)
+        unreadCount INTEGER
+        ForeignKey(fromUId) REFERENCES users(id),
+        ForeignKey(toUId) REFERENCES users(id)
       )
     ''');
   }
 
-  Future<void> insertRequest(Request request) async {
+  Future<void> insertMessage(Message message) async {
     final database = await DatabaseService().db;
     await database.insert(
       tableName,
-      request.toFirestore(),
+      {...message.toFirestore(), 'lastTime': message.lastTime.toString()},
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<Request?> getRequest(String id) async {
+  Future<Message?> getMessage(String id) async {
     final database = await DatabaseService().db;
     final response = await database.query(
       tableName,
       where: 'id = ?',
       whereArgs: [id],
     );
-    return response.isNotEmpty ? Request.fromMap(response.first) : null;
+    return response.isNotEmpty ? Message.fromMap(response.first) : null;
   }
 
-  Future updateRequest(Request request) async {
+  Future updateMessage(Message message) async {
     final database = await DatabaseService().db;
     await database.update(
       tableName,
-      request.toFirestore(),
+      message.toFirestore(),
       where: 'id = ?',
-      whereArgs: [request.id],
+      whereArgs: [message.id],
     );
   }
 
-  Future deleteRequest(String id) async {
+  Future deleteMessage(String id) async {
     final database = await DatabaseService().db;
     await database.delete(
       tableName,
@@ -58,13 +61,13 @@ class RequestDb {
     );
   }
 
-  Future<List<Request>> getAllRequests() async {
+  Future<List<Message>> getAllMessages() async {
     final database = await DatabaseService().db;
     final response = await database.query(tableName);
-    return response.map((e) => Request.fromMap(e)).toList();
+    return response.map((e) => Message.fromMap(e)).toList();
   }
 
-  Future<void> deleteAllRequests() async {
+  Future<void> deleteAllMessages() async {
     final database = await DatabaseService().db;
     await database.delete(tableName);
   }

@@ -1,7 +1,7 @@
 
 import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/bloc/user/user_state.dart';
-import 'package:chat_app/common/models/user.dart';
+import 'package:chat_app/database/models/user.dart';
 import 'package:chat_app/common/services/service.dart';
 import 'package:chat_app/repository/user_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

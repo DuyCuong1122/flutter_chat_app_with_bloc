@@ -1,4 +1,4 @@
-import 'package:chat_app/common/models/model.dart';
+import 'package:chat_app/database/models/model.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';

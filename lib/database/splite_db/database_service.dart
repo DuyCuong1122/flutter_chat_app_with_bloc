@@ -1,4 +1,4 @@
-import 'package:chat_app/common/database/chat_app_db.dart';
+import 'package:chat_app/database/splite_db/chat_app_db.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

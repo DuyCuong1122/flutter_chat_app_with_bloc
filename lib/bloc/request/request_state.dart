@@ -1,4 +1,4 @@
-import 'package:chat_app/common/models/request.dart';
+import 'package:chat_app/database/models/request.dart';
 
 abstract class RequestState {}
 

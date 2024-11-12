@@ -1,58 +1,54 @@
+import 'package:chat_app/database/splite_db/database_service.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:chat_app/common/database/database_service.dart';
-import '../models/message.dart';
 
-class MessageDb {
-  final String tableName = 'messages';
+import '../models/model.dart';
+
+class UserDb {
+  final tableName = 'users';
 
   Future createTable(Database db) async {
     await db.execute('''
       CREATE TABLE $tableName(
         id TEXT NOT NULL PRIMARY KEY,
-        fromUId TEXT,
-        toUId TEXT,
-        lastMessage TEXT,
-        lastTime TEXT,
-        isRead INTEGER,
-        fromName TEXT,
-        toName TEXT,
-        unreadCount INTEGER
-        ForeignKey(fromUId) REFERENCES users(id),
-        ForeignKey(toUId) REFERENCES users(id)
+        name TEXT,
+        email TEXT NOT NULL,
+        phoneNumber TEXT,
+        dateOfBirth TEXT,
+        listFriends TEXT,
       )
     ''');
   }
 
-  Future<void> insertMessage(Message message) async {
+  Future<void> insertUser(User userData) async {
     final database = await DatabaseService().db;
     await database.insert(
       tableName,
-      {...message.toFirestore(), 'lastTime': message.lastTime.toString()},
+      userData.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<Message?> getMessage(String id) async {
+  Future<User?> getUser(String id) async {
     final database = await DatabaseService().db;
     final response = await database.query(
       tableName,
       where: 'id = ?',
       whereArgs: [id],
     );
-    return response.isNotEmpty ? Message.fromMap(response.first) : null;
+    return response.isNotEmpty ? User.fromMap(response.first) : null;
   }
 
-  Future updateMessage(Message message) async {
+  Future updateUser(User userData) async {
     final database = await DatabaseService().db;
     await database.update(
       tableName,
-      message.toFirestore(),
+      userData.toFirestore(),
       where: 'id = ?',
-      whereArgs: [message.id],
+      whereArgs: [userData.id],
     );
   }
 
-  Future deleteMessage(String id) async {
+  Future deleteUser(String id) async {
     final database = await DatabaseService().db;
     await database.delete(
       tableName,
@@ -61,13 +57,13 @@ class MessageDb {
     );
   }
 
-  Future<List<Message>> getAllMessages() async {
+  Future<List<User>> getAllUsers() async {
     final database = await DatabaseService().db;
     final response = await database.query(tableName);
-    return response.map((e) => Message.fromMap(e)).toList();
+    return response.map((e) => User.fromMap(e)).toList();
   }
 
-  Future<void> deleteAllMessages() async {
+  Future<void> deleteAllUsers() async {
     final database = await DatabaseService().db;
     await database.delete(tableName);
   }

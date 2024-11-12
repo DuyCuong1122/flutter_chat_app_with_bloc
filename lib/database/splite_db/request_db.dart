@@ -1,54 +1,55 @@
-import 'package:chat_app/common/database/database_service.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:chat_app/database/splite_db/database_service.dart';
+import '../models/request.dart';
 
-import '../models/model.dart';
-
-class UserDb {
-  final tableName = 'users';
+class RequestDb {
+  final String tableName = 'requests';
 
   Future createTable(Database db) async {
     await db.execute('''
       CREATE TABLE $tableName(
         id TEXT NOT NULL PRIMARY KEY,
-        name TEXT,
-        email TEXT NOT NULL,
-        phoneNumber TEXT,
-        dateOfBirth TEXT,
-        listFriends TEXT,
+        fromUId TEXT,
+        toUId TEXT,
+        fromName TEXT,
+        toName TEXT,
+        createdAt TEXT,
+        FOREIGN KEY(fromUId) REFERENCES users(id),
+        FOREIGN KEY(toUId) REFERENCES users(id)
       )
     ''');
   }
 
-  Future<void> insertUser(User userData) async {
+  Future<void> insertRequest(Request request) async {
     final database = await DatabaseService().db;
     await database.insert(
       tableName,
-      userData.toMap(),
+      request.toFirestore(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<User?> getUser(String id) async {
+  Future<Request?> getRequest(String id) async {
     final database = await DatabaseService().db;
     final response = await database.query(
       tableName,
       where: 'id = ?',
       whereArgs: [id],
     );
-    return response.isNotEmpty ? User.fromMap(response.first) : null;
+    return response.isNotEmpty ? Request.fromMap(response.first) : null;
   }
 
-  Future updateUser(User userData) async {
+  Future updateRequest(Request request) async {
     final database = await DatabaseService().db;
     await database.update(
       tableName,
-      userData.toFirestore(),
+      request.toFirestore(),
       where: 'id = ?',
-      whereArgs: [userData.id],
+      whereArgs: [request.id],
     );
   }
 
-  Future deleteUser(String id) async {
+  Future deleteRequest(String id) async {
     final database = await DatabaseService().db;
     await database.delete(
       tableName,
@@ -57,13 +58,13 @@ class UserDb {
     );
   }
 
-  Future<List<User>> getAllUsers() async {
+  Future<List<Request>> getAllRequests() async {
     final database = await DatabaseService().db;
     final response = await database.query(tableName);
-    return response.map((e) => User.fromMap(e)).toList();
+    return response.map((e) => Request.fromMap(e)).toList();
   }
 
-  Future<void> deleteAllUsers() async {
+  Future<void> deleteAllRequests() async {
     final database = await DatabaseService().db;
     await database.delete(tableName);
   }

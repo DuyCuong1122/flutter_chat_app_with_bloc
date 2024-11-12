@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:chat_app/common/database/database_service.dart';
+import 'package:chat_app/database/splite_db/database_service.dart';
 import '../models/message_content.dart';
 
 class MessageContentDb {
