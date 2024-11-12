@@ -1,8 +1,5 @@
 import 'dart:developer';
-
-import 'package:chat_app/common/models/user.dart';
 import 'package:chat_app/common/services/shared_preference_service.dart';
-import 'package:chat_app/common/values/storage.dart';
 import 'package:chat_app/repository/auth_repository.dart';
 import 'package:chat_app/repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,12 +50,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (user != null) {
         final userData = await userRepository.getUserByEmail(user.email!);
         if (userData != null) {
+          log('User data: ' + userData.toString());
           await SharedPreferencesService().setUserValue(
             userData.name ?? "",
             userData.phoneNumber ?? "",
             userData.dateOfBirth,
             id: userData.id ?? '',
             email :userData.email ?? '',
+            listFriends: userData.listFriends ?? [],
           );
         }
         emit(AuthAuthenticated(user));

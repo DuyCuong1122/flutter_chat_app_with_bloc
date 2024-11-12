@@ -5,7 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
-  static final SharedPreferencesService _instance = SharedPreferencesService._internal();
+  static final SharedPreferencesService _instance =
+      SharedPreferencesService._internal();
   static SharedPreferences? _preferences;
 
   factory SharedPreferencesService() {
@@ -18,21 +19,24 @@ class SharedPreferencesService {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  Future setUserValue(String name, String phone, Timestamp? birthday,{String? id, String? email}) async {
+  Future setUserValue(String name, String phone, Timestamp? birthday,
+      {String? id, String? email, List<String>? listFriends}) async {
     await SharedPreferencesService().setString(NAME, name);
-          if(email != null) await SharedPreferencesService().setString(EMAIL, email);
-          await SharedPreferencesService()
-              .setString(PHONE_NUMBER, phone);
-          await SharedPreferencesService().setString(
-              DATE_OF_BIRTH,
-              birthday != null
-                  ? '${birthday.toDate().day}/${birthday.toDate().month}/${birthday.toDate().year}'
-                  : '');
-          if (id != null) await SharedPreferencesService().setString(ID, id);
-          log('Set user value: $name, $phone, ${SharedPreferencesService().getString(DATE_OF_BIRTH)}');
+    if (email != null) await SharedPreferencesService().setString(EMAIL, email);
+    await SharedPreferencesService().setString(PHONE_NUMBER, phone);
+    await SharedPreferencesService().setString(
+        DATE_OF_BIRTH,
+        birthday != null
+            ? '${birthday.toDate().day}/${birthday.toDate().month}/${birthday.toDate().year}'
+            : '');
+    if (id != null) await SharedPreferencesService().setString(ID, id);
+    if (listFriends != null) {
+      await SharedPreferencesService().setList(LIST_FRIENDS, listFriends);
+    }
+    log('Set user value: $name, $phone, ${SharedPreferencesService().getString(DATE_OF_BIRTH)}');
   }
 
-Future<bool> setString(String key, String value) async {
+  Future<bool> setString(String key, String value) async {
     return await _preferences!.setString(key, value);
   }
 

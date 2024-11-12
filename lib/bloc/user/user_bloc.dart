@@ -1,7 +1,7 @@
-import 'dart:developer';
 
 import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/bloc/user/user_state.dart';
+import 'package:chat_app/common/models/user.dart';
 import 'package:chat_app/common/services/service.dart';
 import 'package:chat_app/repository/user_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,19 +17,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }) : super(UserInitial()) {
     on<UserAddEvent>(_onAddUser);
     on<UserUpdateEvent>(_onUpdateUser);
-    // on<UserGetAllEvent>(_onGetAllUser);
+    on<UserGetAllEvent>(_onGetAllUser);
     on<UserGetEvent>(_onGetUser);
   }
 
   Future<void> _onAddUser(UserAddEvent event, Emitter<UserState> emit) async {
     emit(UserLoading());
     try {
-      final user = await userRepository.addUser(event.email, event.name);
-      if (user != null) {
-        emit(UserSuccess());
-      } else {
-        emit(UserFailure(appLocalizations!.failedAddUser));
-      }
+      await userRepository.addUser(event.email, event.name);
+      emit(UserSuccess());
     } catch (e) {
       emit(UserFailure(appLocalizations!.failedAddUser));
     }
@@ -50,19 +46,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
-  // Future<void> _onGetAllUser(UserGetAllEvent event, Emitter<UserState> emit) async {
-  //   emit(UserLoading());
-  //   try {
-  //     final users = await userRepository.ge();
-  //     if (users != null) {
-  //       emit(UserSuccess(users));
-  //     } else {
-  //       emit(UserFailure());
-  //     }
-  //   } catch (e) {
-  //     emit(UserFailure(appLocalizations!.failedSignUp));
-  //   }
-  // }
+  Future<void> _onGetAllUser(
+      UserGetAllEvent event, Emitter<UserState> emit) async {
+    emit(UserLoading());
+    try {
+      List<User> listUsers = [];
+      final users = await userRepository.getAllUsers();
+      listUsers.addAll(users);
+      emit(UserGetAllSuccessState(listUsers));
+    } catch (e) {
+      emit(UserFailure(appLocalizations!.failedSignUp));
+    }
+  }
 
   Future<void> _onGetUser(UserGetEvent event, Emitter<UserState> emit) async {
     emit(UserLoading());

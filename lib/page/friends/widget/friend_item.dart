@@ -8,13 +8,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class FriendItem extends StatelessWidget {
   final User user;
   final String type;
-  const FriendItem({super.key, required this.user, this.type = ''});
+  final bool isFriend;
+  const FriendItem({
+    super.key,
+    required this.user,
+    this.type = '',
+    this.isFriend = false,
+  });
 
   Widget buildButtonOption(String type, BuildContext context) {
-    if (type == AppLocalizations.of(context)!.all) {
+    if (type == AppLocalizations.of(context)!.all && isFriend) {
       return Container(
-        height: 27,
-        width: 73,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: AppColors.primaryColor,
@@ -54,7 +59,8 @@ class FriendItem extends StatelessWidget {
         child: Center(
           child: Text(
             AppLocalizations.of(context)!.cancel,
-            style: AppTypography.s14w500.copyWith(color: AppColors.primaryColor),
+            style:
+                AppTypography.s14w500.copyWith(color: AppColors.primaryColor),
           ),
         ),
       );
@@ -91,7 +97,7 @@ class FriendItem extends StatelessWidget {
           Expanded(
               child: Text(
             user.name.toString(),
-            style: AppTypography.s16w800,
+            style: AppTypography.s16w800.copyWith(color: AppColors.blackColor),
           )),
           buildButtonOption(type, context),
         ],

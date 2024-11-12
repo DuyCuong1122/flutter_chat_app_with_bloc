@@ -52,4 +52,14 @@ class UserRepository {
     }
     return null;
   }
+
+  Future<List<User>> getAllUsers() async {
+    try {
+      final response = await FirebaseApi.getAllDocuments('users');
+      return response.map((doc) => User.fromFirestore(doc)).toList();
+    } catch (e) {
+      log('Error getting all users: $e');
+    }
+    return [];
+  }
 }

@@ -134,17 +134,15 @@ class FirebaseApi {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getAllDocuments(
+  static Future<List<DocumentSnapshot>> getAllDocuments(
       String collectionName) async {
     try {
       // Truy vấn tất cả các document trong collection
       QuerySnapshot querySnapshot =
           await FirebaseFirestore.instance.collection(collectionName).get();
 
-      // Chuyển đổi kết quả thành một danh sách các Map (dữ liệu JSON)
-      List<Map<String, dynamic>> documents = querySnapshot.docs
-          .map((doc) => doc.data() as Map<String, dynamic>)
-          .toList();
+      // Trả về danh sách các DocumentSnapshot
+      List<DocumentSnapshot> documents = querySnapshot.docs;
 
       return documents; // Trả về danh sách các documents
     } catch (e) {

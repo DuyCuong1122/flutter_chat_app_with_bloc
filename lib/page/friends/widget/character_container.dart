@@ -14,7 +14,7 @@ class CharacterContainer extends StatelessWidget {
       color: AppColors.f6Color,
       child: Text(
         character.toUpperCase(),
-        style: AppTypography.s16w800,
+        style: AppTypography.s16w800.copyWith(color: AppColors.blackColor),
       ),
     );
   }

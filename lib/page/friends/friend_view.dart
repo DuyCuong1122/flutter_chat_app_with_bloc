@@ -1,8 +1,12 @@
+import 'package:chat_app/bloc/user/user_bloc.dart';
+import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/common/widgets/custom_search_bar.dart';
+import 'package:chat_app/page/friends/screen/all_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FriendView extends StatelessWidget {
@@ -103,15 +107,20 @@ class FriendView extends StatelessWidget {
                                         .request
                                         .toUpperCase()),
                               ],
+                              onTap: (value) {
+                                if (value == 1){
+                                  context.read<UserBloc>().add(UserGetAllEvent());
+                                }
+                              },
                             ),
-                            const Expanded(
+                             Expanded(
                               child: Padding(
-                                padding: EdgeInsets.only(top: 23),
+                                padding: const EdgeInsets.only(top: 8),
                                 child: TabBarView(
                                   children: [
-                                    Center(child: Text("All Friends Content")),
-                                    Center(child: Text("Requests Content")),
-                                    Center(child: Text("Blocked Content")),
+                                    const Center(child: Text("All Friends Content")),
+                                    AllScreen(),
+                                    const Center(child: Text("Blocked Content")),
                                   ],
                                 ),
                               ),
