@@ -3,14 +3,13 @@ import 'package:chat_app/bloc/user/user_state.dart';
 import 'package:chat_app/database/models/user.dart';
 import 'package:chat_app/database/services/service.dart';
 import 'package:chat_app/common/values/storage.dart';
+import 'package:chat_app/page/friends/widget/all_friend_item.dart';
 import 'package:chat_app/page/friends/widget/character_container.dart';
-import 'package:chat_app/page/friends/widget/friend_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AllScreen extends StatelessWidget {
-   AllScreen({super.key});
+  AllScreen({super.key});
   String? userId = SharedPreferencesService().getString(ID);
   List<String> friendIds = SharedPreferencesService().getList(LIST_FRIENDS);
 
@@ -22,7 +21,7 @@ class AllScreen extends StatelessWidget {
 
     Map<String, List<User>> groupedUsers = {};
     for (var user in users) {
-      String initial = initialName(user.name!); 
+      String initial = initialName(user.name!);
       if (groupedUsers.containsKey(initial)) {
         groupedUsers[initial]!.add(user);
       } else {
@@ -58,11 +57,7 @@ class AllScreen extends StatelessWidget {
                     CharacterContainer(character: initial),
                     ...userList.map((user) {
                       final isFriend = friendIds.contains(user.id);
-                      return FriendItem(
-                          user: user,
-                          type: AppLocalizations.of(context)!.all,
-                          isFriend: isFriend
-                        );
+                      return AllFriendItem(user: user, isFriend: isFriend);
                     }),
                   ],
                 );

@@ -54,5 +54,6 @@
     "successfullyUpdateUser" : "Cập nhật người dùng thành công",
     "failedUpdatedUser" : "Cập nhật người dùng thất bại",
     "failedGetUser" : "Lỗi lấy thông tin người dùng!",
-    "successfullyAddFriendRequest" : "Gửi lời mời kết bạn thành công!"
+    "successfullyAddFriendRequest" : "Gửi lời mời kết bạn thành công!",
+    "successfullyAcceptFriend" : "Đồng ý kết bạn thành công"
 }

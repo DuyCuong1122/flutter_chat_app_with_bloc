@@ -7,6 +7,28 @@ import 'package:chat_app/common/values/storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserRepository {
+  Future addFriend(String id) async {
+    try {
+      Future.wait([
+        FirebaseApi.addValueToArrayField(
+          'users',
+          id,
+          'listFriends',
+          SharedPreferencesService().getString(ID),
+        ),
+        FirebaseApi.addValueToArrayField(
+          'users',
+          SharedPreferencesService().getString(ID),
+          'listFriends',
+          id,
+        )
+      ]);
+    } catch (e) {
+      log('Error adding friend: $e');
+    }
+    return null;
+  }
+
   Future addUser(String email, String name) async {
     // Add user to database
     try {
@@ -41,7 +63,8 @@ class UserRepository {
   Future updateUser(
       String? name, String? phoneNumber, Timestamp? dateOfBirth) async {
     try {
-      final response = await FirebaseApi.updateDocument('users', SharedPreferencesService().getString(ID), {
+      final response = await FirebaseApi.updateDocument(
+          'users', SharedPreferencesService().getString(ID), {
         'name': name,
         'phoneNumber': phoneNumber,
         'dateOfBirth': dateOfBirth,

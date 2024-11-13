@@ -83,28 +83,17 @@ class FirebaseApi {
   static Future<bool> addValueToArrayField(
       String collection, String id, String fieldName, String valueToAdd) async {
     try {
-      EasyLoading.show(status: "Đang xử lí...");
-      final querySnapshot = await getQuerySnapshot(collection, 'id', id);
-      if (querySnapshot.docs.isEmpty) {
-        log('No document found with id: $id');
-        return false;
-      }
-
-      final docId = querySnapshot.docs.first.id;
-      final docRef = db.collection(collection).doc(docId);
+      final docRef = db.collection(collection).doc(id);
 
       await docRef.update({
         fieldName: FieldValue.arrayUnion([valueToAdd]),
       });
-
-      log('Value added to array field $fieldName in document $docId.');
+      log('Value added to array field $fieldName in document $id.');
       return true;
     } catch (e) {
       log('Error adding value to array field: $e');
       return false;
-    } finally {
-      EasyLoading.dismiss();
-    }
+    } 
   }
 
   static Future<bool> removeValueFromArrayField(String collection, String id,

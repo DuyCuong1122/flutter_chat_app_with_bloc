@@ -1,3 +1,5 @@
+import 'package:chat_app/bloc/request/request_bloc.dart';
+import 'package:chat_app/bloc/request/request_event.dart';
 import 'package:chat_app/bloc/user/user_bloc.dart';
 import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/common/values/colors.dart';
@@ -108,19 +110,28 @@ class FriendView extends StatelessWidget {
                                         .toUpperCase()),
                               ],
                               onTap: (value) {
-                                if (value == 1){
-                                  context.read<UserBloc>().add(UserGetAllEvent());
+                                if (value == 1) {
+                                  context
+                                      .read<UserBloc>()
+                                      .add(UserGetAllEvent());
+                                }
+                                if (value == 2 || value == 1) {
+                                  context
+                                      .read<RequestBloc>()
+                                      .add(RequestGetAllEvent());
                                 }
                               },
                             ),
-                             Expanded(
+                            Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 8),
                                 child: TabBarView(
                                   children: [
-                                    const Center(child: Text("All Friends Content")),
+                                    const Center(
+                                        child: Text("All Friends Content")),
                                     AllScreen(),
-                                    const Center(child: Text("Blocked Content")),
+                                    const Center(
+                                        child: Text("Blocked Content")),
                                   ],
                                 ),
                               ),

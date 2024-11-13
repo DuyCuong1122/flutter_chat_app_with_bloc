@@ -14,14 +14,10 @@ class RequestFailure extends RequestState {
   RequestFailure(this.message);
 }
 
-class RequestGetAllSentSuccessState extends RequestState {
-  final List<Request> requests;
-  RequestGetAllSentSuccessState(this.requests);
-}
-
-class RequestGetAllReceivedSuccessState extends RequestState {
-  final List<Request> requests;
-  RequestGetAllReceivedSuccessState(this.requests);
+class RequestGetAllSuccessState extends RequestState {
+  final List<Request> sendRequest;
+  final List<Request> receivedRequest;
+  RequestGetAllSuccessState( this.sendRequest, this.receivedRequest);
 }
 
 class RequestDeleteSuccessState extends RequestState {
@@ -34,6 +30,7 @@ class RequestCreateSuccessState extends RequestState {
 }
 
 class RequestAcceptSuccessState extends RequestState {
-
+  final String message;
+  RequestAcceptSuccessState(this.message);
 }
 

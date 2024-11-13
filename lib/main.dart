@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:chat_app/bloc/auth/auth_bloc.dart';
 import 'package:chat_app/bloc/locale/locale_cubit.dart';
+import 'package:chat_app/bloc/request/request_bloc.dart';
+import 'package:chat_app/bloc/request_action/request_action_bloc.dart';
 import 'package:chat_app/bloc/user/user_bloc.dart';
 import 'package:chat_app/database/services/shared_preference_service.dart';
 import 'package:chat_app/common/values/colors.dart';
@@ -83,6 +85,11 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LocaleCubit(), // Khởi tạo LocaleCubit
+        ),
+        BlocProvider(
+            create: (context) => RequestBloc(AppLocalizations.of(context))),
+        BlocProvider(
+          create: (context) => RequestActionBloc(AppLocalizations.of(context)),
         ),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(

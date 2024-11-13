@@ -11,60 +11,19 @@ class RequestBloc extends Bloc<RequestEvent,RequestState> {
   final UserRepository userRepository = UserRepository();
   final AppLocalizations? appLocalizations ;
   RequestBloc(this.appLocalizations) : super(RequestInitial()) {
-    on<RequestGetSentEvent>(_onGetSentRequest);
-    on<RequestCreateEvent>(_onCreateRequest);
-    on<RequestAcceptEvent>(_onAcceptRequest);
-    on<RequestDeleteEvent>(_onDeleteRequest);
-    on<RequestGetReceivedEvent>(_onGetReceiveRequest);
+    on<RequestGetAllEvent>(_onGetAllRequest);
   }
-  Future<void> _onGetSentRequest(RequestGetSentEvent event, Emitter<RequestState> emit) async {
+  Future<void> _onGetAllRequest(RequestGetAllEvent event, Emitter<RequestState> emit) async {
   emit(RequestLoading());
   try {
-    final requests = await requestRepository.getRequest("fromUId");
-    emit(RequestGetAllReceivedSuccessState(requests));
+    final sendRequest = await requestRepository.getAllRequest("fromUId");
+    final receivedRequest = await requestRepository.getAllRequest("toUId");
+    emit(RequestGetAllSuccessState(sendRequest, receivedRequest));
   } catch (e) {
     emit(RequestFailure(e.toString()));
   }
 }
 
-Future<void> _onGetReceiveRequest(RequestGetReceivedEvent event, Emitter<RequestState> emit) async {
-  emit(RequestLoading());
-  try {
-    final requests = await requestRepository.getRequest("toUId");
-    emit(RequestGetAllReceivedSuccessState(requests));
-  } catch (e) {
-    emit(RequestFailure(e.toString()));
-  }
-}
 
-Future<void> _onCreateRequest(RequestCreateEvent event, Emitter<RequestState> emit) async {
-  emit(RequestLoading());
-  try {
-    await requestRepository.createRequest(event.request);
-    emit(RequestCreateSuccessState(appLocalizations!.successfullyAddFriendRequest));
-  } catch (e) {
-    emit(RequestFailure(e.toString()));
-  }
-}
-
-Future<void> _onAcceptRequest(RequestAcceptEvent event, Emitter<RequestState> emit) async {
-  emit(RequestLoading());
-  try {
-    await requestRepository.deleteRequest(event.request.id!);
-    emit(RequestAcceptSuccessState());
-  } catch (e) {
-    emit(RequestFailure(e.toString()));
-  }
-}
-
-Future<void> _onDeleteRequest(RequestDeleteEvent event, Emitter<RequestState> emit) async {
-  emit(RequestLoading());
-  try {
-    await requestRepository.deleteRequest(event.request.id!);
-    emit(RequestDeleteSuccessState());
-  } catch (e) {
-    emit(RequestFailure(e.toString()));
-  }
-}
 }
 
