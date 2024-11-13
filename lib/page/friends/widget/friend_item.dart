@@ -3,70 +3,13 @@ import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FriendItem extends StatelessWidget {
   final User user;
-  final String type;
-  final bool isFriend;
   const FriendItem({
     super.key,
     required this.user,
-    this.type = '',
-    this.isFriend = false,
   });
-
-  Widget buildButtonOption(String type, BuildContext context) {
-    if (type == AppLocalizations.of(context)!.all && isFriend) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: AppColors.primaryColor,
-        ),
-        child: Center(
-          child: Text(
-            AppLocalizations.of(context)!.addFriend,
-            style: AppTypography.s14w500.copyWith(color: Colors.white),
-          ),
-        ),
-      );
-    }
-    if (type == AppLocalizations.of(context)!.friendRequests) {
-      return Container(
-        height: 27,
-        width: 73,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: AppColors.primaryColor,
-        ),
-        child: Center(
-          child: Text(
-            AppLocalizations.of(context)!.accept,
-            style: AppTypography.s14w500.copyWith(color: Colors.white),
-          ),
-        ),
-      );
-    }
-    if (type == AppLocalizations.of(context)!.sentFriend) {
-      return Container(
-        height: 27,
-        width: 73,
-        decoration: BoxDecoration(
-            border: Border.all(color: AppColors.primaryColor),
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white),
-        child: Center(
-          child: Text(
-            AppLocalizations.of(context)!.cancel,
-            style:
-                AppTypography.s14w500.copyWith(color: AppColors.primaryColor),
-          ),
-        ),
-      );
-    }
-    return const SizedBox.shrink();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +42,6 @@ class FriendItem extends StatelessWidget {
             user.name.toString(),
             style: AppTypography.s16w800.copyWith(color: AppColors.blackColor),
           )),
-          buildButtonOption(type, context),
         ],
       ),
     );

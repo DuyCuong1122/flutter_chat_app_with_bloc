@@ -126,8 +126,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
                               ),
                             );
                             EasyLoading.dismiss();
-                          }
-                          else if (state is UserFailure) {
+                          } else if (state is UserFailure) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(state.message),
@@ -135,9 +134,9 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
                               ),
                             );
                             EasyLoading.dismiss();
-                          }
-                          else if (state is UserLoading) {
-                            EasyLoading.show(maskType: EasyLoadingMaskType.black);
+                          } else if (state is UserLoading) {
+                            EasyLoading.show(
+                                maskType: EasyLoadingMaskType.black);
                           }
                         },
                         child: InkWell(

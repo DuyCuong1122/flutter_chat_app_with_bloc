@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-abstract class UserEvent { }
+abstract class UserEvent {}
 
 class UserAddEvent extends UserEvent {
   final String email;
@@ -15,14 +15,15 @@ class UserUpdateEvent extends UserEvent {
   final Timestamp? dateOfBirth;
   final String? id;
 
-  UserUpdateEvent({ this.id, this.name, this.phoneNumber, this.dateOfBirth});
+  UserUpdateEvent({this.id, this.name, this.phoneNumber, this.dateOfBirth});
 }
 
-class UserGetAllEvent extends UserEvent {
-}
+class UserGetAllEvent extends UserEvent {}
 
 class UserGetEvent extends UserEvent {
   final String email;
 
   UserGetEvent({required this.email});
 }
+
+class UserGetAllFriendsEvent extends UserEvent {}

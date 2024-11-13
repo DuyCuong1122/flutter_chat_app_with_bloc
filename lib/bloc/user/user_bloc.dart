@@ -1,4 +1,3 @@
-
 import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/bloc/user/user_state.dart';
 import 'package:chat_app/database/models/user.dart';
@@ -19,6 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserUpdateEvent>(_onUpdateUser);
     on<UserGetAllEvent>(_onGetAllUser);
     on<UserGetEvent>(_onGetUser);
+    on<UserGetAllFriendsEvent>(_onGetAllFriends);
   }
 
   Future<void> _onAddUser(UserAddEvent event, Emitter<UserState> emit) async {
@@ -28,6 +28,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserSuccess());
     } catch (e) {
       emit(UserFailure(appLocalizations!.failedAddUser));
+    }
+  }
+
+  Future<void> _onGetAllFriends(
+      UserGetAllFriendsEvent event, Emitter<UserState> emit) async {
+    emit(UserLoading());
+    try {
+      List<User> listUsers = [];
+      final users = await userRepository.getAllFriends();
+      listUsers.addAll(users);
+      emit(UserGetAllFriendsSuccessState(listUsers));
+    } catch (e) {
+      emit(UserFailure(appLocalizations!.failedSignUp));
     }
   }
 

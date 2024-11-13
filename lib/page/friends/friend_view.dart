@@ -110,6 +110,11 @@ class FriendView extends StatelessWidget {
                                         .toUpperCase()),
                               ],
                               onTap: (value) {
+                                if (value == 0) {
+                                  context
+                                      .read<UserBloc>()
+                                      .add(UserGetAllFriendsEvent());
+                                }
                                 if (value == 1) {
                                   context
                                       .read<UserBloc>()
@@ -127,8 +132,7 @@ class FriendView extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 8),
                                 child: TabBarView(
                                   children: [
-                                    const Center(
-                                        child: Text("All Friends Content")),
+                                    const FriendView(),
                                     AllScreen(),
                                     const Center(
                                         child: Text("Blocked Content")),

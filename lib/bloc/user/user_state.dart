@@ -1,4 +1,3 @@
-
 import 'package:chat_app/database/models/user.dart';
 
 abstract class UserState {}
@@ -7,8 +6,7 @@ class UserInitial extends UserState {}
 
 class UserLoading extends UserState {}
 
-class UserSuccess extends UserState {
-}
+class UserSuccess extends UserState {}
 
 class UserFailure extends UserState {
   final String message;
@@ -23,4 +21,9 @@ class UserUpdateSuccessState extends UserState {
 class UserGetAllSuccessState extends UserState {
   final List<User> users;
   UserGetAllSuccessState(this.users);
+}
+
+class UserGetAllFriendsSuccessState extends UserState {
+  final List<User> users;
+  UserGetAllFriendsSuccessState(this.users);
 }

@@ -85,4 +85,17 @@ class UserRepository {
     }
     return [];
   }
+
+  Future<List<User>> getAllFriends() async {
+    List<User> friends = [];
+    try {
+      for (String id in SharedPreferencesService().getList(LIST_FRIENDS)) {
+        final response = await FirebaseApi.getDocumentSnapshotById('users', id);
+        friends.add(User.fromFirestore(response));
+      }
+    } catch (e) {
+      log('Error getting friends: $e');
+    }
+    return friends;
+  }
 }
