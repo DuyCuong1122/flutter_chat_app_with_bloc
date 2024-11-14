@@ -1,3 +1,5 @@
+import 'package:chat_app/common/values/storage.dart';
+import 'package:chat_app/database/services/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MessageContent {
@@ -32,7 +34,7 @@ class MessageContent {
 
   Map<String, dynamic> toJson() {
     return {
-      'uid': uid,
+      'uid': SharedPreferencesService().getString(ID),
       'content': content,
       'type': type,
       'createdAt': Timestamp.now(),

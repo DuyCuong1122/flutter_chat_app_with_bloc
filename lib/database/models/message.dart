@@ -7,10 +7,10 @@ class Message
   String? toUId;
   String? lastMessage;
   Timestamp? lastTime; 
-  bool? isRead;
   String? fromName;
   String? toName;
   int? unreadCount;
+  String? lastSenderId;
 
   Message({
     this.id,
@@ -18,10 +18,10 @@ class Message
     this.toUId,
     this.lastMessage,
     this.lastTime,
-    this.isRead,
     this.fromName,
     this.toName,
-    this.unreadCount,
+    this.unreadCount = 0,
+    this.lastSenderId,
   });
 
   factory Message.fromFirestore(DocumentSnapshot doc) {
@@ -32,10 +32,10 @@ class Message
       toUId: data['toUId'] ?? '',
       lastMessage: data['lastMessage'] ?? '',
       lastTime: data['lastTime'] ?? Timestamp.now(),
-      isRead: data['isRead']?? false,
       fromName: data['fromName'] ?? '',
       toName: data['toName'] ?? '',
       unreadCount: data['unreadCount'] ?? 0,
+      lastSenderId: data['lastSenderId'] ?? '',
     );
   }
 
@@ -45,10 +45,10 @@ class Message
       'toUId': toUId,
       'lastMessage': lastMessage,
       'lastTime': lastTime,
-      'isRead': isRead,
       'fromName': fromName,
       'toName': toName,
       'unreadCount': unreadCount,
+      'lastSenderId': lastSenderId,
     };
   }
 
@@ -59,15 +59,15 @@ class Message
       toUId: data['toUId'],
       lastMessage: data['lastMessage'],
       lastTime: data['lastTime'],
-      isRead: data['isRead'],
       fromName: data['fromName'],
       toName: data['toName'],
       unreadCount: data['unreadCount'] ?? 0,
+      lastSenderId: data['lastSenderId'] ?? '',
     );
   }
 
   @override
   String toString() {
-    return 'Message{id: $id, fromUId: $fromUId, toUId: $toUId, lastMessage: $lastMessage, lastTime: $lastTime, isRead: $isRead, fromName: $fromName, toName: $toName}';
+    return 'Message{id: $id, fromUId: $fromUId, toUId: $toUId, lastMessage: $lastMessage, lastTime: $lastTime, fromName: $fromName, toName: $toName, unreadCount: $unreadCount, lastSenderId: $lastSenderId}';
   }
 }

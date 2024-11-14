@@ -140,18 +140,23 @@ class FirebaseApi {
     }
   }
 
-  static Future addDocument(
-      String collection, Map<String, dynamic> data) async {
+  static Future addDocument(String collection, Map<String, dynamic> data) async {
     try {
+      // Tạo tài liệu mới và lấy id của tài liệu
       final docRef = await db.collection(collection).add(data);
-      log('Document added successfully to $collection.');
-      return docRef.id;
+      final docId = docRef.id;
+
+      await docRef.update({'id': docId});
+
+      log('Document added successfully to $collection with id $docId.');
+      return docId;
     } catch (e) {
       log('Error adding document: $e');
     } finally {
       EasyLoading.dismiss();
     }
   }
+
 
   static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getDocumentsByValue(
       String collection, String field, String value) async {
