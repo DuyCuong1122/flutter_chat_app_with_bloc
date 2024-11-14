@@ -1,9 +1,14 @@
+import 'package:chat_app/bloc/request/request_bloc.dart';
+import 'package:chat_app/bloc/request/request_event.dart';
+import 'package:chat_app/bloc/user/user_bloc.dart';
+import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/page/friends/friend_view.dart';
 import 'package:chat_app/page/message/message_view.dart';
 import 'package:chat_app/page/profile/profile_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Homepage extends StatefulWidget {
@@ -79,6 +84,11 @@ class _HomepageState extends State<Homepage> {
                 ),
               ],
               onTap: (index) {
+                if (index == 1) {
+                  context.read<UserBloc>().add(UserGetAllEvent());
+                  context.read<UserBloc>().add(UserGetAllFriendsEvent());
+                  context.read<RequestBloc>().add(RequestGetAllEvent());
+                }
                 setState(() {
                   myCurrentIndex = index;
                 });

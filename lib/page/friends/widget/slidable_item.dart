@@ -4,16 +4,16 @@ import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/database/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class SlidableItem extends StatelessWidget {
-  final String text;
   final User user;
   final VoidCallback onAccept;
   final VoidCallback onReject;
 
   const SlidableItem({
     super.key,
-    required this.text,
     required this.onAccept,
     required this.onReject,
     required this.user,
@@ -30,7 +30,7 @@ class SlidableItem extends StatelessWidget {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               icon: Icons.close,
-              label: 'Từ chối',
+              label: AppLocalizations.of(context)!.cancel,
             ),
           ],
         ),
@@ -74,7 +74,7 @@ class SlidableItem extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  text,
+                  AppLocalizations.of(context)!.accept,
                   style: AppTypography.s14w500.copyWith(color: Colors.white),
                 ),
               ),

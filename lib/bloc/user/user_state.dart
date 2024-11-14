@@ -1,6 +1,8 @@
 import 'package:chat_app/database/models/user.dart';
 
-abstract class UserState {}
+class UserState {
+  final List<User> usersList;
+  UserState({this.usersList = const [] });}
 
 class UserInitial extends UserState {}
 
@@ -20,7 +22,7 @@ class UserUpdateSuccessState extends UserState {
 
 class UserGetAllSuccessState extends UserState {
   final List<User> users;
-  UserGetAllSuccessState(this.users);
+  UserGetAllSuccessState(this.users) : super(usersList: users);
 }
 
 class UserGetAllFriendsSuccessState extends UserState {

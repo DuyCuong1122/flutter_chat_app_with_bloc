@@ -18,7 +18,7 @@ class AllScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: BlocBuilder<UserBloc, UserState>(
-        builder: (BuildContext context, UserState state) {
+        builder: (context, state) {
           if (state is UserLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is UserGetAllSuccessState) {

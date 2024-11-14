@@ -7,6 +7,9 @@ import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/common/widgets/custom_search_bar.dart';
 import 'package:chat_app/page/friends/screen/all_screen.dart';
+import 'package:chat_app/page/friends/screen/friends_screen.dart';
+import 'package:chat_app/page/friends/screen/request_screen.dart';
+import 'package:chat_app/page/friends/widget/noti_circle_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -105,9 +108,28 @@ class FriendView extends StatelessWidget {
                                         .all
                                         .toUpperCase()),
                                 Tab(
-                                    text: AppLocalizations.of(context)!
-                                        .request
-                                        .toUpperCase()),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!
+                                            .request
+                                            .toUpperCase(),
+                                      ),
+                                      if (context
+                                              .watch<RequestBloc>()
+                                              .state
+                                              .requestCount >
+                                          0)
+                                        NotificationCircleContainer(
+                                          number: context
+                                              .watch<RequestBloc>()
+                                              .state
+                                              .requestCount,
+                                        ),
+                                    ],
+                                  ),
+                                ),
                               ],
                               onTap: (value) {
                                 if (value == 0) {
@@ -132,10 +154,9 @@ class FriendView extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 8),
                                 child: TabBarView(
                                   children: [
-                                    const FriendView(),
+                                    const FriendsScreen(),
                                     AllScreen(),
-                                    const Center(
-                                        child: Text("Blocked Content")),
+                                    const RequestScreen()
                                   ],
                                 ),
                               ),
