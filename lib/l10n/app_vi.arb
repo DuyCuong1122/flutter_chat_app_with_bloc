@@ -11,7 +11,7 @@
     "policies" : "chính sách",
     "and" : "và",
     "terms" : "điều khoản",
-    "alreadyHaveAnAcount" : "Đã có tài khoản",
+    "alreadyHaveAnAccount" : "Đã có tài khoản",
     "message" : "Tin nhắn",
     "searchMessage" : "Tìm kiếm tin nhắn",
     "friends" : "Bạn bè",
@@ -43,7 +43,7 @@
     "invalidName" : "Tên người dùng không phù hợp",
     "successSignUp" : "Đăng ký tài khoản thành công",
     "failedSignUp" : "Đăng ký tài khoản thất bại",
-    "succussSignIn" : "Đăng nhập tài khoản thành công",
+    "successSignIn" : "Đăng nhập tài khoản thành công",
     "failedSignIn" : "Đăng nhập tài khoản thất bại",
     "emptyEmail" : "*Email không được để trống!",
     "emptyPassword" : "*Mật khẩu không được để trống!",
@@ -55,5 +55,6 @@
     "failedUpdatedUser" : "Cập nhật người dùng thất bại",
     "failedGetUser" : "Lỗi lấy thông tin người dùng!",
     "successfullyAddFriendRequest" : "Gửi lời mời kết bạn thành công!",
-    "successfullyAcceptFriend" : "Đồng ý kết bạn thành công"
+    "successfullyAcceptFriend" : "Đồng ý kết bạn thành công",
+    "failedGetMessages" : "Lấy tin nhắn thất bại"
 }

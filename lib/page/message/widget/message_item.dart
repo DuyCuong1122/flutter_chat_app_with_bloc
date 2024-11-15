@@ -1,28 +1,30 @@
+import 'package:chat_app/common/util/change_date_to_text.dart';
 import 'package:chat_app/common/values/colors.dart';
+import 'package:chat_app/common/values/storage.dart';
 import 'package:chat_app/common/values/typography.dart';
+import 'package:chat_app/database/models/message.dart';
+import 'package:chat_app/database/services/service.dart';
 import 'package:chat_app/page/chat_box/chat_box_view.dart';
 import 'package:flutter/material.dart';
 
 class MessageItem extends StatelessWidget {
-  final int newMessageCount;
-  final String name;
-  final String message;
-  final String time;
-  const MessageItem(
-      {super.key,
-      this.newMessageCount = 0,
-      required this.name,
-      required this.message,
-      required this.time});
+  final Message message;
+
+  MessageItem({super.key, required this.message});
+
+  String userId = SharedPreferencesService().getString(ID);
 
   @override
   Widget build(BuildContext context) {
+    bool isNewMessage =
+        message.lastSenderId != userId && message.unreadCount != 0;
     return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ChatBoxView(name: name);
-        }));
-      },
+      onTap: () =>
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return ChatBoxView(
+          message: message,
+        );
+      })),
       child: Container(
         margin: const EdgeInsets.only(bottom: 18),
         color: Colors.transparent,
@@ -30,22 +32,21 @@ class MessageItem extends StatelessWidget {
           children: [
             Stack(children: [
               Container(
-                padding: EdgeInsets.all(newMessageCount == 0
-                    ? 0
-                    : 2), // Khoảng trắng giữa border và avatar
+                padding: EdgeInsets.all(
+                    isNewMessage ? 2 : 0), // Khoảng trắng giữa border và avatar
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white, // Màu trắng làm viền cách biệt
-                  border: newMessageCount == 0
-                      ? null
-                      : Border.all(
+                  border: isNewMessage
+                      ? Border.all(
                           color: AppColors.primaryColor,
                           width: 2,
-                        ),
+                        )
+                      : null,
                 ),
                 child: Container(
-                  height: newMessageCount == 0 ? 58 : 54,
-                  width: newMessageCount == 0 ? 58 : 54,
+                  height: isNewMessage ? 54 : 58,
+                  width: isNewMessage ? 54 : 58,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: LinearGradient(colors: [
@@ -60,7 +61,7 @@ class MessageItem extends StatelessWidget {
                   ),
                 ),
               ),
-              if (newMessageCount > 0)
+              if (isNewMessage)
                 Positioned(
                   right: 0,
                   top: 0,
@@ -77,7 +78,7 @@ class MessageItem extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Text(
-                        newMessageCount.toString(),
+                        message.unreadCount.toString(),
                         style: AppTypography.s12w500.copyWith(
                           color: Colors.white,
                         ),
@@ -105,29 +106,30 @@ class MessageItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          name,
-                          style:
-                              AppTypography.s16w800.copyWith(color: Colors.black),
+                          userId == message.fromUId
+                              ? message.toName!
+                              : message.fromName!,
+                          style: AppTypography.s16w800
+                              .copyWith(color: Colors.black),
                         ),
                         Text(
-                          time,
+                          formatMessageDate(message.lastTime!, context),
                           style: AppTypography.s12w500.copyWith(
-                              color: newMessageCount == 0
-                                  ? AppColors.normalColor
-                                  : Colors.black),
+                              color: isNewMessage
+                                  ? Colors.black
+                                  : AppColors.normalColor),
                         ),
                       ],
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      message,
-                      maxLines: 1, // Hiển thị tối đa 1 dòng
-                      overflow: TextOverflow.ellipsis, // Thêm dấu "..." nếu quá dài
-                   
-                      style: newMessageCount == 0
-                          ? AppTypography.s14w500
-                              .copyWith(color: AppColors.normalColor)
-                          : AppTypography.s14w700.copyWith(color: Colors.black),
+                      message.lastMessage!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: isNewMessage
+                          ? AppTypography.s14w700.copyWith(color: Colors.black)
+                          : AppTypography.s14w500
+                              .copyWith(color: AppColors.normalColor),
                     ),
                   ],
                 ),

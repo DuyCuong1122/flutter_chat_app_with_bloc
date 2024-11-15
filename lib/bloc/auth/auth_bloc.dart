@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:chat_app/common/values/storage.dart';
 import 'package:chat_app/database/services/shared_preference_service.dart';
 import 'package:chat_app/repository/auth_repository.dart';
 import 'package:chat_app/repository/user_repository.dart';
@@ -59,6 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             email :userData.email ?? '',
             listFriends: userData.listFriends ?? [],
           );
+          await SharedPreferencesService().setBool(IS_LOGIN, true);
         }
         emit(AuthAuthenticated(user));
       } else {
@@ -95,8 +97,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     SharedPreferencesService().clear();
     await authRepository.signOut();
-
-    // await _clearLocalUser(); // Clear local storage
     emit(AuthLogout());
   }
 

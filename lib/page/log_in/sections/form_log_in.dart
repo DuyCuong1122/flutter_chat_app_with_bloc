@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+
 class FormLogIn extends StatefulWidget {
   const FormLogIn({super.key});
 
@@ -54,10 +55,14 @@ class _FormLogInState extends State<FormLogIn> {
   Widget build(BuildContext context) {
     final heightScreen = MediaQuery.of(context).size.height;
     final localizations = AppLocalizations.of(context)!;
-
+    final canBeLogin = emailError == null &&
+        passwordError == null &&
+        emailController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty;
     return BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthFailure) {
+            EasyLoading.dismiss();
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: AppColors.errorColor,
               content: Text(state.message),
@@ -65,13 +70,13 @@ class _FormLogInState extends State<FormLogIn> {
           } else if (state is AuthAuthenticated) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: AppColors.successColor,
-              content: Text(localizations.succussSignIn),
+              content: Text(localizations.successSignIn),
             ));
             EasyLoading.dismiss();
-
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const Homepage()),
+              MaterialPageRoute(
+                  builder: (context) =>  const Homepage()),
             );
           } else if (state is AuthLoading) {
             EasyLoading.show(maskType: EasyLoadingMaskType.black);
@@ -112,20 +117,14 @@ class _FormLogInState extends State<FormLogIn> {
               title: localizations.logIn,
               onTap: () {
                 FocusScope.of(context).unfocus();
-                if (emailError == null &&
-                    passwordError == null &&
-                    emailController.text.isNotEmpty &&
-                    passwordController.text.isNotEmpty) {
+                if (canBeLogin) {
                   context.read<AuthBloc>().add(AuthLoginRequested(
                         email: emailController.text,
                         password: passwordController.text,
                       ));
                 }
               },
-              enable: emailError == null &&
-                  passwordError == null &&
-                  emailController.text.isNotEmpty &&
-                  passwordController.text.isNotEmpty,
+              enable: canBeLogin,
             ),
           ],
         ));

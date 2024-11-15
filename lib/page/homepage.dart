@@ -87,7 +87,6 @@ class _HomepageState extends State<Homepage> {
                 if (index == 1) {
                   context.read<UserBloc>().add(UserGetAllEvent());
                   context.read<UserBloc>().add(UserGetAllFriendsEvent());
-                  context.read<RequestBloc>().add(RequestGetAllEvent());
                 }
                 setState(() {
                   myCurrentIndex = index;

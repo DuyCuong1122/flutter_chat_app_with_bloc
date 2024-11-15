@@ -4,6 +4,7 @@ import 'package:chat_app/bloc/user/user_state.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';
+import 'package:chat_app/common/widgets/custom_background.dart';
 import 'package:chat_app/common/widgets/custom_textfield.dart';
 import 'package:chat_app/page/profile/widget/bubble_container.dart';
 import 'package:chat_app/page/profile/widget/camera_icon.dart';
@@ -13,12 +14,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import '../../../common/values/storage.dart';
+import '../../../database/services/shared_preference_service.dart';
 
 class EditInfoScreen extends StatefulWidget {
-  final String? name;
-  final String? phone;
-  final String? birthday;
-  const EditInfoScreen({super.key, this.name, this.phone, this.birthday});
+  const EditInfoScreen({super.key});
 
   @override
   State<EditInfoScreen> createState() => _EditInfoScreenState();
@@ -36,9 +36,10 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
     fullNameController = TextEditingController();
     phoneController = TextEditingController();
     birthdayController = TextEditingController();
-    fullNameController.text = widget.name ?? "";
-    phoneController.text = widget.phone ?? "";
-    birthdayController.text = widget.birthday ?? "";
+    fullNameController.text = SharedPreferencesService().getString(NAME);
+    phoneController.text = SharedPreferencesService().getString(PHONE_NUMBER);
+    birthdayController.text =
+        SharedPreferencesService().getString(DATE_OF_BIRTH);
     selectedDate = birthdayController.text == ""
         ? DateTime.now()
         : DateFormat("dd/MM/yyyy").parse(birthdayController.text);
@@ -80,19 +81,7 @@ class _EditInfoScreenState extends State<EditInfoScreen> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            Container(
-              height: heightScreen * 0.28,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.primaryColor,
-                    AppColors.secondaryColor,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
-            ),
+            const CustomBackground(ratio: 0.28),
             Column(
               children: [
                 SizedBox(height: heightScreen * 0.08),

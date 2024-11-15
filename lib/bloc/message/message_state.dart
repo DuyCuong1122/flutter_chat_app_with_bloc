@@ -1,25 +1,26 @@
-import 'package:equatable/equatable.dart';
 
 import '../../database/models/message.dart';
 
-class MessageState extends Equatable {
-  final List<Message> messages;
-
-  const MessageState({ required this.messages});
-
-
-  @override
-  List<Object> get props => [messages];
-}
+class MessageState {}
 
 class MessageInitial extends MessageState {
-  MessageInitial() : super(messages: []);
+  MessageInitial();
 }
 
 class MessageLoading extends MessageState {
-  MessageLoading() : super(messages: []);
+  MessageLoading();
 }
 
-class MessageLoaded extends MessageState {
-  MessageLoaded({required super.messages});
+class MessageSuccess extends MessageState {
+  final List<Message> messagesList;
+  MessageSuccess({required this.messagesList});
+}
+
+class MessageFailure extends MessageState {
+  final String error;
+  MessageFailure({required this.error});
+}
+
+class MessageReadSuccess extends MessageState {
+  MessageReadSuccess();
 }

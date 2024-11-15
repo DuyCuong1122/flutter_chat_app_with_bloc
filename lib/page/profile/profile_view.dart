@@ -2,6 +2,7 @@ import 'package:chat_app/bloc/auth/auth_bloc.dart';
 import 'package:chat_app/bloc/auth/auth_event.dart';
 import 'package:chat_app/bloc/auth/auth_state.dart';
 import 'package:chat_app/bloc/locale/locale_cubit.dart';
+import 'package:chat_app/common/widgets/custom_background.dart';
 import 'package:chat_app/database/services/service.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
@@ -27,16 +28,8 @@ class ProfileView extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            height: heightScreen * 0.64,
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                  AppColors.primaryColor,
-                  AppColors.secondaryColor,
-                ])),
+          CustomBackground(
+            ratio: 0.64,
             child: Icon(
               AppIcon.person,
               size: widthScreen,
@@ -49,8 +42,8 @@ class ProfileView extends StatelessWidget {
               children: [
                 const Spacer(),
                 Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFEFEEEE),
+                  decoration:  const BoxDecoration(
+                    color: AppColors.fefeeColor,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30)),
@@ -119,19 +112,7 @@ class ProfileView extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                EditInfoScreen(
-                                                  name:
-                                                      SharedPreferencesService()
-                                                          .getString(NAME),
-                                                  phone:
-                                                      SharedPreferencesService()
-                                                          .getString(
-                                                              PHONE_NUMBER),
-                                                  birthday:
-                                                      SharedPreferencesService()
-                                                          .getString(
-                                                              DATE_OF_BIRTH),
-                                                )));
+                                                const EditInfoScreen()));
                                   },
                                   icon: const Icon(
                                     AppIcon.edit,

@@ -11,7 +11,7 @@
     "policies" : "policies",
     "and" : "and",
     "terms" : "terms",
-    "alreadyHaveAnAcount" : "Already have an account",
+    "alreadyHaveAnAccount" : "Already have an account",
     "message" : "Message",
     "searchMessage" : "Search message",
     "friends" : "Friends",
@@ -43,7 +43,7 @@
     "invalidName" : "Username is not suitable",
     "successSignUp" : "The account signed up successfully",
     "failedSignUp" : "The account registration failed",
-    "succussSignIn" : "The account signed in successfully",
+    "successSignIn" : "The account signed in successfully",
     "failedSignIn" : "The account login failed",
     "emptyEmail" : "*Email can not be blank!",
     "emptyPassword" : "*Password can not be blank!",
@@ -55,5 +55,7 @@
     "failedUpdatedUser" : "User updated failed",
     "failedGetUser" : "Fetching user data failed",
     "successfullyAddFriendRequest" : "Friend request sent successfully",
-    "successfullyAcceptFriend": "Friend accepted successfully"
+    "successfullyAcceptFriend": "Friend accepted successfully",
+    "failedGetMessages": "Fetching messages failed"
+
 }

@@ -4,9 +4,16 @@ import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/page/chat_box/widget/send_message_item.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/values/storage.dart';
+import '../../database/models/message.dart';
+import '../../database/services/shared_preference_service.dart';
+
 class ChatBoxView extends StatelessWidget {
-  final String name;
-  const ChatBoxView({super.key, required this.name});
+  final Message message;
+
+  ChatBoxView({super.key, required this.message});
+
+  String userId = SharedPreferencesService().getString(ID);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +51,7 @@ class ChatBoxView extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Text(
-                name,
+                userId == message.fromUId ? message.toName! : message.fromName!,
                 style: AppTypography.s18w800.copyWith(color: Colors.black),
               )
             ],

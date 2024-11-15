@@ -2,7 +2,6 @@ import 'package:chat_app/bloc/request/request_bloc.dart';
 import 'package:chat_app/bloc/request/request_state.dart';
 import 'package:chat_app/bloc/request_action/request_action_bloc.dart';
 import 'package:chat_app/bloc/request_action/request_action_event.dart';
-import 'package:chat_app/bloc/request_action/request_action_state.dart';
 import 'package:chat_app/bloc/user/user_bloc.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/typography.dart';

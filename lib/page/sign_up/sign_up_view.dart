@@ -224,7 +224,7 @@ class _SignUpViewState extends State<SignUpView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${AppLocalizations.of(context)!.alreadyHaveAnAcount}? ',
+                      '${AppLocalizations.of(context)!.alreadyHaveAnAccount}? ',
                       style: AppTypography.s14w500
                           .copyWith(color: AppColors.normalColor),
                     ),

@@ -62,7 +62,7 @@ class MessageRepository {
     }
   }
 
-  Future<List<MessageContent>> getChatMessages(String messageId) async {
+  Future<List<MessageContent>> getAllChatListMessages(String messageId) async {
     try {
       final response = await FirebaseApi.db
           .collection('messages')
