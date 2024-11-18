@@ -9,6 +9,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;
   final AppLocalizations? appLocalizations;
+  final List<User> getAllUsers = [];
+  final List<User> getAllFriends = [];
 
   UserBloc({
     required this.userRepository,
@@ -35,10 +37,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       UserGetAllFriendsEvent event, Emitter<UserState> emit) async {
     emit(UserLoading());
     try {
-      List<User> listUsers = [];
       final users = await userRepository.getAllFriends();
-      listUsers.addAll(users);
-      emit(UserGetAllFriendsSuccessState(listUsers));
+      getAllFriends.clear();
+      getAllFriends.addAll(users);
+      emit(UserGetAllFriendsSuccessState(users));
     } catch (e) {
       emit(UserFailure(appLocalizations!.failedSignUp));
     }
@@ -63,10 +65,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       UserGetAllEvent event, Emitter<UserState> emit) async {
     emit(UserLoading());
     try {
-      List<User> listUsers = [];
-      final users = await userRepository.getAllUsers();
-      listUsers.addAll(users);
-      emit(UserGetAllSuccessState(listUsers));
+      List users = <User>[];
+      getAllUsers.isEmpty
+          ? {
+              users = await userRepository.getAllUsers(),
+              getAllUsers.addAll(users as List<User>),
+            }
+          : null;
+      emit(UserGetAllSuccessState(getAllUsers));
     } catch (e) {
       emit(UserFailure(appLocalizations!.failedSignUp));
     }

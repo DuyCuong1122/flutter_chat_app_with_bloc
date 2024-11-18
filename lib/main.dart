@@ -14,6 +14,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'bloc/message/message_bloc.dart';
+import 'bloc/message/message_event.dart';
+import 'bloc/request/request_bloc.dart';
+import 'bloc/request/request_event.dart';
+import 'bloc/request_action/request_action_bloc.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -83,7 +89,19 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LocaleCubit(), // Khởi tạo LocaleCubit
-        )
+        ),
+        BlocProvider<RequestBloc>(
+          create: (context) => RequestBloc(AppLocalizations.of(context))
+            ..add(RequestGetAllEvent()),
+        ),
+        BlocProvider<RequestActionBloc>(
+          create: (context) => RequestActionBloc(AppLocalizations.of(context)),
+        ),
+        BlocProvider<MessageBloc>(
+          create: (context) =>
+              MessageBloc(appLocalizations: AppLocalizations.of(context))
+                ..add(MessageGetAllEvent()),
+        ),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {

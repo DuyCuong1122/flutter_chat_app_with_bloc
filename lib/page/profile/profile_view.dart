@@ -3,6 +3,7 @@ import 'package:chat_app/bloc/auth/auth_event.dart';
 import 'package:chat_app/bloc/auth/auth_state.dart';
 import 'package:chat_app/bloc/locale/locale_cubit.dart';
 import 'package:chat_app/common/widgets/custom_background.dart';
+import 'package:chat_app/common/widgets/default_avatar.dart';
 import 'package:chat_app/database/services/service.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
@@ -59,26 +60,7 @@ class ProfileView extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Container(
-                                  height: 63,
-                                  width: 63,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        AppColors.primaryColor,
-                                        AppColors.secondaryColor,
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                    ),
-                                  ),
-                                  child: const Icon(
-                                    AppIcon.person,
-                                    color: Colors.white,
-                                    size: 40,
-                                  ),
-                                ),
+                                const DefaultAvatar(size: 63),
                                 const SizedBox(
                                   width: 16,
                                 ),

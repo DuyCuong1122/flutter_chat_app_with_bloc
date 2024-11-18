@@ -23,157 +23,143 @@ class FriendView extends StatelessWidget {
   Widget build(BuildContext context) {
     final heightScreen = MediaQuery.of(context).size.height;
 
-    return Builder(
-      builder:(context) =>MultiBlocProvider(
-        providers: [
-          BlocProvider<RequestBloc>(
-            create: (context) => RequestBloc(AppLocalizations.of(context))
-              ..add(RequestGetAllEvent()),
-          ),
-          BlocProvider<RequestActionBloc>(
-            create: (context) => RequestActionBloc(AppLocalizations.of(context)),
-          )
-        ],
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Scaffold(
-            body: Stack(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: Stack(
+          children: [
+            const CustomBackground(),
+            Column(
               children: [
-                const CustomBackground(),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Column(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Column(
+                    children: [
+                      SizedBox(height: heightScreen * 0.05),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(height: heightScreen * 0.05),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.friends,
-                                style: AppTypography.s30w700.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  child: Image.asset(AppIcon.addFriend),
-                                ),
-                              ),
-                            ],
+                          Text(
+                            AppLocalizations.of(context)!.friends,
+                            style: AppTypography.s30w700.copyWith(
+                              color: Colors.white,
+                            ),
                           ),
-                          SizedBox(height: heightScreen * 0.03),
-                          CustomSearchBar(
-                            controller: TextEditingController(),
-                            hintText:
-                                '${AppLocalizations.of(context)!.searchFriends}...',
-                            onSearch: (String query) {},
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: Image.asset(AppIcon.addFriend),
+                            ),
                           ),
-                          SizedBox(height: heightScreen * 0.03),
                         ],
                       ),
-                    ),
-                    Expanded(
-                      child: Container(
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
-                          ),
-                          child: DefaultTabController(
-                            length: 3,
-                            child: Column(
-                              children: [
-                                TabBar(
-                                  indicatorColor: AppColors.primaryColor,
-                                  labelColor: AppColors.primaryColor,
-                                  unselectedLabelColor: AppColors.normalColor,
-                                  indicatorSize: TabBarIndicatorSize.tab,
-                                  indicatorPadding:
-                                      const EdgeInsets.symmetric(horizontal: 10),
-                                  tabs: [
-                                    Tab(
-                                        text: AppLocalizations.of(context)!
-                                            .friends
-                                            .toUpperCase()),
-                                    Tab(
-                                        text: AppLocalizations.of(context)!
-                                            .all
-                                            .toUpperCase()),
-                                    Tab(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            AppLocalizations.of(context)!
-                                                .request
-                                                .toUpperCase(),
-                                          ),
-                                          // if (context
-                                          //         .watch<RequestBloc>()
-                                          //         .state
-                                          //         .requestCount >
-                                          //     0)
-                                          //   NotificationCircleContainer(
-                                          //     number: context
-                                          //         .watch<RequestBloc>()
-                                          //         .state
-                                          //         .requestCount,
-                                          //   ),
-                                        ],
+                      SizedBox(height: heightScreen * 0.03),
+                      CustomSearchBar(
+                        controller: TextEditingController(),
+                        hintText:
+                            '${AppLocalizations.of(context)!.searchFriends}...',
+                        onSearch: (String query) {},
+                      ),
+                      SizedBox(height: heightScreen * 0.03),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)),
+                      ),
+                      child: DefaultTabController(
+                        length: 3,
+                        child: Column(
+                          children: [
+                            TabBar(
+                              indicatorColor: AppColors.primaryColor,
+                              labelColor: AppColors.primaryColor,
+                              unselectedLabelColor: AppColors.normalColor,
+                              indicatorSize: TabBarIndicatorSize.tab,
+                              indicatorPadding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              tabs: [
+                                Tab(
+                                    text: AppLocalizations.of(context)!
+                                        .friends
+                                        .toUpperCase()),
+                                Tab(
+                                    text: AppLocalizations.of(context)!
+                                        .all
+                                        .toUpperCase()),
+                                Tab(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!
+                                            .request
+                                            .toUpperCase(),
                                       ),
-                                    ),
-                                  ],
-                                  onTap: (value) {
-                                    if (value == 0) {
-                                      context
-                                          .read<UserBloc>()
-                                          .add(UserGetAllFriendsEvent());
-                                    }
-                                    if (value == 1) {
-                                      context
-                                          .read<UserBloc>()
-                                          .add(UserGetAllEvent());
-                                    }
-                                    if (value == 2 || value == 1) {
-                                      context
-                                          .read<RequestBloc>()
-                                          .add(RequestGetAllEvent());
-                                    }
-                                  },
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 8),
-                                    child: TabBarView(
-                                      children: [
-                                        const FriendsScreen(),
-                                        AllScreen(),
-                                        const RequestScreen()
-                                      ],
-                                    ),
+                                      // if (context
+                                      //         .watch<RequestBloc>()
+                                      //         .state
+                                      //         .requestCount >
+                                      //     0)
+                                      //   NotificationCircleContainer(
+                                      //     number: context
+                                      //         .watch<RequestBloc>()
+                                      //         .state
+                                      //         .requestCount,
+                                      //   ),
+                                    ],
                                   ),
                                 ),
                               ],
+                              onTap: (value) {
+                                if (value == 0) {
+                                  context
+                                      .read<UserBloc>()
+                                      .add(UserGetAllFriendsEvent());
+                                }
+                                if (value == 1) {
+                                  context
+                                      .read<UserBloc>()
+                                      .add(UserGetAllEvent());
+                                }
+                                if (value == 2 || value == 1) {
+                                  context
+                                      .read<RequestBloc>()
+                                      .add(RequestGetAllEvent());
+                                }
+                              },
                             ),
-                          )),
-                    )
-                  ],
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: TabBarView(
+                                  children: [
+                                    const FriendsScreen(),
+                                    AllScreen(),
+                                    const RequestScreen()
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
                 )
               ],
-            ),
-          ),
+            )
+          ],
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:chat_app/bloc/user/user_bloc.dart';
+import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:chat_app/common/widgets/custom_background.dart';
@@ -9,6 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../bloc/message/message_bloc.dart';
+import '../../bloc/message/message_state.dart';
+import 'create_massage/create_message_view.dart';
 
 class MessageView extends StatelessWidget {
   const MessageView({super.key});
@@ -20,77 +24,94 @@ class MessageView extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        body: BlocProvider(
-          create: (context) => MessageBloc(
-            appLocalizations: AppLocalizations.of(context)!,
-          ),
-          child: Stack(
-            children: [
-              const CustomBackground(),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Column(
-                      children: [
-                        SizedBox(height: heightScreen * 0.05),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.message,
-                              style: AppTypography.s30w700.copyWith(
+        body: Stack(
+          children: [
+            const CustomBackground(),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Column(
+                    children: [
+                      SizedBox(height: heightScreen * 0.05),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.message,
+                            style: AppTypography.s30w700.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                context
+                                    .read<UserBloc>()
+                                    .add(UserGetAllFriendsEvent());
+                                return const CreateMessageView();
+                              }));
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
                                 color: Colors.white,
                               ),
+                              child: Image.asset(AppIcon.newMessage),
                             ),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                child: Image.asset(AppIcon.newMessage),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: heightScreen * 0.03),
-                        CustomSearchBar(
-                          controller: TextEditingController(),
-                          hintText:
-                              '${AppLocalizations.of(context)!.searchMessage}...',
-                          onSearch: (String query) {},
-                        ),
-                        SizedBox(height: heightScreen * 0.03),
-                      ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: heightScreen * 0.03),
+                      CustomSearchBar(
+                        controller: TextEditingController(),
+                        hintText:
+                            '${AppLocalizations.of(context)!.searchMessage}...',
+                        onSearch: (String query) {},
+                      ),
+                      SizedBox(height: heightScreen * 0.03),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                    ),
+                    child: BlocBuilder<MessageBloc, MessageState>(
+                      bloc: BlocProvider.of<MessageBloc>(context),
+                      builder: (context, state) {
+                        if (state is MessageLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is MessageSuccess) {
+                          final messages = state.messagesList;
+                          return ListView.builder(
+                            itemCount: messages.length,
+                            itemBuilder: (context, index) {
+                              final message = messages[index];
+                              return MessageItem(message: message);
+                            },
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
                     ),
                   ),
-                  // Expanded(
-                  //   child: Container(
-                  //     width: double.infinity,
-                  //     padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                  //     decoration: const BoxDecoration(
-                  //       color: Colors.white,
-                  //       borderRadius: BorderRadius.only(
-                  //           topLeft: Radius.circular(20),
-                  //           topRight: Radius.circular(20)),
-                  //     ),
-                  //     child: ListView.builder(
-                  //         itemCount: 50,
-                  //         itemBuilder: (context, index) {
-                  //           return MessageItem(
-                  //             message: Message()
-                  //           );
-                  //         }),
-                  //   ),
-                  // )
-                ],
-              )
-            ],
-          ),
+                )
+              ],
+            )
+          ],
         ),
       ),
     );

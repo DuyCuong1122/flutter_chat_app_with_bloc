@@ -57,9 +57,7 @@ class ChatBoxView extends StatelessWidget {
             ],
           ),
           leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context),
             icon: const Icon(
               AppIcon.back,
               color: AppColors.primaryColor,

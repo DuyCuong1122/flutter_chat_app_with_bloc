@@ -7,11 +7,13 @@ import '../../repository/message_repository.dart';
 
 class MessageBloc extends Bloc<MessageEvent,MessageState>{
   final MessageRepository _messageRepository = MessageRepository();
-  final AppLocalizations appLocalizations;
+  final AppLocalizations? appLocalizations;
   MessageBloc(
     {required this.appLocalizations}
       ) : super(MessageInitial()){
     on<MessageGetAllEvent>(_onGetAllMessage);
+    on<MessageReadEvent>(_onReadMessage);
+
   }
 
   Future _onGetAllMessage(MessageGetAllEvent event, Emitter<MessageState> emit) async {
@@ -20,7 +22,7 @@ class MessageBloc extends Bloc<MessageEvent,MessageState>{
       final messages = await _messageRepository.getAllListMessages();
       emit(MessageSuccess(messagesList: messages));
     } catch (e) {
-      emit(MessageFailure(error: appLocalizations.failedGetMessages));
+      emit(MessageFailure(error: appLocalizations!.failedGetMessages));
     }
   }
 

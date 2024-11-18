@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app/bloc/user/user_bloc.dart';
 import 'package:chat_app/bloc/user/user_state.dart';
 import 'package:chat_app/common/util/get_first_character_name.dart';
@@ -19,9 +21,11 @@ class AllScreen extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
+
           if (state is UserLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is UserGetAllSuccessState) {
+
             Map<String, List<User>> groupedUsers =
                 groupUsersByInitial(state.users);
             List<String> initials = groupedUsers.keys.toList()..sort();

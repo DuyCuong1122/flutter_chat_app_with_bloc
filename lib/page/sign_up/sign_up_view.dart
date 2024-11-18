@@ -6,6 +6,7 @@ import 'package:chat_app/bloc/user/user_state.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';
+import 'package:chat_app/common/widgets/custom_check_box.dart';
 import 'package:chat_app/common/widgets/custom_container_sign_in_out.dart';
 import 'package:chat_app/common/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -158,22 +159,8 @@ class _SignUpViewState extends State<SignUpView> {
                           accept = !accept;
                         });
                       },
-                      child: Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              color: AppColors.primaryColor, width: 2),
-                          color: accept ? AppColors.primaryColor : Colors.white,
-                        ),
-                        child: accept
-                            ? const Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 16,
-                              )
-                            : null,
+                      child: CustomCheckBox(
+                        value: accept,
                       ),
                     ),
                     const SizedBox(width: 8),

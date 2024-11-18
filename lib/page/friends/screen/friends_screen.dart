@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app/bloc/user/user_bloc.dart';
 import 'package:chat_app/bloc/user/user_state.dart';
 import 'package:chat_app/common/util/get_first_character_name.dart';
@@ -17,6 +19,7 @@ class FriendsScreen extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+
         if (state is UserLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is UserGetAllFriendsSuccessState) {
