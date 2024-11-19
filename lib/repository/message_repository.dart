@@ -92,4 +92,30 @@ class MessageRepository {
       }
     }
   }
+
+  Future<List<Map<String, dynamic>>> searchMessagesInUserChats(String queryString) async {
+    final firestore = FirebaseFirestore.instance;
+    final userChatList = await firestore.collection('messages').get();
+
+    List<Map<String, dynamic>> matchingChats = [];
+
+    for (final userChatDoc in userChatList.docs) {
+      final messageListRef = userChatDoc.reference.collection('msgList');
+
+      // Truy vấn các tin nhắn chứa queryString
+      final querySnapshot = await messageListRef
+          .where('content', isGreaterThanOrEqualTo: queryString)
+          .where('content', isLessThanOrEqualTo: '$queryString\uf8ff')
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        matchingChats.add({
+          'message': userChatDoc.data(),
+          'count': querySnapshot.docs.length,
+        });
+      }
+    }
+
+    return matchingChats;
+  }
 }

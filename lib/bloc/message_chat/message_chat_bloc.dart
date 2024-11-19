@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:chat_app/bloc/message_chat/message_chat_event.dart';
 import 'package:chat_app/bloc/message_chat/message_chat_state.dart';
@@ -19,6 +20,7 @@ class MessageChatBloc extends Bloc<MessageChatEvent, MessageChatState> {
   MessageChatBloc({required this.message}) : super(MessageChatInitialState()) {
     on<MessageSendEvent>(onMessageSend);
     on<MessageGetAllChatEvent>(onMessageGetAllChat);
+    on<MessagesUpdatedEvent>(_onMessagesUpdated);
     _startListeningToMessages();
   }
 
@@ -28,17 +30,18 @@ class MessageChatBloc extends Bloc<MessageChatEvent, MessageChatState> {
     await messageRepository
         .createChatMessage(event.messageContent, event.message)
         .then((value) {
-      messagesList.insert(0, event.messageContent);
       emit(MessageChatSuccessState(messagesList: messagesList));
     }).catchError((error) {
       emit(MessageChatErrorState(errorMessage: error.toString()));
     });
   }
 
-  void onMessageGetAllChat(
-      MessageGetAllChatEvent event, Emitter<MessageChatState> emit) {
+  Future onMessageGetAllChat(
+      MessageGetAllChatEvent event, Emitter<MessageChatState> emit) async {
     emit(MessageChatLoadingState());
-    messageRepository.getAllChatListMessages(event.message.id!).then((value) {
+    await messageRepository
+        .getAllChatListMessages(event.message.id!)
+        .then((value) {
       messagesList.addAll(value);
       emit(MessageChatSuccessState(messagesList: messagesList));
     }).catchError((error) {
@@ -62,8 +65,8 @@ class MessageChatBloc extends Bloc<MessageChatEvent, MessageChatState> {
           toFirestore: (MessageContent msgContent, options) =>
               msgContent.toJson(),
         )
-        .orderBy("createAt", descending: false);
-
+        .orderBy("createdAt", descending: false);
+    messagesList.clear();
     _messagesStreamSubscription =
         messagesCollection.snapshots().listen((snapshot) {
       for (var change in snapshot.docChanges) {
@@ -71,10 +74,9 @@ class MessageChatBloc extends Bloc<MessageChatEvent, MessageChatState> {
           case DocumentChangeType.added:
             final data = change.doc.data();
             if (data != null) {
-              messagesList.insert(0, data); // Không cần chuyển đổi nữa
+              messagesList.insert(0, data);
             }
             break;
-
           case DocumentChangeType.modified:
             final updatedData = change.doc.data();
             if (updatedData != null) {
@@ -85,7 +87,6 @@ class MessageChatBloc extends Bloc<MessageChatEvent, MessageChatState> {
               }
             }
             break;
-
           case DocumentChangeType.removed:
             final removedData = change.doc.data();
             if (removedData != null) {
@@ -95,7 +96,6 @@ class MessageChatBloc extends Bloc<MessageChatEvent, MessageChatState> {
         }
       }
 
-      // Phát sự kiện cập nhật state
       add(MessagesUpdatedEvent(messagesList: List.from(messagesList)));
     }, onError: (error) {
       add(MessageChatErrorEvent(errorMessage: error.toString()));

@@ -1,3 +1,4 @@
+import 'package:chat_app/bloc/message/message_bloc.dart';
 import 'package:chat_app/common/util/change_date_to_text.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/storage.dart';
@@ -6,6 +7,9 @@ import 'package:chat_app/database/models/message.dart';
 import 'package:chat_app/database/services/service.dart';
 import 'package:chat_app/page/chat_box/chat_box_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../bloc/message/message_event.dart';
 
 class MessageItem extends StatelessWidget {
   final Message message;
@@ -19,12 +23,18 @@ class MessageItem extends StatelessWidget {
     bool isNewMessage =
         message.lastSenderId != userId && message.unreadCount != 0;
     return GestureDetector(
-      onTap: () =>
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return ChatBoxView(
-          message: message,
-        );
-      })),
+      onTap: () {
+        isNewMessage
+            ? context
+                .read<MessageBloc>()
+                .add(MessageReadEvent(message: message))
+            : null;
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return ChatBoxView(
+            message: message,
+          );
+        }));
+      },
       child: Container(
         margin: const EdgeInsets.only(bottom: 18),
         color: Colors.transparent,

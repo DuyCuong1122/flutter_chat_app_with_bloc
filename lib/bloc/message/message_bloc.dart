@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:chat_app/bloc/message/message_event.dart';
 import 'package:chat_app/bloc/message/message_state.dart';
 import 'package:chat_app/common/values/storage.dart';
@@ -12,11 +15,16 @@ import '../../repository/message_repository.dart';
 class MessageBloc extends Bloc<MessageEvent, MessageState> {
   final MessageRepository _messageRepository = MessageRepository();
   final AppLocalizations? appLocalizations;
+  StreamSubscription<QuerySnapshot<Message>>? _messagesStreamSubscription;
+  final List<Message> messagesList = [];
 
   MessageBloc({required this.appLocalizations}) : super(MessageInitial()) {
     on<MessageGetAllEvent>(_onGetAllMessage);
     on<MessageReadEvent>(_onReadMessage);
     on<MessageCreateEvent>(_onCreateMessage);
+    on<MessageUpdateEvent>(_onMessagesUpdated);
+
+    _startListeningToMessages();
   }
 
   Future _onGetAllMessage(
@@ -28,6 +36,63 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     } catch (e) {
       emit(MessageFailure(error: appLocalizations!.failedGetMessages));
     }
+  }
+
+  void _onMessagesUpdated(
+      MessageUpdateEvent event, Emitter<MessageState> emit) {
+    emit(MessageSuccess(messagesList: event.messageList));
+  }
+
+  void _startListeningToMessages() {
+    final messagesCollection = FirebaseFirestore.instance
+        .collection("messages")
+        .withConverter<Message>(
+          fromFirestore: (snapshot, _) => Message.fromFirestore(snapshot),
+          toFirestore: (Message msgContent, options) =>
+              msgContent.toFirestore(),
+        )
+        .orderBy("lastTime", descending: false);
+    messagesList.clear();
+    _messagesStreamSubscription =
+        messagesCollection.snapshots().listen((snapshot) {
+      for (var change in snapshot.docChanges) {
+        switch (change.type) {
+          case DocumentChangeType.added:
+            final data = change.doc.data();
+            if (data != null) {
+              messagesList.insert(0, data);
+            }
+            break;
+
+          case DocumentChangeType.modified:
+            final updatedData = change.doc.data();
+            if (updatedData != null) {
+              final index =
+                  messagesList.indexWhere((msg) => msg.id == updatedData.id);
+              if (index != -1) {
+                messagesList[index] = updatedData;
+              }
+            }
+            break;
+
+          case DocumentChangeType.removed:
+            final removedData = change.doc.data();
+            if (removedData != null) {
+              messagesList.removeWhere((msg) => msg.id == removedData.id);
+            }
+            break;
+        }
+      }
+      add(MessageUpdateEvent(messageList: List.from(messagesList)));
+    }, onError: (error) {
+      add(MessageErrorEvent(errorMessage: error.toString()));
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _messagesStreamSubscription?.cancel();
+    return super.close();
   }
 
   Future _onReadMessage(
@@ -58,4 +123,6 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       emit(MessageFailure(error: "Fail to create message"));
     }
   }
+
+
 }

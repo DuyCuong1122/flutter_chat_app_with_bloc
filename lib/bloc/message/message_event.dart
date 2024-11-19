@@ -19,3 +19,15 @@ class MessageCreateEvent extends MessageEvent {
 
   MessageCreateEvent({required this.toUser});
 }
+
+class MessageUpdateEvent extends MessageEvent {
+  final List<Message> messageList;
+
+  MessageUpdateEvent({required this.messageList});
+}
+
+class MessageErrorEvent extends MessageEvent {
+  final String errorMessage;
+
+  MessageErrorEvent({required this.errorMessage});
+}

@@ -15,6 +15,7 @@ import '../../../database/models/message_content.dart';
 
 class SendMessageItem extends StatefulWidget {
   final Message message;
+
   const SendMessageItem({super.key, required this.message});
 
   @override
@@ -138,12 +139,12 @@ class _SendMessageItemState extends State<SendMessageItem> {
               );
               context.read<MessageChatBloc>().add(
                     MessageSendEvent(
-                      messageContent: messageContent,
-                      message: widget.message
-                    ),
+                        messageContent: messageContent,
+                        message: widget.message),
                   );
             }
             messageController.clear();
+            FocusScope.of(context).unfocus();
           },
           icon: const Icon(
             AppIcon.send,

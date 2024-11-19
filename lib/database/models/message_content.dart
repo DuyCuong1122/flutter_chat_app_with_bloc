@@ -40,4 +40,9 @@ class MessageContent {
       'createdAt': Timestamp.now(),
     };
   }
+
+  @override
+  String toString() {
+    return 'MessageContent{id: $id, uid: $uid, content: $content, type: $type, createdAt: $createdAt}';
+  }
 }
