@@ -11,14 +11,14 @@ class MessageContent {
 
   MessageContent({this.id, this.uid, this.content, this.type, this.createdAt});
 
-  factory MessageContent.fromFirestore(DocumentSnapshot doc) {
-    Map data = doc.data() as Map<String, dynamic>;
+  factory MessageContent.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc, SnapshotOptions? options,) {
+    final data = doc.data() ;
     return MessageContent(
-      id: doc.id,
-      uid: data['uid'] ?? '',
-      content: data['content'] ?? '',
-      type: data['type'] ?? '',
-      createdAt: data['createdAt'] ?? Timestamp.now(),
+      id:  doc.id,
+      uid: data?['uid'] ?? '',
+      content: data?['content'] ?? '',
+      type: data?['type'] ?? '',
+      createdAt: data?['createdAt'] ?? Timestamp.now(),
     );
   }
 
@@ -36,7 +36,7 @@ class MessageContent {
     return {
       'uid': SharedPreferencesService().getString(ID),
       'content': content,
-      'type': type,
+      'type': 'text',
       'createdAt': Timestamp.now(),
     };
   }

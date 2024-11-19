@@ -149,7 +149,7 @@ class FirebaseApi {
       await docRef.update({'id': docId});
 
       log('Document added successfully to $collection with id $docId.');
-      return docId;
+      return docRef.get();
     } catch (e) {
       log('Error adding document: $e');
     } finally {

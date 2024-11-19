@@ -2,12 +2,15 @@ import 'dart:developer';
 
 import 'package:chat_app/bloc/check_box/check_box_bloc.dart';
 import 'package:chat_app/bloc/check_box/check_box_state.dart';
+import 'package:chat_app/bloc/message/message_bloc.dart';
+import 'package:chat_app/bloc/message/message_event.dart';
+import 'package:chat_app/bloc/message/message_state.dart';
 import 'package:chat_app/bloc/user/user_bloc.dart';
 import 'package:chat_app/bloc/user/user_state.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
+import 'package:chat_app/page/chat_box/chat_box_view.dart';
 import 'package:chat_app/page/message/widget/custom_avatar.dart';
-import 'package:chat_app/page/message/widget/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../bloc/check_box/check_box_event.dart';
@@ -155,21 +158,36 @@ class CreateMessageView extends StatelessWidget {
                                 },
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-
+                            BlocListener<MessageBloc, MessageState>(
+                              listener: (context, state) {
+                                if (state is MessageCreateSuccessState) {
+                                  log('state: $state');
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatBoxView(
+                                        message: state.message,
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
-                              child: Container(
-                                width: 58,
-                                height: 58,
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  color: Colors.white,
-                                  size: 24,
+                              child: InkWell(
+                                onTap: () => context.read<MessageBloc>().add(
+                                    MessageCreateEvent(
+                                        toUser: state.users.first)),
+                                child: Container(
+                                  width: 58,
+                                  height: 58,
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: Colors.white,
+                                    size: 24,
+                                  ),
                                 ),
                               ),
                             ),

@@ -40,7 +40,7 @@ class UserRepository {
         "listFriends": [],
         "fcmtoken": "",
       });
-      return response;
+      return User.fromFirestore(response);
     } catch (e) {
       log('Error adding user: $e');
     }

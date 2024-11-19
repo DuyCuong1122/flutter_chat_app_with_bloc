@@ -21,7 +21,8 @@ class MessageRepository {
 
   Future createMessage(Message message) async {
     try {
-      await FirebaseApi.addDocument('messages', message.toFirestore());
+      final response = await FirebaseApi.addDocument('messages', message.toFirestore());
+      return Message.fromFirestore(response);
     } catch (e) {
       log('Error creating message: $e');
     }
@@ -53,8 +54,8 @@ class MessageRepository {
       });
       await FirebaseApi.db.collection('messages').doc(message.id).update({
         'lastMessage': messageContent.content,
-        'lastTime': messageContent.createdAt,
-        'lastSender': SharedPreferencesService().getString(ID),
+        'lastTime': Timestamp.now(),
+        'lastSender': SharedPreferencesService().getString(NAME),
         'unreadCount': message.unreadCount,
       });
     } catch (e) {
@@ -71,7 +72,7 @@ class MessageRepository {
           .orderBy('createdAt', descending: true)
           .get();
       return response.docs.isNotEmpty
-          ? response.docs.map((e) => MessageContent.fromFirestore(e)).toList()
+          ? response.docs.map((e) => MessageContent.fromFirestore(e,null)).toList()
           : [];
     } catch (e) {
       log('Error getting chat messages: $e');

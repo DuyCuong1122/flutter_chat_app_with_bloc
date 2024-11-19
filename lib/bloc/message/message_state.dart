@@ -24,3 +24,8 @@ class MessageFailure extends MessageState {
 class MessageReadSuccess extends MessageState {
   MessageReadSuccess();
 }
+
+class MessageCreateSuccessState extends MessageState{
+  final Message message;
+  MessageCreateSuccessState({required this.message});
+}

@@ -1,15 +1,17 @@
-import '../../database/models/message.dart';
+import 'package:chat_app/database/models/message_content.dart';
 
-class MessageChat{}
+class MessageChatState{}
 
-class MessageChatInitial extends MessageChat{}
+class MessageChatInitialState extends MessageChatState{}
 
-class MessageChatLoading extends MessageChat{}
+class MessageChatLoadingState extends MessageChatState{}
 
-class MessageChatSuccess extends MessageChat{
-  final List<Message> messagesList;
-  MessageChatSuccess({required this.messagesList});
+class MessageChatSuccessState extends MessageChatState{
+  final List<MessageContent> messagesList;
+  MessageChatSuccessState({required this.messagesList});
 }
 
-class MessageCreateSuccess extends MessageChat{}
-
+class MessageChatErrorState extends MessageChatState{
+  final String errorMessage;
+  MessageChatErrorState({required this.errorMessage});
+}

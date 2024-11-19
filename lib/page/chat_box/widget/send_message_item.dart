@@ -1,14 +1,21 @@
 import 'dart:io';
 
+import 'package:chat_app/bloc/message_chat/message_chat_event.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
 import 'package:chat_app/common/values/typography.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../bloc/message_chat/message_chat_bloc.dart';
+import '../../../database/models/message.dart';
+import '../../../database/models/message_content.dart';
+
 class SendMessageItem extends StatefulWidget {
-  const SendMessageItem({super.key});
+  final Message message;
+  const SendMessageItem({super.key, required this.message});
 
   @override
   _SendMessageItemState createState() => _SendMessageItemState();
@@ -18,6 +25,7 @@ class _SendMessageItemState extends State<SendMessageItem> {
   Color albumIconColor = Colors.grey;
   Color emojiIconColor = Colors.grey;
   final ImagePicker _picker = ImagePicker();
+  final TextEditingController messageController = TextEditingController();
 
   void _toggleAlbumIconColor() {
     setState(() {
@@ -102,7 +110,7 @@ class _SendMessageItemState extends State<SendMessageItem> {
               borderRadius: BorderRadius.circular(30),
             ),
             child: TextField(
-              controller: TextEditingController(),
+              controller: messageController,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(left: 20, top: 12),
                 hintText: '${AppLocalizations.of(context)!.enterMessage}...',
@@ -123,7 +131,20 @@ class _SendMessageItemState extends State<SendMessageItem> {
         ),
         const SizedBox(width: 20),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            if (messageController.text.isNotEmpty) {
+              final messageContent = MessageContent(
+                content: messageController.text,
+              );
+              context.read<MessageChatBloc>().add(
+                    MessageSendEvent(
+                      messageContent: messageContent,
+                      message: widget.message
+                    ),
+                  );
+            }
+            messageController.clear();
+          },
           icon: const Icon(
             AppIcon.send,
             color: AppColors.primaryColor,
