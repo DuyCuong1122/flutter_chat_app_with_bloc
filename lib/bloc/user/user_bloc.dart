@@ -21,6 +21,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserGetAllEvent>(_onGetAllUser);
     on<UserGetEvent>(_onGetUser);
     on<UserGetAllFriendsEvent>(_onGetAllFriends);
+    on<UserSearchEvent>(searchUser);
   }
 
   Future<void> _onAddUser(UserAddEvent event, Emitter<UserState> emit) async {
@@ -89,6 +90,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
     } catch (e) {
       emit(UserFailure(appLocalizations!.failedSignUp));
+    }
+  }
+
+  Future searchUser(UserSearchEvent event, Emitter<UserState> emit) async {
+    emit(UserLoading());
+    try {
+      final users = await userRepository.searchFriend(event.query);
+      emit(UserSearchSuccessState(users));
+    } catch (e) {
+      emit(UserFailure("Fail to search user"));
     }
   }
 }

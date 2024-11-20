@@ -28,3 +28,8 @@ class UserGetAllFriendsSuccessState extends UserState {
   final List<User> users;
   UserGetAllFriendsSuccessState(this.users);
 }
+
+class UserSearchSuccessState extends UserState {
+  final List<User> users;
+  UserSearchSuccessState(this.users);
+}

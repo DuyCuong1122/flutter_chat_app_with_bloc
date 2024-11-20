@@ -27,3 +27,9 @@ class UserGetEvent extends UserEvent {
 }
 
 class UserGetAllFriendsEvent extends UserEvent {}
+
+class UserSearchEvent extends UserEvent {
+  final String query;
+
+  UserSearchEvent({required this.query});
+}

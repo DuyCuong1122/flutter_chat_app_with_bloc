@@ -75,33 +75,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translate = AppLocalizations.of(context);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => AuthBloc(
-              authRepository: AuthRepository(),
-              appLocalizations: AppLocalizations.of(context)),
+              authRepository: AuthRepository(), appLocalizations: translate),
         ),
         BlocProvider(
           create: (context) => UserBloc(
-              userRepository: UserRepository(),
-              appLocalizations: AppLocalizations.of(context)),
+              userRepository: UserRepository(), appLocalizations: translate),
         ),
         BlocProvider(
           create: (context) => LocaleCubit(), // Khởi tạo LocaleCubit
         ),
-        BlocProvider<RequestBloc>(
-          create: (context) => RequestBloc(AppLocalizations.of(context))
-            ..add(RequestGetAllEvent()),
-        ),
-        BlocProvider<RequestActionBloc>(
-          create: (context) => RequestActionBloc(AppLocalizations.of(context)),
-        ),
+        BlocProvider<RequestBloc>(create: (context) => RequestBloc(translate)),
         BlocProvider<MessageBloc>(
-          create: (context) =>
-              MessageBloc(appLocalizations: AppLocalizations.of(context))
-                ..add(MessageGetAllEvent()),
-        ),
+            create: (context) => MessageBloc(appLocalizations: translate)),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {

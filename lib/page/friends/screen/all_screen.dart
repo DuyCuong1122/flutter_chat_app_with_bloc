@@ -11,11 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AllScreen extends StatelessWidget {
-  AllScreen({super.key});
-  List<String> friendIds = SharedPreferencesService().getList(LIST_FRIENDS);
+  const AllScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    List<String> friendIds = SharedPreferencesService().getList(LIST_FRIENDS);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: BlocBuilder<UserBloc, UserState>(

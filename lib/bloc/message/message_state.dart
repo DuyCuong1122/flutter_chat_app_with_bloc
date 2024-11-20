@@ -34,3 +34,12 @@ class MessageCreateSuccessState extends MessageState{
   final Message message;
   MessageCreateSuccessState({required this.message});
 }
+
+class MessageExistState extends MessageState {
+  final Message message;
+  MessageExistState({required this.message});
+}
+
+class MessageNotExistState extends MessageState {
+  MessageNotExistState();
+}

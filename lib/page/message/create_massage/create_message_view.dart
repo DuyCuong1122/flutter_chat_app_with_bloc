@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:chat_app/bloc/check_box/check_box_bloc.dart';
 import 'package:chat_app/bloc/check_box/check_box_state.dart';
 import 'package:chat_app/bloc/message/message_bloc.dart';
@@ -106,8 +104,6 @@ class CreateMessageView extends StatelessWidget {
                               child: BlocBuilder<UserBloc, UserState>(
                                   builder: (context, state) {
                                 if (state is UserGetAllFriendsSuccessState) {
-                                  log('state: $state');
-                                  log('state: ${state.users}');
                                   if (state.users.isNotEmpty) {
                                     return ListView.builder(
                                       itemCount: state.users.length,
@@ -137,6 +133,7 @@ class CreateMessageView extends StatelessWidget {
               BlocBuilder<CheckBoxBloc, CheckBoxState>(
                 builder: (BuildContext context, CheckBoxState state) {
                   if (state is CheckBoxToggledState && state.users.isNotEmpty) {
+                    final selectedUser = state.users.first;
                     return Positioned(
                       bottom: 0,
                       left: 0,
@@ -161,7 +158,6 @@ class CreateMessageView extends StatelessWidget {
                             BlocListener<MessageBloc, MessageState>(
                               listener: (context, state) {
                                 if (state is MessageCreateSuccessState) {
-                                  log('state: $state');
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -170,12 +166,29 @@ class CreateMessageView extends StatelessWidget {
                                       ),
                                     ),
                                   );
+                                } else if (state is MessageExistState) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatBoxView(
+                                        message: state.message,
+                                      ),
+                                    ),
+                                  );
+                                } else if (state is MessageNotExistState) {
+                                  context.read<MessageBloc>().add(
+                                      MessageCreateEvent(toUser: selectedUser));
+                                } else if (state is MessageFailure) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(state.error),
+                                    ),
+                                  );
                                 }
                               },
                               child: InkWell(
                                 onTap: () => context.read<MessageBloc>().add(
-                                    MessageCreateEvent(
-                                        toUser: state.users.first)),
+                                    MessageCheckExistEvent(user: selectedUser)),
                                 child: Container(
                                   width: 58,
                                   height: 58,

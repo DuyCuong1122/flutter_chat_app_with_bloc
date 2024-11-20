@@ -37,3 +37,9 @@ class MessageSearchEvent extends MessageEvent {
 
   MessageSearchEvent({required this.query});
 }
+
+class MessageCheckExistEvent extends MessageEvent {
+  final User user;
+
+  MessageCheckExistEvent({required this.user});
+}

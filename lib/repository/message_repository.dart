@@ -5,6 +5,7 @@ import 'package:chat_app/database/services/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../common/config/firebase_api.dart';
 import '../database/models/message.dart';
+import '../database/models/user.dart';
 
 class MessageRepository {
   Future<List<Message>> getAllListMessages() async {
@@ -21,7 +22,8 @@ class MessageRepository {
 
   Future createMessage(Message message) async {
     try {
-      final response = await FirebaseApi.addDocument('messages', message.toFirestore());
+      final response =
+          await FirebaseApi.addDocument('messages', message.toFirestore());
       return Message.fromFirestore(response);
     } catch (e) {
       log('Error creating message: $e');
@@ -63,6 +65,26 @@ class MessageRepository {
     }
   }
 
+  Future checkMessageExist(User user) async {
+    final messagesRef = FirebaseFirestore.instance.collection('messages');
+    String userId = SharedPreferencesService().getString(ID);
+
+    final querySnapshot = await messagesRef
+        .where('fromUId', isEqualTo: userId)
+        .where('toUId', isEqualTo: user.id)
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      return Message.fromFirestore(querySnapshot.docs.first);
+    }
+    final reverseQuerySnapshot = await messagesRef
+        .where('fromUId', isEqualTo: user.id)
+        .where('toUId', isEqualTo: userId)
+        .get();
+    if (reverseQuerySnapshot.docs.isNotEmpty) {
+      return Message.fromFirestore(reverseQuerySnapshot.docs.first);
+    }
+  }
+
   Future<List<MessageContent>> getAllChatListMessages(String messageId) async {
     try {
       final response = await FirebaseApi.db
@@ -72,7 +94,9 @@ class MessageRepository {
           .orderBy('createdAt', descending: true)
           .get();
       return response.docs.isNotEmpty
-          ? response.docs.map((e) => MessageContent.fromFirestore(e,null)).toList()
+          ? response.docs
+              .map((e) => MessageContent.fromFirestore(e, null))
+              .toList()
           : [];
     } catch (e) {
       log('Error getting chat messages: $e');
@@ -93,7 +117,8 @@ class MessageRepository {
     }
   }
 
-  Future<List<Map<String, dynamic>>> searchMessagesInUserChats(String queryString) async {
+  Future<List<Map<String, dynamic>>> searchMessagesInUserChats(
+      String queryString) async {
     final firestore = FirebaseFirestore.instance;
     final userChatList = await firestore.collection('messages').get();
 

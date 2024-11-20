@@ -22,6 +22,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     on<MessageCreateEvent>(_onCreateMessage);
     on<MessageUpdateEvent>(_onMessagesUpdated);
     on<MessageSearchEvent>(_onSearchMessage);
+    on<MessageCheckExistEvent>(_onMessageCheckExist);
     _startListeningToMessages();
   }
 
@@ -39,6 +40,21 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   void _onMessagesUpdated(
       MessageUpdateEvent event, Emitter<MessageState> emit) {
     emit(MessageSuccess(messagesList: event.messageList));
+  }
+
+  void _onMessageCheckExist(
+      MessageCheckExistEvent event, Emitter<MessageState> emit) async {
+    emit(MessageLoading());
+    try {
+      final message = await _messageRepository.checkMessageExist(event.user);
+      if (message != null) {
+        emit(MessageExistState(message: message));
+      } else {
+        emit(MessageNotExistState());
+      }
+    } catch (e) {
+      emit(MessageFailure(error: appLocalizations!.failedGetMessages));
+    }
   }
 
   void _startListeningToMessages() {

@@ -4,7 +4,11 @@ import 'package:chat_app/bloc/request/request_state.dart';
 import 'package:chat_app/bloc/request_action/request_action_bloc.dart';
 import 'package:chat_app/bloc/request_action/request_action_event.dart';
 import 'package:chat_app/bloc/request_action/request_action_state.dart';
+import 'package:chat_app/common/util/get_first_character_name.dart';
+import 'package:chat_app/common/util/get_first_character_name.dart';
+import 'package:chat_app/common/util/get_first_character_name.dart';
 import 'package:chat_app/common/values/storage.dart';
+import 'package:chat_app/common/widgets/default_avatar.dart';
 import 'package:chat_app/database/models/model.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
@@ -17,26 +21,50 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AllFriendItem extends StatelessWidget {
   final User user;
   final bool isFriend;
+
   const AllFriendItem({
     super.key,
     required this.user,
     this.isFriend = false,
   });
 
+  @override
+  Widget build(BuildContext context) {
+    final userId = SharedPreferencesService().getString(ID);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Row(
+        children: [
+          const DefaultAvatar(size: 36),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              user.name!,
+              style:
+                  AppTypography.s16w800.copyWith(color: AppColors.blackColor),
+            ),
+          ),
+          buildButtonOption(context),
+        ],
+      ),
+    );
+  }
+
   Widget buildButtonOption(BuildContext context) {
+    final translate = AppLocalizations.of(context)!;
     if (!isFriend) {
       final requestState = context.watch<RequestBloc>().state;
       if (requestState is RequestGetAllSuccessState) {
-        final isSentRequest = requestState.sendRequest.any((element) => element.toUId == user.id);
-        final isReceivedRequest = requestState.receivedRequest.any((element) => element.fromUId == user.id);
+        final isSentRequest =
+            requestState.sendRequest.any((element) => element.toUId == user.id);
+        final isReceivedRequest = requestState.receivedRequest
+            .any((element) => element.fromUId == user.id);
 
         return BlocConsumer<RequestActionBloc, RequestActionState>(
           listener: (context, state) {
             if (state is RequestActionSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message), backgroundColor: AppColors.primaryColor,),
-              );
-              context.read<RequestBloc>().add(RequestGetAllEvent()); // Tải lại danh sách yêu cầu khi hành động thành công
+              context.read<RequestBloc>().add(
+                  RequestGetAllEvent());
             }
           },
           builder: (context, state) {
@@ -44,19 +72,17 @@ class AllFriendItem extends StatelessWidget {
               onPressed: () {
                 if (isSentRequest) {
                   context.read<RequestActionBloc>().add(RequestDeleteEvent(
-                      request: requestState.sendRequest.firstWhere((element) => element.toUId == user.id)));
+                      request: requestState.sendRequest
+                          .firstWhere((element) => element.toUId == user.id)));
                 } else if (isReceivedRequest) {
                   context.read<RequestActionBloc>().add(RequestAcceptEvent(
-                      request: requestState.receivedRequest.firstWhere((element) => element.fromUId == user.id)));
-            
+                      request: requestState.receivedRequest.firstWhere(
+                          (element) => element.fromUId == user.id)));
                 } else {
                   context.read<RequestActionBloc>().add(RequestCreateEvent(
-                      request: Request(
-                          fromUId: SharedPreferencesService().getString(ID),
-                          toUId: user.id)));
-                  requestState.sendRequest.add(Request(
-                      fromUId: SharedPreferencesService().getString(ID),
-                      toUId: user.id));
+                      request: Request(fromUId: userId, toUId: user.id)));
+                  requestState.sendRequest
+                      .add(Request(fromUId: userId, toUId: user.id));
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -67,10 +93,10 @@ class AllFriendItem extends StatelessWidget {
               ),
               child: Text(
                 isSentRequest
-                    ? AppLocalizations.of(context)!.cancel
+                    ? translate.cancel
                     : isReceivedRequest
-                        ? AppLocalizations.of(context)!.accept
-                        : AppLocalizations.of(context)!.addFriend,
+                        ? translate.accept
+                        : translate.addFriend,
                 style: AppTypography.s14w500.copyWith(color: Colors.white),
               ),
             );
@@ -79,43 +105,5 @@ class AllFriendItem extends StatelessWidget {
       }
     }
     return const SizedBox.shrink();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            height: 36,
-            width: 36,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.primaryColor,
-                  AppColors.secondaryColor,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-            child: const Icon(
-              AppIcon.person,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              user.name!,
-              style: AppTypography.s16w800.copyWith(color: AppColors.blackColor),
-            ),
-          ),
-          buildButtonOption(context),
-        ],
-      ),
-    );
   }
 }

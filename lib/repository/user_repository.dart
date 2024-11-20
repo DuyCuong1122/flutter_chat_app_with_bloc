@@ -98,4 +98,22 @@ class UserRepository {
     }
     return friends;
   }
+
+  Future<List<User>> searchFriend(String queryString) async {
+    try {
+      final friendList = SharedPreferencesService().getList(LIST_FRIENDS);
+      final response = await FirebaseFirestore.instance
+          .collection('users')
+          .where('name', isGreaterThanOrEqualTo: queryString)
+          .where('name', isLessThanOrEqualTo: '$queryString\uf8ff')
+          .get();
+      return response.docs
+          .where((doc) => friendList.contains(doc.id))
+          .map((doc) => User.fromFirestore(doc))
+          .toList();
+    } catch (e) {
+      log('Error searching friend: $e');
+    }
+    return [];
+  }
 }

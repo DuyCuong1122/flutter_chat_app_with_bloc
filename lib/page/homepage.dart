@@ -1,15 +1,21 @@
+import 'package:chat_app/bloc/message/message_bloc.dart';
+import 'package:chat_app/bloc/message/message_event.dart';
 import 'package:chat_app/bloc/request/request_bloc.dart';
 import 'package:chat_app/bloc/request/request_event.dart';
 import 'package:chat_app/bloc/user/user_bloc.dart';
 import 'package:chat_app/bloc/user/user_event.dart';
 import 'package:chat_app/common/values/colors.dart';
 import 'package:chat_app/common/values/icons.dart';
+import 'package:chat_app/common/widgets/noti_circle_container.dart';
+import 'package:chat_app/database/services/service.dart';
 import 'package:chat_app/page/friends/friend_view.dart';
 import 'package:chat_app/page/message/message_view.dart';
 import 'package:chat_app/page/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../common/values/storage.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -20,13 +26,22 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   int myCurrentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<MessageBloc>().add(MessageGetAllEvent());
+    context.read<RequestBloc>().add(RequestGetAllEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
-    List pages =  [
+    List pages = const [
       MessageView(),
-      const FriendView(),
-      const ProfileView(),
+      FriendView(),
+      ProfileView(),
     ];
+    final translate = AppLocalizations.of(context)!;
 
     return Scaffold(
         body: pages[myCurrentIndex],
@@ -56,22 +71,54 @@ class _HomepageState extends State<Homepage> {
               showUnselectedLabels: true,
               items: [
                 BottomNavigationBarItem(
-                  icon: Image.asset(
-                    AppIcon.message,
-                    color: myCurrentIndex == 0
-                        ? AppColors.primaryColor
-                        : AppColors.normalColor,
+                  icon: Stack(
+                    children: [
+                      Image.asset(
+                        AppIcon.message,
+                        color: myCurrentIndex == 0
+                            ? AppColors.primaryColor
+                            : AppColors.normalColor,
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: NotificationCircleContainer(
+                            number: context
+                                .watch<MessageBloc>()
+                                .messagesList
+                                .where((element) =>
+                                    element.unreadCount! > 0 &&
+                                    element.lastSenderId !=
+                                        SharedPreferencesService().getString(ID))
+                                .length,
+                            size: 16),
+                      )
+                    ],
                   ),
-                  label: AppLocalizations.of(context)!.message,
+                  label: translate.message,
                 ),
                 BottomNavigationBarItem(
-                  icon: Image.asset(
-                    AppIcon.friend,
-                    color: myCurrentIndex == 1
-                        ? AppColors.primaryColor
-                        : AppColors.normalColor,
+                  icon: Stack(
+                    children: [
+                      Image.asset(
+                        AppIcon.friend,
+                        color: myCurrentIndex == 1
+                            ? AppColors.primaryColor
+                            : AppColors.normalColor,
+                      ),
+                      Positioned(
+                        top: -5,
+                        right: -5,
+                        child: NotificationCircleContainer(
+                            number: context
+                                .watch<RequestBloc>()
+                                .listRequest
+                                  .length,
+                            size: 16),
+                      )
+                    ],
                   ),
-                  label: AppLocalizations.of(context)!.friends,
+                  label: translate.friends,
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
@@ -80,7 +127,7 @@ class _HomepageState extends State<Homepage> {
                         ? AppColors.primaryColor
                         : AppColors.normalColor,
                   ),
-                  label: AppLocalizations.of(context)!.profile,
+                  label: translate.profile,
                 ),
               ],
               onTap: (index) {
