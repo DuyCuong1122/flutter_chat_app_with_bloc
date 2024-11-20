@@ -58,5 +58,6 @@
     "successfullyAcceptFriend": "Friend accepted successfully",
     "failedGetMessages": "Fetching messages failed",
     "suitableMessage": "suitable messages",
-    "noSuitableResult": "No matching results were found"
+    "noSuitableResult": "No matching results were found",
+    "noData" : "No found data"
 }

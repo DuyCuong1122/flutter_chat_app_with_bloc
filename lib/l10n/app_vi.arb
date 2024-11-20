@@ -58,5 +58,6 @@
     "successfullyAcceptFriend" : "Đồng ý kết bạn thành công",
     "failedGetMessages" : "Lấy tin nhắn thất bại",
     "suitableMessage" : "tin nhắn phù hợp",
-    "noSuitableResult": "Không tìm thấy kết quả phù hợp"
+    "noSuitableResult": "Không tìm thấy kết quả phù hợp",
+    "noData" : "Không tìm thấy dữ liệu"
 }
