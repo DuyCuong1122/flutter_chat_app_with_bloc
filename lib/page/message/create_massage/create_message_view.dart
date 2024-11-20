@@ -71,11 +71,11 @@ class CreateMessageView extends StatelessWidget {
                             ),
                             SizedBox(height: heightScreen * 0.03),
                             CustomSearchBar(
-                              controller: searchFriends,
-                              hintText:
-                                  '${AppLocalizations.of(context)!.searchFriends}...',
-                              onSearch: (String query) {},
-                            ),
+                                controller: searchFriends,
+                                hintText:
+                                    '${AppLocalizations.of(context)!.searchFriends}...',
+                                onSearch: (String query) {},
+                                onClear: () {}),
                           ],
                         ),
                       ),

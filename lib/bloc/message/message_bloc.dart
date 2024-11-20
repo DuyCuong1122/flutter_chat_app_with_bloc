@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:chat_app/bloc/message/message_event.dart';
 import 'package:chat_app/bloc/message/message_state.dart';
 import 'package:chat_app/common/values/storage.dart';
@@ -23,7 +21,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     on<MessageReadEvent>(_onReadMessage);
     on<MessageCreateEvent>(_onCreateMessage);
     on<MessageUpdateEvent>(_onMessagesUpdated);
-
+    on<MessageSearchEvent>(_onSearchMessage);
     _startListeningToMessages();
   }
 
@@ -124,5 +122,15 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     }
   }
 
+  Future _onSearchMessage(
+      MessageSearchEvent event, Emitter<MessageState> emit) async {
+    emit(MessageLoading());
+    try {
+      final messages = await _messageRepository.searchMessagesInUserChats(event.query);
+      emit(MessageSearchSuccess(results: messages));
+    } catch (e) {
+      emit(MessageFailure(error: "Fail to search message"));
+    }
+  }
 
 }

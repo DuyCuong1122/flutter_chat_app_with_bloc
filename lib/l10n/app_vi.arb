@@ -56,5 +56,7 @@
     "failedGetUser" : "Lỗi lấy thông tin người dùng!",
     "successfullyAddFriendRequest" : "Gửi lời mời kết bạn thành công!",
     "successfullyAcceptFriend" : "Đồng ý kết bạn thành công",
-    "failedGetMessages" : "Lấy tin nhắn thất bại"
+    "failedGetMessages" : "Lấy tin nhắn thất bại",
+    "suitableMessage" : "tin nhắn phù hợp",
+    "noSuitableResult": "Không tìm thấy kết quả phù hợp"
 }

@@ -65,6 +65,7 @@ class FriendView extends StatelessWidget {
                         hintText:
                             '${AppLocalizations.of(context)!.searchFriends}...',
                         onSearch: (String query) {},
+                        onClear: () {},
                       ),
                       SizedBox(height: heightScreen * 0.03),
                     ],

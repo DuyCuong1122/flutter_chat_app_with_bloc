@@ -6,21 +6,24 @@ import 'package:chat_app/common/widgets/custom_background.dart';
 import 'package:chat_app/common/widgets/custom_search_bar.dart';
 import 'package:chat_app/database/models/message.dart';
 import 'package:chat_app/page/message/widget/message_item.dart';
+import 'package:chat_app/page/message/widget/search_message_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../bloc/message/message_bloc.dart';
+import '../../bloc/message/message_event.dart';
 import '../../bloc/message/message_state.dart';
 import 'create_massage/create_message_view.dart';
 
 class MessageView extends StatelessWidget {
-  const MessageView({super.key});
+  final searchController = TextEditingController();
+
+  MessageView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final heightScreen = MediaQuery.of(context).size.height;
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -67,10 +70,15 @@ class MessageView extends StatelessWidget {
                       ),
                       SizedBox(height: heightScreen * 0.03),
                       CustomSearchBar(
-                        controller: TextEditingController(),
+                        controller: searchController,
                         hintText:
                             '${AppLocalizations.of(context)!.searchMessage}...',
-                        onSearch: (String query) {},
+                        onSearch: (String query) {
+                          context.read<MessageBloc>().add(MessageSearchEvent(query: query));
+                        },
+                        onClear: () {
+                          context.read<MessageBloc>().add(MessageGetAllEvent());
+                        },
                       ),
                       SizedBox(height: heightScreen * 0.03),
                     ],
@@ -101,6 +109,34 @@ class MessageView extends StatelessWidget {
                             itemBuilder: (context, index) {
                               final message = messages[index];
                               return MessageItem(message: message);
+                            },
+                          );
+                        }
+                        else if (state is MessageSearchSuccess) {
+                          final results = state.results;
+                          if (results.isEmpty) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(AppIcon.searchPNG),
+                                Text(
+                                  AppLocalizations.of(context)!
+                                      .noSuitableResult,
+                                  style: AppTypography.s16w800.copyWith(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                          return ListView.builder(
+                            itemCount: results.length,
+                            itemBuilder: (context, index) {
+                              final response = results[index];
+                              return SearchMessageItem(
+                                  message: Message.fromFirestore(
+                                      response['message']),
+                                  count: response['count']);
                             },
                           );
                         }

@@ -31,3 +31,9 @@ class MessageErrorEvent extends MessageEvent {
 
   MessageErrorEvent({required this.errorMessage});
 }
+
+class MessageSearchEvent extends MessageEvent {
+  final String query;
+
+  MessageSearchEvent({required this.query});
+}

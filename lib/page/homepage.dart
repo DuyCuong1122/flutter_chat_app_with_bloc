@@ -22,10 +22,10 @@ class _HomepageState extends State<Homepage> {
   int myCurrentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    List pages = const [
+    List pages =  [
       MessageView(),
-      FriendView(),
-      ProfileView(),
+      const FriendView(),
+      const ProfileView(),
     ];
 
     return Scaffold(

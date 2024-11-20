@@ -110,8 +110,8 @@ class MessageRepository {
 
       if (querySnapshot.docs.isNotEmpty) {
         matchingChats.add({
-          'message': userChatDoc.data(),
-          'count': querySnapshot.docs.length,
+          'message': userChatDoc,
+          'count': querySnapshot.docs.length.toString(),
         });
       }
     }

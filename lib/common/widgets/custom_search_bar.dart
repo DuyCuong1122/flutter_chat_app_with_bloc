@@ -7,12 +7,14 @@ class CustomSearchBar extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final Function(String) onSearch;
+  final Function() onClear;
 
   const CustomSearchBar({
     super.key,
     required this.controller,
     required this.hintText,
     required this.onSearch,
+    required this.onClear,
   });
 
   @override
@@ -36,7 +38,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
   void _clearText() {
     widget.controller.clear();
-    widget.onSearch('');
+    FocusScope.of(context).unfocus();
+    widget.onClear();
     setState(() {
       _hasText = false;
     });
@@ -52,29 +55,37 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       child: TextField(
         controller: widget.controller,
         onChanged: (text) {
-          widget.onSearch(text);
+          text != '' ? widget.onSearch(text) : widget.onClear();
           _checkText();
         },
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 10),
           hintText: widget.hintText,
-          hintStyle: AppTypography.s16w500.copyWith(color: AppColors.normalColor),
+          hintStyle:
+              AppTypography.s16w500.copyWith(color: AppColors.normalColor),
           prefixIcon: const Icon(
             AppIcon.search,
             size: 20,
             color: AppColors.primaryColor,
           ),
           suffixIcon: _hasText
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.close,
-                    size: 18,
-                    color: Colors.grey,
+              ? InkWell(
+                  onTap: _clearText,
+                  child: Container(
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      color: AppColors.f99Color,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.close,
+                      size: 13,
+                      color: AppColors.whiteColor,
+                    ),
                   ),
-                  onPressed: _clearText,
                 )
               : null,
-              border: InputBorder.none,
+          border: InputBorder.none,
         ),
         style: AppTypography.s16w500.copyWith(color: Colors.black),
       ),

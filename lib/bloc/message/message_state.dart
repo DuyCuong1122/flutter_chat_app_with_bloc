@@ -16,6 +16,11 @@ class MessageSuccess extends MessageState {
   MessageSuccess({required this.messagesList});
 }
 
+class MessageSearchSuccess extends MessageState {
+  final List<Map<String, dynamic>> results;
+  MessageSearchSuccess({required this.results});
+}
+
 class MessageFailure extends MessageState {
   final String error;
   MessageFailure({required this.error});
