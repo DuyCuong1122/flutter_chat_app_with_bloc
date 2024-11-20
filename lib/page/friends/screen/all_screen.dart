@@ -12,7 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AllScreen extends StatelessWidget {
   AllScreen({super.key});
-
   List<String> friendIds = SharedPreferencesService().getList(LIST_FRIENDS);
 
   @override
