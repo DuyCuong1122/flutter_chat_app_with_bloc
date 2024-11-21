@@ -1,9 +1,26 @@
-import 'dart:developer';
-
+import 'dart:async';
+import 'package:chat_app/bloc/auth/auth_bloc.dart';
+import 'package:chat_app/bloc/locale/locale_cubit.dart';
+import 'package:chat_app/bloc/user/user_bloc.dart';
+import 'package:chat_app/database/services/shared_preference_service.dart';
+import 'package:chat_app/common/values/colors.dart';
+import 'package:chat_app/page/splash_view.dart';
+import 'package:chat_app/repository/auth_repository.dart';
+import 'package:chat_app/repository/user_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'bloc/message/message_bloc.dart';
+import 'bloc/message/message_event.dart';
+import 'bloc/request/request_bloc.dart';
+import 'bloc/request/request_event.dart';
+import 'bloc/request_action/request_action_bloc.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 //     FlutterLocalNotificationsPlugin();
@@ -37,19 +54,20 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  FirebaseAuth.instance.setLanguageCode("en");
+  await SharedPreferencesService.init();
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // Thiết lập flutter_local_notifications
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+  // const AndroidInitializationSettings initializationSettingsAndroid =
+  //     AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  const InitializationSettings initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
+  // const InitializationSettings initializationSettings =
+  //     InitializationSettings(android: initializationSettingsAndroid);
 
   // await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -57,6 +75,45 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final translate = AppLocalizations.of(context);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc(
+              authRepository: AuthRepository(), appLocalizations: translate),
+        ),
+        BlocProvider(
+          create: (context) => UserBloc(
+              userRepository: UserRepository(), appLocalizations: translate),
+        ),
+        BlocProvider(
+          create: (context) => LocaleCubit(), // Khởi tạo LocaleCubit
+        ),
+        BlocProvider<RequestBloc>(create: (context) => RequestBloc(translate)),
+        BlocProvider<MessageBloc>(
+            create: (context) => MessageBloc(appLocalizations: translate)),
+      ],
+      child: BlocBuilder<LocaleCubit, Locale>(
+        builder: (context, locale) {
+          return MaterialApp(
+            locale: locale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            theme: ThemeData(primaryColor: AppColors.primaryColor),
+            supportedLocales: const [
+              Locale('en'),
+              Locale('vi'),
+            ],
+            builder: EasyLoading.init(),
+            debugShowCheckedModeBanner: false,
+            home: const SplashView(),
+          );
+        },
+      ),
+    );
   }
 }

@@ -83,28 +83,17 @@ class FirebaseApi {
   static Future<bool> addValueToArrayField(
       String collection, String id, String fieldName, String valueToAdd) async {
     try {
-      EasyLoading.show(status: "Đang xử lí...");
-      final querySnapshot = await getQuerySnapshot(collection, 'id', id);
-      if (querySnapshot.docs.isEmpty) {
-        log('No document found with id: $id');
-        return false;
-      }
-
-      final docId = querySnapshot.docs.first.id;
-      final docRef = db.collection(collection).doc(docId);
+      final docRef = db.collection(collection).doc(id);
 
       await docRef.update({
         fieldName: FieldValue.arrayUnion([valueToAdd]),
       });
-
-      log('Value added to array field $fieldName in document $docId.');
+      log('Value added to array field $fieldName in document $id.');
       return true;
     } catch (e) {
       log('Error adding value to array field: $e');
       return false;
-    } finally {
-      EasyLoading.dismiss();
-    }
+    } 
   }
 
   static Future<bool> removeValueFromArrayField(String collection, String id,
@@ -134,17 +123,15 @@ class FirebaseApi {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getAllDocuments(
+  static Future<List<DocumentSnapshot>> getAllDocuments(
       String collectionName) async {
     try {
       // Truy vấn tất cả các document trong collection
       QuerySnapshot querySnapshot =
           await FirebaseFirestore.instance.collection(collectionName).get();
 
-      // Chuyển đổi kết quả thành một danh sách các Map (dữ liệu JSON)
-      List<Map<String, dynamic>> documents = querySnapshot.docs
-          .map((doc) => doc.data() as Map<String, dynamic>)
-          .toList();
+      // Trả về danh sách các DocumentSnapshot
+      List<DocumentSnapshot> documents = querySnapshot.docs;
 
       return documents; // Trả về danh sách các documents
     } catch (e) {
@@ -153,18 +140,39 @@ class FirebaseApi {
     }
   }
 
-  static Future addDocument(
-      String collection, Map<String, dynamic> data) async {
+  static Future addDocument(String collection, Map<String, dynamic> data) async {
     try {
-      EasyLoading.show(status: "Đang xử lí...");
+      // Tạo tài liệu mới và lấy id của tài liệu
       final docRef = await db.collection(collection).add(data);
-      log('Document added successfully to $collection.');
-      return docRef.id;
+      final docId = docRef.id;
+
+      await docRef.update({'id': docId});
+
+      log('Document added successfully to $collection with id $docId.');
+      return docRef.get();
     } catch (e) {
       log('Error adding document: $e');
     } finally {
       EasyLoading.dismiss();
     }
+  }
+
+
+  static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getDocumentsByValue(
+      String collection, String field, String value) async {
+    try {
+      final querySnapshot =
+          await db.collection(collection).where(field, isEqualTo: value).get();
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs;
+      } else {
+        log('No documents found with $field: $value');
+        return [];
+      }
+    } catch (e) {
+      log('Error retrieving documents: $e');
+      return [];
+    } 
   }
 
 }

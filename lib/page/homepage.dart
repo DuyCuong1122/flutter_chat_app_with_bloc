@@ -1,0 +1,146 @@
+import 'package:chat_app/bloc/message/message_bloc.dart';
+import 'package:chat_app/bloc/message/message_event.dart';
+import 'package:chat_app/bloc/request/request_bloc.dart';
+import 'package:chat_app/bloc/request/request_event.dart';
+import 'package:chat_app/bloc/user/user_bloc.dart';
+import 'package:chat_app/bloc/user/user_event.dart';
+import 'package:chat_app/common/values/colors.dart';
+import 'package:chat_app/common/values/icons.dart';
+import 'package:chat_app/common/widgets/noti_circle_container.dart';
+import 'package:chat_app/database/services/service.dart';
+import 'package:chat_app/page/friends/friend_view.dart';
+import 'package:chat_app/page/message/message_view.dart';
+import 'package:chat_app/page/profile/profile_view.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../common/values/storage.dart';
+
+class Homepage extends StatefulWidget {
+  const Homepage({super.key});
+
+  @override
+  _HomepageState createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  int myCurrentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<MessageBloc>().add(MessageGetAllEvent());
+    context.read<RequestBloc>().add(RequestGetAllEvent());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List pages = const [
+      MessageView(),
+      FriendView(),
+      ProfileView(),
+    ];
+    final translate = AppLocalizations.of(context)!;
+
+    return Scaffold(
+        body: pages[myCurrentIndex],
+        bottomNavigationBar: Container(
+          height: 70,
+          margin:
+              const EdgeInsets.only(bottom: 16, left: 12, right: 12, top: 13),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 10,
+                spreadRadius: 5,
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: BottomNavigationBar(
+              currentIndex: myCurrentIndex,
+              backgroundColor: Colors.white,
+              selectedItemColor: AppColors.primaryColor,
+              unselectedItemColor: AppColors.normalColor,
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Stack(
+                    children: [
+                      Image.asset(
+                        AppIcon.message,
+                        color: myCurrentIndex == 0
+                            ? AppColors.primaryColor
+                            : AppColors.normalColor,
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: NotificationCircleContainer(
+                            number: context
+                                .watch<MessageBloc>()
+                                .messagesList
+                                .where((element) =>
+                                    element.unreadCount! > 0 &&
+                                    element.lastSenderId !=
+                                        SharedPreferencesService().getString(ID))
+                                .length,
+                            size: 16),
+                      )
+                    ],
+                  ),
+                  label: translate.message,
+                ),
+                BottomNavigationBarItem(
+                  icon: Stack(
+                    children: [
+                      Image.asset(
+                        AppIcon.friend,
+                        color: myCurrentIndex == 1
+                            ? AppColors.primaryColor
+                            : AppColors.normalColor,
+                      ),
+                      Positioned(
+                        top: -5,
+                        right: -5,
+                        child: NotificationCircleContainer(
+                            number: context
+                                .watch<RequestBloc>()
+                                .listRequest
+                                  .length,
+                            size: 16),
+                      )
+                    ],
+                  ),
+                  label: translate.friends,
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    AppIcon.profile,
+                    color: myCurrentIndex == 2
+                        ? AppColors.primaryColor
+                        : AppColors.normalColor,
+                  ),
+                  label: translate.profile,
+                ),
+              ],
+              onTap: (index) {
+                if (index == 1) {
+                  context.read<UserBloc>().add(UserGetAllEvent());
+                  context.read<UserBloc>().add(UserGetAllFriendsEvent());
+                }
+                setState(() {
+                  myCurrentIndex = index;
+                });
+              },
+            ),
+          ),
+        ));
+  }
+}
